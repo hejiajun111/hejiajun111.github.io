@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-cppmain" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/05/19/cppmain/" class="article-date">
+  <time class="dt-published" datetime="2026-05-19T02:10:46.000Z" itemprop="datePublished">2026-05-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/">算法模板</a>►<a class="article-category-link" href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/%E7%BA%BF%E4%B8%8A%E6%A8%A1%E6%9D%BF/">线上模板</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/05/19/cppmain/">(自用)c++火车头</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="🐭🐭常用的竞赛cpp文件头-包含"><a href="#🐭🐭常用的竞赛cpp文件头-包含" class="headerlink" title="🐭🐭常用的竞赛cpp文件头,包含"></a>🐭🐭常用的竞赛cpp文件头,包含</h1><ul>
+<li>万能头文件</li>
+<li>std命名空间</li>
+<li>关流</li>
+<li>一堆宏…… </li>
+<li>⚠️ ~.cpp:3:1: 警告: 全局宏定义 int 为 long long 可能导致严重类型混淆 [-Wmacro-int-redefine]<br><br>  &nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;| #define int long long<br><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ^~~~~~~~~~~~~~~~~~~~</li>
+<li>用 $ostream&amp; operator&lt;&lt;$ 重载 cout&lt;&lt; 输出多种STL容器</li>
+</ul>
+<h2 id="Ctrl-cv版"><a href="#Ctrl-cv版" class="headerlink" title="Ctrl+cv版"></a>Ctrl+cv版</h2><pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#include &lt;unordered_map&gt;
+#include &lt;unordered_set&gt;
+using namespace std;
+#define IOS \
+    ios::sync_with_stdio(false); \
+    cin.tie(0); \
+    cout.tie(0)
+#define ll long long
+#define int long long
+#define ull unsigned long long
+#define i128 __int128
+#define u128 unsigned __int128
+#define dle double
+#define rep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i++)
+#define drep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i--)
+#define reps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i += (s))
+#define dreps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i -= (s))
+#define rng(i, a) rep(i, 0, a)
+#define drng(i, a) drep(i, 0, a)
+#define all(x) (x).begin(), (x).end()
+#define fo(i, a) for (auto i : a)
+#define lowbit(x) __builtin_ctz(x)
+#define MAX(x) *(max_element(all(x)))
+#define MIN(x) *(min_element(all(x)))
+#define be begin()
+#define en end()
+#define pb push_back
+#define endl &#39;\n&#39;
+#define mp make_pair
+#define Hashmap unordered_map
+#define Hashset unordered_set
+#define PI 3.14159265358979323846
+#define EPS 1e-9
+const ll MOD = 1e9 + 7;
+const ll INF = 0x3f3f3f3f3f3f3f3f;
+
+template &lt;class t&gt; using vc = vector&lt;t&gt;;
+template &lt;class t&gt; using vvc = vc&lt;vc&lt;t&gt;&gt;;
+
+using pi = pair&lt;int, int&gt;;
+using vi = vc&lt;int&gt;;
+using vvi = vc&lt;vc&lt;int&gt;&gt;;
+template &lt;class T, class U&gt;
+ostream&amp; operator&lt;&lt;(ostream&amp; os, const pair&lt;T, U&gt;&amp; p) {
+    return os &lt;&lt; p.first &lt;&lt; &quot; &quot; &lt;&lt; p.second;
+}
+template &lt;class Container&gt;
+ostream&amp; print_all(ostream&amp; os, const Container&amp; c) {
+    auto it = c.begin();
+    if (it != c.end()) {
+        os &lt;&lt; *it;
+        ++it;
+    }
+    for (; it != c.end(); ++it) {
+        os &lt;&lt; &quot; &quot; &lt;&lt; *it;
+    }
+    return os;
+}
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const vector&lt;T&gt;&amp; v)   { return print_all(os, v); }
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const deque&lt;T&gt;&amp; d)    { return print_all(os, d); }
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const list&lt;T&gt;&amp; l)     { return print_all(os, l); }
+template &lt;class T, size_t N&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const array&lt;T, N&gt;&amp; arr) { return print_all(os, arr); }
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const set&lt;T&gt;&amp; s)       { return print_all(os, s); }
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_set&lt;T&gt;&amp; us) { return print_all(os, us); }
+template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const map&lt;K, V&gt;&amp; mp) { return print_all(os, mp); }
+template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_map&lt;K, V&gt;&amp; ump) { return print_all(os, ump); }
+template &lt;class Tuple, size_t... Idx&gt;
+void print_tuple(ostream&amp; os, const Tuple&amp; t, index_sequence&lt;Idx...&gt;) {
+    ((os &lt;&lt; (Idx == 0 ? &quot;&quot; : &quot; &quot;) &lt;&lt; get&lt;Idx&gt;(t)), ...);
+}
+template &lt;class... Args&gt;
+ostream&amp; operator&lt;&lt;(ostream&amp; os, const tuple&lt;Args...&gt;&amp; t) {
+    print_tuple(os, t, index_sequence_for&lt;Args...&gt;{});
+    return os;
+}
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const forward_list&lt;T&gt;&amp; fl) {
+    return print_all(os, fl);
+}
+
+void solve(){
+
+}
+
+signed main(){
+    IOS;
+    int T = 1;
+
+    while (T--)
+    {
+        solve();
+    }
+    return 0;
+}
+/*
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⡀⣀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡀⢀⣴⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⠉⠉⠉⠉⠉⠉⠛⠻⠿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⡿⠿⠛⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣠⣾⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣶⣄⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣻⣿⣿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢹⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠁⠈⢢⡀⠀⠀⠀⢸⡇⢀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⡟⠒⢦⡀⠀⠀⠀
+⠀⠀⣠⣤⣤⣼⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡇⠀⠀⠀⠉⢢⣄⠀⠀⢿⠊⠳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠙⣷⡄⠀⢷⠀⠀⠀
+⠀⢰⠇⠀⣰⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⡌⣹⠗⠦⣬⣇⠀⠉⢢⡀⠀⠀⠀⠀⠀⠀⠀⠘⣿⡀⢸⡄⠀⠀
+⠀⡟⠀⣼⣯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣆⢹⡀⠀⠀⠀⠉⠁⠀⠀⢀⣀⡁⠀⠀⠉⠳⢴⡆⠀⠀⠀⠀⠀⠀⢹⣧⠈⡇⠀⠀
+⠀⡇⠀⠀⢻⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣾⠻⠉⠛⠂⠀⠀⠀⠀⠀⠀⠻⠿⣿⣿⣿⣶⣦⡀⠛⣇⠀⠀⠀⠀⠀⣈⣿⠀⡇⠀⠀
+⢸⡇⠀⠀⢠⣿⣷⣦⣀⡸⣷⣦⣶⡂⠉⠉⠉⢁⣤⣶⡶⠀⠀⠀⣀⣀⡴⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⡟⢀⣴⣟⣰⣾⣿⣏⣠⠇⠀⠀
+⠈⡇⠀⠀⢸⣿⠁⠉⣿⠛⠛⠃⡇⠀⠀⢠⣶⣿⡿⠛⠁⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠼⢿⠟⠿⢿⡏⠀⠘⣿⡀⠀⠀⠀
+⠀⢷⣀⣀⣿⠇⠀⠀⢿⡇⠀⢀⢱⡀⠀⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀⠀⢸⠇⠀⠀⢹⣿⣄⠀⠀
+⠀⠀⣉⣿⡏⠀⠀⠀⠀⠀⠀⢸⣇⣳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⣿⠃⠀⠀⠀⠀⠀⠀⠀⣿⠈⢧⠀
+⠀⠘⣿⣿⠁⠀⠀⠀⠀⠀⠀⠘⣿⡛⣶⠀⠀⣠⠔⠒⠛⠒⠦⡀⠀⠀⠀⠀⣠⡤⠶⠤⢤⣀⠀⠀⠀⢀⣏⡄⠀⠀⠀⠀⠀⡀⣿⡆⠈⣧
+⣠⡾⠛⣿⣿⣧⠀⠀⠀⠀⢸⣿⠾⢿⡿⠀⣰⠃⠀⠀⠀⠀⠀⢹⡄⠀⠀⡼⠁⠀⠀⠀⠀⠈⠙⣦⠀⢸⣿⡇⣾⣣⡀⠀⢰⣿⣿⣿⣤⠾
+⡟⠀⠀⠻⣿⡟⢷⡄⣤⡀⠈⣿⡀⣸⠇⠀⠏⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⡇⢀⡀⠀⠀⠀⠀⢀⡟⠀⠀⠋⣿⣿⣿⡇⣠⣿⠿⠛⢷⡀⠀
+⠀⠀⠀⠀⣿⣇⣨⣿⣿⣿⣦⣽⣷⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠃⠀⠙⠢⠤⠤⠴⢾⠀⠀⠀⠀⢸⣷⣿⣿⠟⠁⠀⠀⠈⣧⠀
+⠀⠀⠀⠀⠈⠉⠉⠁⠈⠉⠈⢉⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⠀
+*/
+</code></pre>
+<h2 id="用户代码片段版-支持光标自动跳转"><a href="#用户代码片段版-支持光标自动跳转" class="headerlink" title="用户代码片段版,支持光标自动跳转"></a>用户代码片段版,支持光标自动跳转</h2><h3 id="保存至-config-Code-User-snippets-cppmain-json"><a href="#保存至-config-Code-User-snippets-cppmain-json" class="headerlink" title="保存至.config&#x2F;Code&#x2F;User&#x2F;snippets&#x2F;cppmain.json"></a>保存至.config&#x2F;Code&#x2F;User&#x2F;snippets&#x2F;cppmain.json</h3><pre><code class="language-json">{
+    &quot;CPP main template with everything&quot;: {
+        &quot;prefix&quot;: &quot;cppmain&quot;,
+        &quot;body&quot;: [
+            &quot;#include &lt;bits/stdc++.h&gt;&quot;,
+            &quot;#include &lt;unordered_map&gt;&quot;,
+            &quot;#include &lt;unordered_set&gt;&quot;,
+            &quot;using namespace std;&quot;,
+            &quot;#define IOS \\&quot;,
+            &quot;    ios::sync_with_stdio(false); \\&quot;,
+            &quot;    cin.tie(0); \\&quot;,
+            &quot;    cout.tie(0)&quot;,
+            &quot;#define ll long long&quot;,
+            &quot;#define int long long&quot;,
+            &quot;#define ull unsigned long long&quot;,
+            &quot;#define i128 __int128&quot;,
+            &quot;#define u128 unsigned __int128&quot;,
+            &quot;#define dle double&quot;,
+            &quot;#define rep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i++)&quot;,
+            &quot;#define drep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i--)&quot;,
+            &quot;#define reps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i += (s))&quot;,
+            &quot;#define dreps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i -= (s))&quot;,
+            &quot;#define rng(i, a) rep(i, 0, a)&quot;,
+            &quot;#define drng(i, a) drep(i, 0, a)&quot;,
+            &quot;#define all(x) (x).begin(), (x).end()&quot;,
+            &quot;#define fo(i, a) for (auto i : a)&quot;,
+            &quot;#define lowbit(x) __builtin_ctz(x)&quot;,
+            &quot;#define MAX(x) *(max_element(all(x)))&quot;,
+            &quot;#define MIN(x) *(min_element(all(x)))&quot;,
+            &quot;#define be begin()&quot;,
+            &quot;#define en end()&quot;,
+            &quot;#define pb push_back&quot;,
+            &quot;#define endl &#39;\\n&#39;&quot;,
+            &quot;#define mp make_pair&quot;,
+            &quot;#define Hashmap unordered_map&quot;,
+            &quot;#define Hashset unordered_set&quot;,
+            &quot;#define PI 3.14159265358979323846&quot;,
+            &quot;#define EPS 1e-9&quot;,
+            &quot;const ll MOD = 1e9 + 7;&quot;,
+            &quot;const ll INF = 0x3f3f3f3f3f3f3f3f;&quot;,
+            &quot;&quot;,
+            &quot;template &lt;class t&gt; using vc = vector&lt;t&gt;;&quot;,
+            &quot;template &lt;class t&gt; using vvc = vc&lt;vc&lt;t&gt;&gt;;&quot;,
+            &quot;&quot;,
+            &quot;using pi = pair&lt;int, int&gt;;&quot;,
+            &quot;using vi = vc&lt;int&gt;;&quot;,
+            &quot;using vvi = vc&lt;vc&lt;int&gt;&gt;;&quot;,
+            &quot;template &lt;class T, class U&gt;&quot;,
+            &quot;ostream&amp; operator&lt;&lt;(ostream&amp; os, const pair&lt;T, U&gt;&amp; p) {&quot;,
+            &quot;    return os &lt;&lt; p.first &lt;&lt; \&quot; \&quot; &lt;&lt; p.second;&quot;,
+            &quot;}&quot;,
+            &quot;template &lt;class Container&gt;&quot;,
+            &quot;ostream&amp; print_all(ostream&amp; os, const Container&amp; c) {&quot;,
+            &quot;    auto it = c.begin();&quot;,
+            &quot;    if (it != c.end()) {&quot;,
+            &quot;        os &lt;&lt; *it;&quot;,
+            &quot;        ++it;&quot;,
+            &quot;    }&quot;,
+            &quot;    for (; it != c.end(); ++it) {&quot;,
+            &quot;        os &lt;&lt; \&quot; \&quot; &lt;&lt; *it;&quot;,
+            &quot;    }&quot;,
+            &quot;    return os;&quot;,
+            &quot;}&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const vector&lt;T&gt;&amp; v)   { return print_all(os, v); }&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const deque&lt;T&gt;&amp; d)    { return print_all(os, d); }&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const list&lt;T&gt;&amp; l)     { return print_all(os, l); }&quot;,
+            &quot;template &lt;class T, size_t N&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const array&lt;T, N&gt;&amp; arr) { return print_all(os, arr); }&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const set&lt;T&gt;&amp; s)       { return print_all(os, s); }&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_set&lt;T&gt;&amp; us) { return print_all(os, us); }&quot;,
+            &quot;template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const map&lt;K, V&gt;&amp; mp) { return print_all(os, mp); }&quot;,
+            &quot;template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_map&lt;K, V&gt;&amp; ump) { return print_all(os, ump); }&quot;,
+            &quot;template &lt;class Tuple, size_t... Idx&gt;&quot;,
+            &quot;void print_tuple(ostream&amp; os, const Tuple&amp; t, index_sequence&lt;Idx...&gt;) {&quot;,
+            &quot;    ((os &lt;&lt; (Idx == 0 ? \&quot;\&quot; : \&quot; \&quot;) &lt;&lt; get&lt;Idx&gt;(t)), ...);&quot;,
+            &quot;}&quot;,
+            &quot;template &lt;class... Args&gt;&quot;,
+            &quot;ostream&amp; operator&lt;&lt;(ostream&amp; os, const tuple&lt;Args...&gt;&amp; t) {&quot;,
+            &quot;    print_tuple(os, t, index_sequence_for&lt;Args...&gt;{});&quot;,
+            &quot;    return os;&quot;,
+            &quot;}&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const forward_list&lt;T&gt;&amp; fl) {&quot;,
+            &quot;    return print_all(os, fl);&quot;,
+            &quot;}&quot;,
+            &quot;&quot;,
+            &quot;void solve(){&quot;,
+            &quot;    $0&quot;,
+            &quot;}&quot;,
+            &quot;&quot;,
+            &quot;signed main(){&quot;,
+            &quot;    IOS;&quot;,
+            &quot;    int T = 1;&quot;,
+            &quot;    $1&quot;,
+            &quot;    while (T--)&quot;,
+            &quot;    {&quot;,
+            &quot;        solve();&quot;,
+            &quot;    }&quot;,
+            &quot;    return 0;&quot;,
+            &quot;}&quot;,
+            &quot;/*&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⡀⣀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡀⢀⣴⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⠉⠉⠉⠉⠉⠉⠛⠻⠿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⡿⠿⠛⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⣠⣾⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣶⣄⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣻⣿⣿⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⢹⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠁⠈⢢⡀⠀⠀⠀⢸⡇⢀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⡟⠒⢦⡀⠀⠀⠀&quot;,
+            &quot;⠀⠀⣠⣤⣤⣼⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡇⠀⠀⠀⠉⢢⣄⠀⠀⢿⠊⠳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠙⣷⡄⠀⢷⠀⠀⠀&quot;,
+            &quot;⠀⢰⠇⠀⣰⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⡌⣹⠗⠦⣬⣇⠀⠉⢢⡀⠀⠀⠀⠀⠀⠀⠀⠘⣿⡀⢸⡄⠀⠀&quot;,
+            &quot;⠀⡟⠀⣼⣯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣆⢹⡀⠀⠀⠀⠉⠁⠀⠀⢀⣀⡁⠀⠀⠉⠳⢴⡆⠀⠀⠀⠀⠀⠀⢹⣧⠈⡇⠀⠀&quot;,
+            &quot;⠀⡇⠀⠀⢻⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣾⠻⠉⠛⠂⠀⠀⠀⠀⠀⠀⠻⠿⣿⣿⣿⣶⣦⡀⠛⣇⠀⠀⠀⠀⠀⣈⣿⠀⡇⠀⠀&quot;,
+            &quot;⢸⡇⠀⠀⢠⣿⣷⣦⣀⡸⣷⣦⣶⡂⠉⠉⠉⢁⣤⣶⡶⠀⠀⠀⣀⣀⡴⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⡟⢀⣴⣟⣰⣾⣿⣏⣠⠇⠀⠀&quot;,
+            &quot;⠈⡇⠀⠀⢸⣿⠁⠉⣿⠛⠛⠃⡇⠀⠀⢠⣶⣿⡿⠛⠁⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠼⢿⠟⠿⢿⡏⠀⠘⣿⡀⠀⠀⠀&quot;,
+            &quot;⠀⢷⣀⣀⣿⠇⠀⠀⢿⡇⠀⢀⢱⡀⠀⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀⠀⢸⠇⠀⠀⢹⣿⣄⠀⠀&quot;,
+            &quot;⠀⠀⣉⣿⡏⠀⠀⠀⠀⠀⠀⢸⣇⣳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⣿⠃⠀⠀⠀⠀⠀⠀⠀⣿⠈⢧⠀&quot;,
+            &quot;⠀⠘⣿⣿⠁⠀⠀⠀⠀⠀⠀⠘⣿⡛⣶⠀⠀⣠⠔⠒⠛⠒⠦⡀⠀⠀⠀⠀⣠⡤⠶⠤⢤⣀⠀⠀⠀⢀⣏⡄⠀⠀⠀⠀⠀⡀⣿⡆⠈⣧&quot;,
+            &quot;⣠⡾⠛⣿⣿⣧⠀⠀⠀⠀⢸⣿⠾⢿⡿⠀⣰⠃⠀⠀⠀⠀⠀⢹⡄⠀⠀⡼⠁⠀⠀⠀⠀⠈⠙⣦⠀⢸⣿⡇⣾⣣⡀⠀⢰⣿⣿⣿⣤⠾&quot;,
+            &quot;⡟⠀⠀⠻⣿⡟⢷⡄⣤⡀⠈⣿⡀⣸⠇⠀⠏⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⡇⢀⡀⠀⠀⠀⠀⢀⡟⠀⠀⠋⣿⣿⣿⡇⣠⣿⠿⠛⢷⡀⠀&quot;,
+            &quot;⠀⠀⠀⠀⣿⣇⣨⣿⣿⣿⣦⣽⣷⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠃⠀⠙⠢⠤⠤⠴⢾⠀⠀⠀⠀⢸⣷⣿⣿⠟⠁⠀⠀⠈⣧⠀&quot;,
+            &quot;⠀⠀⠀⠀⠈⠉⠉⠁⠈⠉⠈⢉⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⠀&quot;,
+            &quot;*/&quot;
+        ],
+        &quot;description&quot;: &quot;Full competitive programming template with all macros, operators, and ASCII art&quot;
+    }
+}
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/05/19/cppmain/" data-id="cuidADhhiEY6QXbZcgWG4mK--" data-title="(自用)c++火车头" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AB%9E%E8%B5%9Bc/" rel="tag">竞赛c++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" rel="tag">算法模板</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/">算法模板</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/%E7%BA%BF%E4%B8%8A%E6%A8%A1%E6%9D%BF/">线上模板</a></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AB%9E%E8%B5%9Bc/" rel="tag">竞赛c++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" rel="tag">算法模板</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E7%AB%9E%E8%B5%9Bc/" style="font-size: 10px;">竞赛c++</a> <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="font-size: 10px;">算法模板</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/05/">May 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/05/19/cppmain/">(自用)c++火车头</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
