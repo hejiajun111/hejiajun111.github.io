@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>高精度模板 | Hexo</title>
+    <meta name="author" content="John Doe" />
+
+    <meta name="keywords" content="c++,算法模板" />
+    <link rel="canonical" href="http://example.com/2026/05/25/%E9%AB%98%E7%B2%BE%E5%BA%A6%E6%95%B4%E6%95%B0/" />
+    <meta name="description" content="#include &lt;iostream&gt; #include &lt;vector&gt; #include &lt;string&gt; #include &lt;algorithm&gt; #include &lt;cassert&gt;  class BigInt { public:     &#x2F;&#x2F; 构造     BigInt() : BigInt(0) {}     BigInt(i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="高精度模板">
+<meta property="og:url" content="http://example.com/2026/05/25/%E9%AB%98%E7%B2%BE%E5%BA%A6%E6%95%B4%E6%95%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="#include &lt;iostream&gt; #include &lt;vector&gt; #include &lt;string&gt; #include &lt;algorithm&gt; #include &lt;cassert&gt;  class BigInt { public:     &#x2F;&#x2F; 构造     BigInt() : BigInt(0) {}     BigInt(i">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/avatar.gif">
+<meta property="article:published_time" content="2026-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-25T11:36:52.265Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="c++">
+<meta property="article:tag" content="算法模板">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/images/avatar.gif">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+    <link rel="icon" href="/images/071ed84ad1e1489e920c9127c23551cd.gif" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.38/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/lib/stars.js"></script>
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>LOADING</h2>
+                    <p>Vui lòng chờ một chút...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>HEXO</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;HEXO</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            
+<div class="article" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <div>
+        <h1>高精度模板</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                <a href="/tags/c/" style="color:#4f6370">
+                    c++
+                </a>
+            </span>
+            
+            
+            <span class="tag">
+                <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                    算法模板
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;cassert&gt;
+
+class BigInt {
+public:
+    // 构造
+    BigInt() : BigInt(0) {}
+    BigInt(int x) {
+        if (x &lt; 0) negative = true, x = -x;
+        else negative = false;
+        if (x == 0) digits.push_back(0);
+        else while (x) { digits.push_back(x % 10); x /= 10; }
+    }
+    BigInt(const std::string &amp;s) {
+        int start = 0;
+        if (s[0] == &#39;-&#39;) { negative = true; start = 1; }
+        else negative = false;
+        for (int i = s.size() - 1; i &gt;= start; --i) {
+            if (!isdigit(s[i])) throw std::invalid_argument(&quot;not a number&quot;);
+            digits.push_back(s[i] - &#39;0&#39;);
+        }
+        remove_leading_zeros();
+        if (digits.empty()) digits.push_back(0), negative = false;
+    }
+    BigInt(const char *s) : BigInt(std::string(s)) {}
+
+    // 比较运算符（绝对值先比较长度再逐位）
+    bool operator==(const BigInt &amp;rhs) const {
+        return negative == rhs.negative &amp;&amp; digits == rhs.digits;
+    }
+    bool operator!=(const BigInt &amp;rhs) const { return !(*this == rhs); }
+    bool operator&lt;(const BigInt &amp;rhs) const {
+        if (negative != rhs.negative) return negative;
+        if (digits.size() != rhs.digits.size())
+            return (digits.size() &lt; rhs.digits.size()) ^ negative;
+        for (int i = digits.size() - 1; i &gt;= 0; --i)
+            if (digits[i] != rhs.digits[i])
+                return (digits[i] &lt; rhs.digits[i]) ^ negative;
+        return false;
+    }
+    bool operator&gt;(const BigInt &amp;rhs) const { return rhs &lt; *this; }
+    bool operator&lt;=(const BigInt &amp;rhs) const { return !(rhs &lt; *this); }
+    bool operator&gt;=(const BigInt &amp;rhs) const { return !(*this &lt; rhs); }
+
+    // 算术运算符
+    BigInt operator-() const {
+        BigInt res = *this;
+        if (!is_zero()) res.negative = !negative;
+        return res;
+    }
+    BigInt operator+(const BigInt &amp;rhs) const {
+        if (negative == rhs.negative) {
+            BigInt res = add_abs(*this, rhs);
+            res.negative = negative;
+            return res;
+        } else {
+            if (abs_compare(*this, rhs) &gt;= 0) {
+                BigInt res = sub_abs(*this, rhs);
+                res.negative = negative;
+                return res;
+            } else {
+                BigInt res = sub_abs(rhs, *this);
+                res.negative = rhs.negative;
+                return res;
+            }
+        }
+    }
+    BigInt operator-(const BigInt &amp;rhs) const {
+        return *this + (-rhs);
+    }
+    BigInt operator*(const BigInt &amp;rhs) const {
+        BigInt res;
+        res.digits.assign(digits.size() + rhs.digits.size(), 0);
+        for (size_t i = 0; i &lt; digits.size(); ++i) {
+            int carry = 0;
+            for (size_t j = 0; j &lt; rhs.digits.size(); ++j) {
+                carry += res.digits[i + j] + digits[i] * rhs.digits[j];
+                res.digits[i + j] = carry % 10;
+                carry /= 10;
+            }
+            if (carry) res.digits[i + rhs.digits.size()] += carry;
+        }
+        res.remove_leading_zeros();
+        res.negative = negative != rhs.negative;
+        if (res.is_zero()) res.negative = false;
+        return res;
+    }
+    BigInt operator/(const BigInt &amp;rhs) const {
+        if (rhs.is_zero()) throw std::domain_error(&quot;division by zero&quot;);
+        if (abs_compare(*this, rhs) &lt; 0) return BigInt(0);
+        BigInt res, remainder;
+        divide_abs(*this, rhs, res, remainder);
+        res.negative = negative != rhs.negative;
+        if (res.is_zero()) res.negative = false;
+        return res;
+    }
+    BigInt operator%(const BigInt &amp;rhs) const {
+        if (rhs.is_zero()) throw std::domain_error(&quot;modulo by zero&quot;);
+        BigInt res, remainder;
+        divide_abs(*this, rhs, res, remainder);
+        remainder.negative = negative;
+        if (remainder.is_zero()) remainder.negative = false;
+        return remainder;
+    }
+
+    // 复合赋值
+    BigInt&amp; operator+=(const BigInt &amp;rhs) { *this = *this + rhs; return *this; }
+    BigInt&amp; operator-=(const BigInt &amp;rhs) { *this = *this - rhs; return *this; }
+    BigInt&amp; operator*=(const BigInt &amp;rhs) { *this = *this * rhs; return *this; }
+    BigInt&amp; operator/=(const BigInt &amp;rhs) { *this = *this / rhs; return *this; }
+    BigInt&amp; operator%=(const BigInt &amp;rhs) { *this = *this % rhs; return *this; }
+
+    // 输出流
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream &amp;os, const BigInt &amp;a) {
+        if (a.negative &amp;&amp; !a.is_zero()) os &lt;&lt; &#39;-&#39;;
+        for (int i = (int)a.digits.size() - 1; i &gt;= 0; --i)
+            os &lt;&lt; a.digits[i];
+        return os;
+    }
+
+    // 转换为字符串
+    std::string to_string() const {
+        std::string res;
+        if (negative &amp;&amp; !is_zero()) res += &#39;-&#39;;
+        for (int i = (int)digits.size() - 1; i &gt;= 0; --i)
+            res += char(&#39;0&#39; + digits[i]);
+        return res;
+    }
+
+private:
+    std::vector&lt;int&gt; digits;  // 低位在前，每个元素0-9
+    bool negative = false;
+
+    // 去掉前导零
+    void remove_leading_zeros() {
+        while (digits.size() &gt; 1 &amp;&amp; digits.back() == 0)
+            digits.pop_back();
+        if (digits.empty()) digits.push_back(0);
+    }
+
+    bool is_zero() const {
+        return digits.size() == 1 &amp;&amp; digits[0] == 0;
+    }
+
+    // 绝对值加法
+    static BigInt add_abs(const BigInt &amp;a, const BigInt &amp;b) {
+        BigInt res;
+        res.digits.clear();
+        int carry = 0;
+        size_t i = 0;
+        while (i &lt; a.digits.size() || i &lt; b.digits.size() || carry) {
+            int sum = carry;
+            if (i &lt; a.digits.size()) sum += a.digits[i];
+            if (i &lt; b.digits.size()) sum += b.digits[i];
+            res.digits.push_back(sum % 10);
+            carry = sum / 10;
+            ++i;
+        }
+        return res;
+    }
+
+    // 绝对值减法（要求 a &gt;= b 且 a,b 非负）
+    static BigInt sub_abs(const BigInt &amp;a, const BigInt &amp;b) {
+        BigInt res;
+        res.digits.clear();
+        int borrow = 0;
+        for (size_t i = 0; i &lt; a.digits.size(); ++i) {
+            int diff = a.digits[i] - borrow;
+            if (i &lt; b.digits.size()) diff -= b.digits[i];
+            if (diff &lt; 0) { diff += 10; borrow = 1; }
+            else borrow = 0;
+            res.digits.push_back(diff);
+        }
+        res.remove_leading_zeros();
+        return res;
+    }
+
+    // 绝对值比较：返回 1 若 |a| &gt; |b|, -1 若 &lt;, 0 若相等
+    static int abs_compare(const BigInt &amp;a, const BigInt &amp;b) {
+        if (a.digits.size() != b.digits.size())
+            return a.digits.size() &lt; b.digits.size() ? -1 : 1;
+        for (int i = (int)a.digits.size() - 1; i &gt;= 0; --i)
+            if (a.digits[i] != b.digits[i])
+                return a.digits[i] &lt; b.digits[i] ? -1 : 1;
+        return 0;
+    }
+
+    // 除法（绝对值），商和余数
+    static void divide_abs(const BigInt &amp;a, const BigInt &amp;b, BigInt &amp;quot, BigInt &amp;rem) {
+        quot.digits.clear();
+        rem = BigInt(0);
+        for (int i = (int)a.digits.size() - 1; i &gt;= 0; --i) {
+            rem.digits.insert(rem.digits.begin(), a.digits[i]);
+            rem.remove_leading_zeros();
+            // 试商
+            int q = 0;
+            int l = 0, r = 9;
+            while (l &lt;= r) {
+                int mid = (l + r) / 2;
+                BigInt t = b * BigInt(mid);
+                if (abs_compare(rem, t) &gt;= 0) {
+                    q = mid;
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+            quot.digits.insert(quot.digits.begin(), q);
+            BigInt sub = b * BigInt(q);
+            rem = sub_abs(rem, sub);
+        }
+        quot.remove_leading_zeros();
+        rem.remove_leading_zeros();
+    }
+};
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy; 2026 Made by
+            <a target="_blank" rel="noopener" href="https://github.com/dinhkarate">dinhkarate</a>
+            from <a target="_blank" rel="noopener" href="https://thatnghiep.dev">thatnghiep.dev</a>
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> |
+            <a target="_blank" rel="noopener" href="https://github.com/thatnghiep-dev/hexo-theme-loststar">LostStar Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
