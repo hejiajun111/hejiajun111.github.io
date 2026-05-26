@@ -23,6 +23,10 @@ const app = Vue.createApp({
         render() {
             for (let i of this.renderers) i();
         },
+        togglePost(event) {
+            const post = event.currentTarget.closest('.post');
+            if (post) post.classList.toggle('expanded');
+        },
         handleScroll() {
             let wrap = this.$refs.homePostsWrap;
             let newScrollTop = document.documentElement.scrollTop;

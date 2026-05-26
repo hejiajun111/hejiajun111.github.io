@@ -195,9 +195,10 @@
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/DSU/">
-        <h2 class="post-title">并查集</h2>
-    </a>
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/DSU/">
+        并查集
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
     <div class="category-and-date">
         
         
@@ -219,7 +220,8 @@
         
         
     </div>
-    <div class="description">
+    <div class="post-collapsible">
+        <div class="description">
         <div class="content" v-pre>
             
             <pre><code class="language-cpp">class DSU {
@@ -342,13 +344,15 @@ private:
         
     </div>
     <a href="/2026/05/25/DSU/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
 </div>
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/Miller-Rabin/">
-        <h2 class="post-title">米勒拉宾素性测试</h2>
-    </a>
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/ODT/">
+        珂朵莉树
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
     <div class="category-and-date">
         
         
@@ -370,123 +374,8 @@ private:
         
         
     </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
-    return (uint64_t)((__int128)a * b % mod);
-}
-uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
-    uint64_t res = 1;
-    a %= n;
-    while (d) {
-        if (d &amp; 1) res = mul_mod(res, a, n);
-        a = mul_mod(a, a, n);
-        d &gt;&gt;= 1;
-    }
-    return res;
-}
-bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
-    if (n &lt; 2) return false;
-    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
-    for (uint64_t p : small_primes) {
-        if (n == p) return true;
-        if (n % p == 0) return false;
-    }
-    uint64_t d = n - 1;
-    int r = 0;
-    while ((d &amp; 1) == 0) {
-        d &gt;&gt;= 1;
-        ++r;
-    }
-    for (uint64_t a : bases) {
-        if (a % n == 0) continue;
-        uint64_t x = pow_mod(a, d, n);
-        if (x == 1 || x == n - 1) continue;
-        bool composite = true;
-        for (int i = 0; i &lt; r - 1; ++i) {
-            x = mul_mod(x, x, n);
-            if (x == n - 1) {
-                composite = false;
-                break;
-            }
-        }
-        if (composite) return false;
-    }
-    return true;
-}
-bool is_prime32(uint32_t n) {
-    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
-    return miller_rabin(n, bases32);
-}
-bool is_prime64(uint64_t n) {
-    static const std::vector&lt;uint64_t&gt; bases64 = {
-        2, 325, 9375, 28178, 450775, 9780504, 1795265022
-    };
-    return miller_rabin(n, bases64);
-}
-
-template&lt;typename T&gt;
-bool is_prime(T n) {
-    if (n &lt;= 0xFFFFFFFF) {
-        return is_prime32((uint32_t)n);
-    } else {
-        return is_prime64((uint64_t)n);
-    }
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/ODT/">
-        <h2 class="post-title">珂朵莉树</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
+    <div class="post-collapsible">
+        <div class="description">
         <div class="content" v-pre>
             
             <h2 id="珂朵莉树"><a href="#珂朵莉树" class="headerlink" title="珂朵莉树"></a>珂朵莉树</h2>
@@ -512,13 +401,15 @@ bool is_prime(T n) {
         
     </div>
     <a href="/2026/05/25/ODT/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
 </div>
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/Trie/">
-        <h2 class="post-title">字典树</h2>
-    </a>
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/Trie/">
+        字典树
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
     <div class="category-and-date">
         
         
@@ -540,7 +431,8 @@ bool is_prime(T n) {
         
         
     </div>
-    <div class="description">
+    <div class="post-collapsible">
+        <div class="description">
         <div class="content" v-pre>
             
             <pre><code class="language-cpp">//字符串Trie
@@ -656,13 +548,15 @@ private:
         
     </div>
     <a href="/2026/05/25/Trie/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
 </div>
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
-        <h2 class="post-title">树状数组</h2>
-    </a>
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/Miller-Rabin/">
+        米勒拉宾素性测试
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
     <div class="category-and-date">
         
         
@@ -684,7 +578,127 @@ private:
         
         
     </div>
-    <div class="description">
+    <div class="post-collapsible">
+        <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
+    return (uint64_t)((__int128)a * b % mod);
+}
+uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
+    uint64_t res = 1;
+    a %= n;
+    while (d) {
+        if (d &amp; 1) res = mul_mod(res, a, n);
+        a = mul_mod(a, a, n);
+        d &gt;&gt;= 1;
+    }
+    return res;
+}
+bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
+    if (n &lt; 2) return false;
+    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+    for (uint64_t p : small_primes) {
+        if (n == p) return true;
+        if (n % p == 0) return false;
+    }
+    uint64_t d = n - 1;
+    int r = 0;
+    while ((d &amp; 1) == 0) {
+        d &gt;&gt;= 1;
+        ++r;
+    }
+    for (uint64_t a : bases) {
+        if (a % n == 0) continue;
+        uint64_t x = pow_mod(a, d, n);
+        if (x == 1 || x == n - 1) continue;
+        bool composite = true;
+        for (int i = 0; i &lt; r - 1; ++i) {
+            x = mul_mod(x, x, n);
+            if (x == n - 1) {
+                composite = false;
+                break;
+            }
+        }
+        if (composite) return false;
+    }
+    return true;
+}
+bool is_prime32(uint32_t n) {
+    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
+    return miller_rabin(n, bases32);
+}
+bool is_prime64(uint64_t n) {
+    static const std::vector&lt;uint64_t&gt; bases64 = {
+        2, 325, 9375, 28178, 450775, 9780504, 1795265022
+    };
+    return miller_rabin(n, bases64);
+}
+
+template&lt;typename T&gt;
+bool is_prime(T n) {
+    if (n &lt;= 0xFFFFFFFF) {
+        return is_prime32((uint32_t)n);
+    } else {
+        return is_prime64((uint64_t)n);
+    }
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
+        树状数组
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="post-collapsible">
+        <div class="description">
         <div class="content" v-pre>
             
             <pre><code class="language-cpp">// 需要类型 T 支持加法与减法（可用于前缀和）
@@ -736,13 +750,15 @@ private:
         
     </div>
     <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
 </div>
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">
-        <h2 class="post-title">欧拉函数</h2>
-    </a>
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">
+        欧拉函数
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
     <div class="category-and-date">
         
         
@@ -764,7 +780,8 @@ private:
         
         
     </div>
-    <div class="description">
+    <div class="post-collapsible">
+        <div class="description">
         <div class="content" v-pre>
             
             <pre><code class="language-cpp">struct EulerSieve {
@@ -825,13 +842,15 @@ private:
         
     </div>
     <a href="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
 </div>
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
-        <h2 class="post-title">矩阵快速幂</h2>
-    </a>
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E7%BA%BF%E6%AE%B5%E6%A0%91/">
+        线段树
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
     <div class="category-and-date">
         
         
@@ -853,86 +872,8 @@ private:
         
         
     </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">#include &lt;vector&gt;
-using Matrix = std::vector&lt;std::vector&lt;long long&gt;&gt;;
-Matrix mat_mul(const Matrix&amp; A, const Matrix&amp; B, long long mod) {
-    int n = A.size();
-    Matrix C(n, std::vector&lt;long long&gt;(n, 0));
-    for (int i = 0; i &lt; n; ++i)
-        for (int k = 0; k &lt; n; ++k)
-            if (A[i][k] != 0)
-                for (int j = 0; j &lt; n; ++j)
-                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod;
-    return C;
-}
-Matrix mat_pow(Matrix A, long long power, long long mod) {
-    int n = A.size();
-    Matrix res(n, std::vector&lt;long long&gt;(n, 0));
-    for (int i = 0; i &lt; n; ++i) res[i][i] = 1;  // 单位矩阵
-    
-    while (power) {
-        if (power &amp; 1) res = mat_mul(res, A, mod);
-        A = mat_mul(A, A, mod);
-        power &gt;&gt;= 1;
-    }
-    return res;
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E7%BA%BF%E6%AE%B5%E6%A0%91/">
-        <h2 class="post-title">线段树</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
+    <div class="post-collapsible">
+        <div class="description">
         <div class="content" v-pre>
             
             <pre><code class="language-cpp">template&lt;typename T&gt;
@@ -1021,13 +962,15 @@ private:
         
     </div>
     <a href="/2026/05/25/%E7%BA%BF%E6%AE%B5%E6%A0%91/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
 </div>
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
-        <h2 class="post-title">背包问题</h2>
-    </a>
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
+        矩阵快速幂
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
     <div class="category-and-date">
         
         
@@ -1049,7 +992,90 @@ private:
         
         
     </div>
-    <div class="description">
+    <div class="post-collapsible">
+        <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">#include &lt;vector&gt;
+using Matrix = std::vector&lt;std::vector&lt;long long&gt;&gt;;
+Matrix mat_mul(const Matrix&amp; A, const Matrix&amp; B, long long mod) {
+    int n = A.size();
+    Matrix C(n, std::vector&lt;long long&gt;(n, 0));
+    for (int i = 0; i &lt; n; ++i)
+        for (int k = 0; k &lt; n; ++k)
+            if (A[i][k] != 0)
+                for (int j = 0; j &lt; n; ++j)
+                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod;
+    return C;
+}
+Matrix mat_pow(Matrix A, long long power, long long mod) {
+    int n = A.size();
+    Matrix res(n, std::vector&lt;long long&gt;(n, 0));
+    for (int i = 0; i &lt; n; ++i) res[i][i] = 1;  // 单位矩阵
+    
+    while (power) {
+        if (power &amp; 1) res = mat_mul(res, A, mod);
+        A = mat_mul(A, A, mod);
+        power &gt;&gt;= 1;
+    }
+    return res;
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
+        背包问题
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="post-collapsible">
+        <div class="description">
         <div class="content" v-pre>
             
             <p>背包问题算法笔记</p>
@@ -1076,13 +1102,15 @@ private:
         
     </div>
     <a href="/2026/05/25/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
 </div>
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/">
-        <h2 class="post-title">自动取模类</h2>
-    </a>
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/">
+        自动取模类
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
     <div class="category-and-date">
         
         
@@ -1104,7 +1132,8 @@ private:
         
         
     </div>
-    <div class="description">
+    <div class="post-collapsible">
+        <div class="description">
         <div class="content" v-pre>
             
             <pre><code class="language-cpp">template &lt;typename T&gt;
@@ -1203,6 +1232,7 @@ struct Fact {
         
     </div>
     <a href="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
 </div>
 
 
@@ -1235,6 +1265,26 @@ struct Fact {
         <div class="description">
             <p>彷徨?</p>
 
+        </div>
+        
+        <div class="icon-links">
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://t.me/mou_jilang">
+                    <i
+                        class="fa-brands fa-telegram fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://qm.qq.com/q/hBYugHfhqo">
+                    <i
+                        class="fa-brands fa-qq fa-fw"
+                    ></i>
+                </a>
+            </span>
+            
         </div>
         
         
