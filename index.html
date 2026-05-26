@@ -195,6 +195,157 @@
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/DSU/">
+        <h2 class="post-title">并查集</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">class DSU {
+public:
+    explicit DSU(int n) : parent(n), size(n, 1) {
+        std::iota(parent.begin(), parent.end(), 0);
+    }
+
+    int find(int x) {
+        if (parent[x] != x)
+            parent[x] = find(parent[x]);
+        return parent[x];
+    }
+
+    bool unite(int x, int y) {
+        x = find(x), y = find(y);
+        if (x == y) return false;
+        if (size[x] &lt; size[y]) std::swap(x, y);
+        parent[y] = x;
+        size[x] += size[y];
+        return true;
+    }
+    bool same(int x, int y) {
+        return find(x) == find(y);
+    }
+
+    int get_size(int x) {
+        return size[find(x)];
+    }
+    // 获取所有根节点
+    std::vector&lt;int&gt; roots() const {
+        std::vector&lt;int&gt; res;
+        for (int i = 0; i &lt; (int)parent.size(); ++i)
+            if (parent[i] == i) res.push_back(i);
+        return res;
+    }
+
+private:
+    std::vector&lt;int&gt; parent;
+    std::vector&lt;int&gt; size;
+};
+
+// ---------- 带权并查集 (Weighted DSU) ----------
+// 权值类型 Weight 一般用 int / long long，需支持加法、减法运算
+template&lt;typename Weight&gt;
+class WeightedDSU {
+public:
+    explicit WeightedDSU(int n) : parent(n), weight(n, Weight()), size(n, 1) {
+        std::iota(parent.begin(), parent.end(), 0);
+    }
+
+    // 查找根节点，同时更新 weight[x] 为从 x 到根节点的累积权值
+    // 约定：weight[x] 表示 x 到 parent[x] 的权值，经过路径压缩后变为到根节点的权值
+    int find(int x) {
+        if (parent[x] != x) {
+            int root = find(parent[x]);
+            // 更新 x 到新根的距离：原先 x -&gt; parent[x] 的权值 + parent[x] -&gt; root 的权值
+            weight[x] = weight[x] + weight[parent[x]];
+            parent[x] = root;
+        }
+        return parent[x];
+    }
+
+    bool unite(int x, int y, Weight delta) {
+        int rx = find(x), ry = find(y);
+        if (rx == ry) {
+            return (weight[x] - weight[y]) == delta;
+        }
+        if (size[rx] &lt; size[ry]) {
+            parent[rx] = ry;
+            weight[rx] = delta + weight[y] - weight[x];
+            size[ry] += size[rx];
+        } else {
+            parent[ry] = rx;
+            weight[ry] = weight[x] - weight[y] - delta;
+            size[rx] += size[ry];
+        }
+        return true;
+    }
+
+    Weight diff(int x, int y) {
+        assert(find(x) == find(y));
+        return weight[x] - weight[y];
+    }
+    bool same(int x, int y) {
+        return find(x) == find(y);
+    }
+    // 获取元素到其根节点的权值
+    Weight get_weight(int x) {
+        find(x);
+        return weight[x];
+    }
+
+private:
+    std::vector&lt;int&gt; parent;
+    std::vector&lt;Weight&gt; weight;
+    std::vector&lt;int&gt; size;
+};
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/DSU/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/Miller-Rabin/">
         <h2 class="post-title">米勒拉宾素性测试</h2>
     </a>
@@ -509,157 +660,6 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/DSU/">
-        <h2 class="post-title">并查集</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">class DSU {
-public:
-    explicit DSU(int n) : parent(n), size(n, 1) {
-        std::iota(parent.begin(), parent.end(), 0);
-    }
-
-    int find(int x) {
-        if (parent[x] != x)
-            parent[x] = find(parent[x]);
-        return parent[x];
-    }
-
-    bool unite(int x, int y) {
-        x = find(x), y = find(y);
-        if (x == y) return false;
-        if (size[x] &lt; size[y]) std::swap(x, y);
-        parent[y] = x;
-        size[x] += size[y];
-        return true;
-    }
-    bool same(int x, int y) {
-        return find(x) == find(y);
-    }
-
-    int get_size(int x) {
-        return size[find(x)];
-    }
-    // 获取所有根节点
-    std::vector&lt;int&gt; roots() const {
-        std::vector&lt;int&gt; res;
-        for (int i = 0; i &lt; (int)parent.size(); ++i)
-            if (parent[i] == i) res.push_back(i);
-        return res;
-    }
-
-private:
-    std::vector&lt;int&gt; parent;
-    std::vector&lt;int&gt; size;
-};
-
-// ---------- 带权并查集 (Weighted DSU) ----------
-// 权值类型 Weight 一般用 int / long long，需支持加法、减法运算
-template&lt;typename Weight&gt;
-class WeightedDSU {
-public:
-    explicit WeightedDSU(int n) : parent(n), weight(n, Weight()), size(n, 1) {
-        std::iota(parent.begin(), parent.end(), 0);
-    }
-
-    // 查找根节点，同时更新 weight[x] 为从 x 到根节点的累积权值
-    // 约定：weight[x] 表示 x 到 parent[x] 的权值，经过路径压缩后变为到根节点的权值
-    int find(int x) {
-        if (parent[x] != x) {
-            int root = find(parent[x]);
-            // 更新 x 到新根的距离：原先 x -&gt; parent[x] 的权值 + parent[x] -&gt; root 的权值
-            weight[x] = weight[x] + weight[parent[x]];
-            parent[x] = root;
-        }
-        return parent[x];
-    }
-
-    bool unite(int x, int y, Weight delta) {
-        int rx = find(x), ry = find(y);
-        if (rx == ry) {
-            return (weight[x] - weight[y]) == delta;
-        }
-        if (size[rx] &lt; size[ry]) {
-            parent[rx] = ry;
-            weight[rx] = delta + weight[y] - weight[x];
-            size[ry] += size[rx];
-        } else {
-            parent[ry] = rx;
-            weight[ry] = weight[x] - weight[y] - delta;
-            size[rx] += size[ry];
-        }
-        return true;
-    }
-
-    Weight diff(int x, int y) {
-        assert(find(x) == find(y));
-        return weight[x] - weight[y];
-    }
-    bool same(int x, int y) {
-        return find(x) == find(y);
-    }
-    // 获取元素到其根节点的权值
-    Weight get_weight(int x) {
-        find(x);
-        return weight[x];
-    }
-
-private:
-    std::vector&lt;int&gt; parent;
-    std::vector&lt;Weight&gt; weight;
-    std::vector&lt;int&gt; size;
-};
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/DSU/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
         <h2 class="post-title">树状数组</h2>
     </a>
@@ -736,6 +736,174 @@ private:
         
     </div>
     <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">
+        <h2 class="post-title">欧拉函数</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">struct EulerSieve {
+    vector&lt;int&gt; primes;           // 素数列表
+    vector&lt;bool&gt; is_composite;    // 是否为合数
+    vector&lt;int&gt; min_factor;       // 最小质因子（可选）
+    vector&lt;int&gt; phi;              // 欧拉函数（可选）
+
+    // 构造函数，筛出 [0, n] 内的素数
+    EulerSieve(int n) : is_composite(n + 1, false), min_factor(n + 1, 0), phi(n + 1, 0) {
+        phi[1] = 1;
+        for (int i = 2; i &lt;= n; ++i) {
+            if (!is_composite[i]) {
+                primes.push_back(i);
+                min_factor[i] = i;
+                phi[i] = i - 1;          // 素数的欧拉函数 = i-1
+            }
+            for (int p : primes) {
+                if (i * p &gt; n) break;
+                is_composite[i * p] = true;
+                min_factor[i * p] = p;
+                if (i % p == 0) {
+                    // p 是 i 的最小质因子
+                    phi[i * p] = phi[i] * p;
+                    break;
+                } else {
+                    phi[i * p] = phi[i] * (p - 1);
+                }
+            }
+        }
+    }
+    // 判断 x 是否为素数（x 需在筛的范围内）
+    bool is_prime(int x) const {
+        return !is_composite[x];
+    }
+};
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
+        <h2 class="post-title">矩阵快速幂</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">#include &lt;vector&gt;
+using Matrix = std::vector&lt;std::vector&lt;long long&gt;&gt;;
+Matrix mat_mul(const Matrix&amp; A, const Matrix&amp; B, long long mod) {
+    int n = A.size();
+    Matrix C(n, std::vector&lt;long long&gt;(n, 0));
+    for (int i = 0; i &lt; n; ++i)
+        for (int k = 0; k &lt; n; ++k)
+            if (A[i][k] != 0)
+                for (int j = 0; j &lt; n; ++j)
+                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod;
+    return C;
+}
+Matrix mat_pow(Matrix A, long long power, long long mod) {
+    int n = A.size();
+    Matrix res(n, std::vector&lt;long long&gt;(n, 0));
+    for (int i = 0; i &lt; n; ++i) res[i][i] = 1;  // 单位矩阵
+    
+    while (power) {
+        if (power &amp; 1) res = mat_mul(res, A, mod);
+        A = mat_mul(A, A, mod);
+        power &gt;&gt;= 1;
+    }
+    return res;
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
 </div>
 
 
@@ -857,174 +1025,6 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
-        <h2 class="post-title">矩阵快速幂</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">#include &lt;vector&gt;
-using Matrix = std::vector&lt;std::vector&lt;long long&gt;&gt;;
-Matrix mat_mul(const Matrix&amp; A, const Matrix&amp; B, long long mod) {
-    int n = A.size();
-    Matrix C(n, std::vector&lt;long long&gt;(n, 0));
-    for (int i = 0; i &lt; n; ++i)
-        for (int k = 0; k &lt; n; ++k)
-            if (A[i][k] != 0)
-                for (int j = 0; j &lt; n; ++j)
-                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod;
-    return C;
-}
-Matrix mat_pow(Matrix A, long long power, long long mod) {
-    int n = A.size();
-    Matrix res(n, std::vector&lt;long long&gt;(n, 0));
-    for (int i = 0; i &lt; n; ++i) res[i][i] = 1;  // 单位矩阵
-    
-    while (power) {
-        if (power &amp; 1) res = mat_mul(res, A, mod);
-        A = mat_mul(A, A, mod);
-        power &gt;&gt;= 1;
-    }
-    return res;
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">
-        <h2 class="post-title">欧拉函数</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">struct EulerSieve {
-    vector&lt;int&gt; primes;           // 素数列表
-    vector&lt;bool&gt; is_composite;    // 是否为合数
-    vector&lt;int&gt; min_factor;       // 最小质因子（可选）
-    vector&lt;int&gt; phi;              // 欧拉函数（可选）
-
-    // 构造函数，筛出 [0, n] 内的素数
-    EulerSieve(int n) : is_composite(n + 1, false), min_factor(n + 1, 0), phi(n + 1, 0) {
-        phi[1] = 1;
-        for (int i = 2; i &lt;= n; ++i) {
-            if (!is_composite[i]) {
-                primes.push_back(i);
-                min_factor[i] = i;
-                phi[i] = i - 1;          // 素数的欧拉函数 = i-1
-            }
-            for (int p : primes) {
-                if (i * p &gt; n) break;
-                is_composite[i * p] = true;
-                min_factor[i * p] = p;
-                if (i % p == 0) {
-                    // p 是 i 的最小质因子
-                    phi[i * p] = phi[i] * p;
-                    break;
-                } else {
-                    phi[i * p] = phi[i] * (p - 1);
-                }
-            }
-        }
-    }
-    // 判断 x 是否为素数（x 需在筛的范围内）
-    bool is_prime(int x) const {
-        return !is_composite[x];
-    }
-};
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
         <h2 class="post-title">背包问题</h2>
     </a>
@@ -1052,112 +1052,7 @@ Matrix mat_pow(Matrix A, long long power, long long mod) {
     <div class="description">
         <div class="content" v-pre>
             
-            <h2 id="1-01背包"><a href="#1-01背包" class="headerlink" title="1. 01背包"></a>1. 01背包</h2><ul>
-<li><strong>特点</strong>：每种物品最多选一次。</li>
-<li><strong>状态</strong>：<code>dp[j]</code> 表示容量 <code>j</code> 时的最大价值。</li>
-<li><strong>转移</strong>：<code>dp[j] = max(dp[j], dp[j - w[i]] + v[i])</code></li>
-<li><strong>实现</strong>：一维数组，容量倒序循环。</li>
-</ul>
-<pre><code class="language-cpp">for (int i = 1; i &lt;= n; ++i)
-    for (int j = V; j &gt;= w[i]; --j)
-        dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
-</code></pre>
-<hr>
-<h2 id="2-完全背包"><a href="#2-完全背包" class="headerlink" title="2. 完全背包"></a>2. 完全背包</h2><ul>
-<li><strong>特点</strong>：每种物品无限次选择。</li>
-<li><strong>状态</strong>：同上。</li>
-<li><strong>转移</strong>：<code>dp[j] = max(dp[j], dp[j - w[i]] + v[i])</code></li>
-<li><strong>实现</strong>：一维数组，容量正序循环（允许同一物品多次叠加）。</li>
-</ul>
-<pre><code class="language-cpp">for (int i = 1; i &lt;= n; ++i)
-    for (int j = w[i]; j &lt;= V; ++j)
-        dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
-</code></pre>
-<hr>
-<h2 id="3-多重背包"><a href="#3-多重背包" class="headerlink" title="3. 多重背包"></a>3. 多重背包</h2><ul>
-<li><strong>特点</strong>：每种物品有数量限制 <code>c[i]</code>。</li>
-<li><strong>优化方法</strong>：<ul>
-<li><strong>二进制拆分</strong>：将 <code>c[i]</code> 拆成 <code>1,2,4,...,k</code> 若干组，每组视为一个01背包物品，复杂度 <code>O(V Σ log c[i])</code>。</li>
-<li><strong>单调队列优化</strong>：按余数分类，用单调队列维护滑动窗口最大值，复杂度 <code>O(nV)</code>。</li>
-</ul>
-</li>
-</ul>
-<h3 id="二进制拆分核心代码"><a href="#二进制拆分核心代码" class="headerlink" title="二进制拆分核心代码"></a>二进制拆分核心代码</h3><pre><code class="language-cpp">for (int i = 1; i &lt;= n; ++i) {
-    int k = 1, rest = c[i];
-    while (k &lt;= rest) {
-        int weight = k * w[i], value = k * v[i];
-        for (int j = V; j &gt;= weight; --j)
-            dp[j] = max(dp[j], dp[j - weight] + value);
-        rest -= k;
-        k &lt;&lt;= 1;
-    }
-    if (rest) { /* 剩余部分同样处理 */ }
-}
-</code></pre>
-<hr>
-<h2 id="4-分组背包"><a href="#4-分组背包" class="headerlink" title="4. 分组背包"></a>4. 分组背包</h2><ul>
-<li><strong>特点</strong>：物品分为若干组，每组内最多选一个。</li>
-<li><strong>状态</strong>：<code>dp[j]</code> 表示容量 <code>j</code> 的最大价值。</li>
-<li><strong>转移</strong>：先遍历组，再遍历容量（倒序），最后遍历组内物品。</li>
-</ul>
-<pre><code class="language-cpp">for (int k = 1; k &lt;= groups; ++k)
-    for (int j = V; j &gt;= 0; --j)
-        for (auto &amp;[w, v] : items_in_group[k])
-            if (j &gt;= w) dp[j] = max(dp[j], dp[j - w] + v);
-</code></pre>
-<hr>
-<h2 id="5-依赖背包（树形背包）"><a href="#5-依赖背包（树形背包）" class="headerlink" title="5. 依赖背包（树形背包）"></a>5. 依赖背包（树形背包）</h2><ul>
-<li><strong>特点</strong>：物品有依赖关系（选 <code>u</code> 必须先选 <code>v</code>），通常以树形结构给出。</li>
-<li><strong>状态</strong>：<code>dp[u][j]</code> 表示以 <code>u</code> 为根的子树中，容量 <code>j</code> 的最大价值。</li>
-<li><strong>转移</strong>：对子节点进行分组背包（先递归子节点，再合并）。常见于“有依赖的背包”问题，也可转化为“森林+虚拟根”。</li>
-</ul>
-<pre><code class="language-cpp">void dfs(int u) {
-    // 初始化：选 u 本身
-    for (int j = w[u]; j &lt;= V; ++j) dp[u][j] = v[u];
-    for (int child : tree[u]) {
-        dfs(child);
-        // 合并子节点：j从V downto w[u]
-        for (int j = V; j &gt;= w[u]; --j)
-            for (int k = 0; k &lt;= j - w[u]; ++k)
-                dp[u][j] = max(dp[u][j], dp[u][j - k] + dp[child][k]);
-    }
-}
-</code></pre>
-<hr>
-<h2 id="6-二维费用背包"><a href="#6-二维费用背包" class="headerlink" title="6. 二维费用背包"></a>6. 二维费用背包</h2><ul>
-<li><strong>特点</strong>：每件物品消耗两种资源（容量1、容量2），每种资源有限制。</li>
-<li><strong>状态</strong>：<code>dp[j][k]</code> 表示使用容量1为 <code>j</code>、容量2为 <code>k</code> 时的最大价值。</li>
-<li><strong>转移</strong>：根据物品类型（01&#x2F;完全&#x2F;多重）选择合适的遍历顺序（一般是两维倒序）。</li>
-</ul>
-<pre><code class="language-cpp">// 01背包版本
-for (int i = 1; i &lt;= n; ++i)
-    for (int j = V1; j &gt;= w1[i]; --j)
-        for (int k = V2; k &gt;= w2[i]; --k)
-            dp[j][k] = max(dp[j][k], dp[j - w1[i]][k - w2[i]] + v[i]);
-</code></pre>
-<hr>
-<h2 id="7-混合背包"><a href="#7-混合背包" class="headerlink" title="7. 混合背包"></a>7. 混合背包</h2><ul>
-<li><strong>特点</strong>：同时存在01、完全、多重背包的物品。</li>
-<li><strong>处理方法</strong>：分别处理，01和多重用倒序，完全用正序。</li>
-</ul>
-<hr>
-<h2 id="8-背包问题的常见变种"><a href="#8-背包问题的常见变种" class="headerlink" title="8. 背包问题的常见变种"></a>8. 背包问题的常见变种</h2><h3 id="1-恰好装满"><a href="#1-恰好装满" class="headerlink" title="(1) 恰好装满"></a>(1) 恰好装满</h3><ul>
-<li><strong>初始化</strong>：<code>dp[0] = 0</code>，其他 <code>dp[j] = -INF</code>。</li>
-<li><strong>最终</strong>：若 <code>dp[V] &lt; 0</code> 则表示无法恰好装满。</li>
-</ul>
-<h3 id="2-求方案数（最大价值下的方案数或装满的方案数）"><a href="#2-求方案数（最大价值下的方案数或装满的方案数）" class="headerlink" title="(2) 求方案数（最大价值下的方案数或装满的方案数）"></a>(2) 求方案数（最大价值下的方案数或装满的方案数）</h3><ul>
-<li><strong>状态</strong>：<code>dp[j]</code> 表示最大价值，<code>cnt[j]</code> 表示达到该价值的方案数。</li>
-<li><strong>转移时</strong>：若新价值 &gt; 旧价值，则 <code>cnt[j] = cnt[j - w]</code>；若相等，则累加。</li>
-<li><strong>初始化</strong>：<code>dp[0] = 0, cnt[0] = 1</code>。</li>
-</ul>
-<h3 id="3-输出具体方案（任意一种或字典序最小）"><a href="#3-输出具体方案（任意一种或字典序最小）" class="headerlink" title="(3) 输出具体方案（任意一种或字典序最小）"></a>(3) 输出具体方案（任意一种或字典序最小）</h3><ul>
-<li><strong>方法</strong>：记录 <code>choice[i][j]</code> 表示状态 <code>(i,j)</code> 是否选取了物品 <code>i</code>。最后倒推。</li>
-<li><strong>字典序最小</strong>：通常将物品编号倒序处理，或从后向前DP，再正序贪心。</li>
-</ul>
-<h3 id="4-求最优方案（价值最大，其次物品数量最少-最多等）"><a href="#4-求最优方案（价值最大，其次物品数量最少-最多等）" class="headerlink" title="(4) 求最优方案（价值最大，其次物品数量最少&#x2F;最多等）"></a>(4) 求最优方案（价值最大，其次物品数量最少&#x2F;最多等）</h3><ul>
-<li><strong>状态</strong>：使用结构体或两维状态 <code>dp[j] = {maxValue, minCount}</code>，自定义比较规则。</li>
-</ul>
-<hr>
+            <p>背包问题算法笔记</p>
 
             
         </div>
@@ -1340,18 +1235,6 @@ struct Fact {
         <div class="description">
             <p>彷徨?</p>
 
-        </div>
-        
-        <div class="icon-links">
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
         </div>
         
         
