@@ -195,6 +195,246 @@
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/ODT/">
+        <h2 class="post-title">珂朵莉树</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">struct Node {
+    int l, r;
+    mutable int v;          // mutable 允许在 set 中修改 v
+    Node(int l, int r = -1, int v = 0) : l(l), r(r), v(v) {}
+    bool operator&lt;(const Node &amp;o) const { return l &lt; o.l; }
+};
+
+set&lt;Node&gt; odt;
+
+// 将包含位置 pos 的区间 [l, r] 分裂为 [l, pos-1] 和 [pos, r]
+auto split(int pos) {
+    auto it = odt.lower_bound(Node(pos));
+    if (it != odt.end() &amp;&amp; it-&gt;l == pos) return it;
+    --it;
+    int l = it-&gt;l, r = it-&gt;r, v = it-&gt;v;
+    odt.erase(it);
+    odt.insert(Node(l, pos - 1, v));
+    return odt.insert(Node(pos, r, v)).first;
+}
+
+// 区间赋值（推平）
+void assign(int l, int r, int v) {
+    auto itr = split(r + 1), itl = split(l);
+    odt.erase(itl, itr);
+    odt.insert(Node(l, r, v));
+}
+
+// 区间加
+void add(int l, int r, int v) {
+    auto itr = split(r + 1), itl = split(l);
+    for (auto it = itl; it != itr; ++it) it-&gt;v += v;
+}
+
+// 区间第 k 小
+int kth(int l, int r, int k) {
+    auto itr = split(r + 1), itl = split(l);
+    vector&lt;pair&lt;int, int&gt;&gt; tmp;  // (值, 长度)
+    for (auto it = itl; it != itr; ++it)
+        tmp.emplace_back(it-&gt;v, it-&gt;r - it-&gt;l + 1);
+    sort(tmp.begin(), tmp.end());
+    for (auto [val, len] : tmp) {
+        if (k &lt;= len) return val;
+        k -= len;
+    }
+    return -1;
+}
+
+// 快速幂（取模）
+int qpow(int a, int b, int mod) {
+    int res = 1;
+    a %= mod;
+    while (b) {
+        if (b &amp; 1) res = 1LL * res * a % mod;
+        a = 1LL * a * a % mod;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+
+// 区间幂次和 ∑ (v^x) * len  对 mod 取模
+int range_pow_sum(int l, int r, int x, int mod) {
+    auto itr = split(r + 1), itl = split(l);
+    int ans = 0;
+    for (auto it = itl; it != itr; ++it) {
+        int len = it-&gt;r - it-&gt;l + 1;
+        ans = (ans + 1LL * len * qpow(it-&gt;v, x, mod)) % mod;
+    }
+    return ans;
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/ODT/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/Miller-Rabin/">
+        <h2 class="post-title">米勒拉宾素性测试</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
+    return (uint64_t)((__int128)a * b % mod);
+}
+uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
+    uint64_t res = 1;
+    a %= n;
+    while (d) {
+        if (d &amp; 1) res = mul_mod(res, a, n);
+        a = mul_mod(a, a, n);
+        d &gt;&gt;= 1;
+    }
+    return res;
+}
+bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
+    if (n &lt; 2) return false;
+    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+    for (uint64_t p : small_primes) {
+        if (n == p) return true;
+        if (n % p == 0) return false;
+    }
+    uint64_t d = n - 1;
+    int r = 0;
+    while ((d &amp; 1) == 0) {
+        d &gt;&gt;= 1;
+        ++r;
+    }
+    for (uint64_t a : bases) {
+        if (a % n == 0) continue;
+        uint64_t x = pow_mod(a, d, n);
+        if (x == 1 || x == n - 1) continue;
+        bool composite = true;
+        for (int i = 0; i &lt; r - 1; ++i) {
+            x = mul_mod(x, x, n);
+            if (x == n - 1) {
+                composite = false;
+                break;
+            }
+        }
+        if (composite) return false;
+    }
+    return true;
+}
+bool is_prime32(uint32_t n) {
+    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
+    return miller_rabin(n, bases32);
+}
+bool is_prime64(uint64_t n) {
+    static const std::vector&lt;uint64_t&gt; bases64 = {
+        2, 325, 9375, 28178, 450775, 9780504, 1795265022
+    };
+    return miller_rabin(n, bases64);
+}
+
+template&lt;typename T&gt;
+bool is_prime(T n) {
+    if (n &lt;= 0xFFFFFFFF) {
+        return is_prime32((uint32_t)n);
+    } else {
+        return is_prime64((uint64_t)n);
+    }
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/DSU/">
         <h2 class="post-title">并查集</h2>
     </a>
@@ -346,246 +586,6 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/Miller-Rabin/">
-        <h2 class="post-title">米勒拉宾素性测试</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
-    return (uint64_t)((__int128)a * b % mod);
-}
-uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
-    uint64_t res = 1;
-    a %= n;
-    while (d) {
-        if (d &amp; 1) res = mul_mod(res, a, n);
-        a = mul_mod(a, a, n);
-        d &gt;&gt;= 1;
-    }
-    return res;
-}
-bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
-    if (n &lt; 2) return false;
-    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
-    for (uint64_t p : small_primes) {
-        if (n == p) return true;
-        if (n % p == 0) return false;
-    }
-    uint64_t d = n - 1;
-    int r = 0;
-    while ((d &amp; 1) == 0) {
-        d &gt;&gt;= 1;
-        ++r;
-    }
-    for (uint64_t a : bases) {
-        if (a % n == 0) continue;
-        uint64_t x = pow_mod(a, d, n);
-        if (x == 1 || x == n - 1) continue;
-        bool composite = true;
-        for (int i = 0; i &lt; r - 1; ++i) {
-            x = mul_mod(x, x, n);
-            if (x == n - 1) {
-                composite = false;
-                break;
-            }
-        }
-        if (composite) return false;
-    }
-    return true;
-}
-bool is_prime32(uint32_t n) {
-    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
-    return miller_rabin(n, bases32);
-}
-bool is_prime64(uint64_t n) {
-    static const std::vector&lt;uint64_t&gt; bases64 = {
-        2, 325, 9375, 28178, 450775, 9780504, 1795265022
-    };
-    return miller_rabin(n, bases64);
-}
-
-template&lt;typename T&gt;
-bool is_prime(T n) {
-    if (n &lt;= 0xFFFFFFFF) {
-        return is_prime32((uint32_t)n);
-    } else {
-        return is_prime64((uint64_t)n);
-    }
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/ODT/">
-        <h2 class="post-title">珂朵莉树</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">struct Node {
-    int l, r;
-    mutable int v;          // mutable 允许在 set 中修改 v
-    Node(int l, int r = -1, int v = 0) : l(l), r(r), v(v) {}
-    bool operator&lt;(const Node &amp;o) const { return l &lt; o.l; }
-};
-
-set&lt;Node&gt; odt;
-
-// 将包含位置 pos 的区间 [l, r] 分裂为 [l, pos-1] 和 [pos, r]
-auto split(int pos) {
-    auto it = odt.lower_bound(Node(pos));
-    if (it != odt.end() &amp;&amp; it-&gt;l == pos) return it;
-    --it;
-    int l = it-&gt;l, r = it-&gt;r, v = it-&gt;v;
-    odt.erase(it);
-    odt.insert(Node(l, pos - 1, v));
-    return odt.insert(Node(pos, r, v)).first;
-}
-
-// 区间赋值（推平）
-void assign(int l, int r, int v) {
-    auto itr = split(r + 1), itl = split(l);
-    odt.erase(itl, itr);
-    odt.insert(Node(l, r, v));
-}
-
-// 区间加
-void add(int l, int r, int v) {
-    auto itr = split(r + 1), itl = split(l);
-    for (auto it = itl; it != itr; ++it) it-&gt;v += v;
-}
-
-// 区间第 k 小
-int kth(int l, int r, int k) {
-    auto itr = split(r + 1), itl = split(l);
-    vector&lt;pair&lt;int, int&gt;&gt; tmp;  // (值, 长度)
-    for (auto it = itl; it != itr; ++it)
-        tmp.emplace_back(it-&gt;v, it-&gt;r - it-&gt;l + 1);
-    sort(tmp.begin(), tmp.end());
-    for (auto [val, len] : tmp) {
-        if (k &lt;= len) return val;
-        k -= len;
-    }
-    return -1;
-}
-
-// 快速幂（取模）
-int qpow(int a, int b, int mod) {
-    int res = 1;
-    a %= mod;
-    while (b) {
-        if (b &amp; 1) res = 1LL * res * a % mod;
-        a = 1LL * a * a % mod;
-        b &gt;&gt;= 1;
-    }
-    return res;
-}
-
-// 区间幂次和 ∑ (v^x) * len  对 mod 取模
-int range_pow_sum(int l, int r, int x, int mod) {
-    auto itr = split(r + 1), itl = split(l);
-    int ans = 0;
-    for (auto it = itl; it != itr; ++it) {
-        int len = it-&gt;r - it-&gt;l + 1;
-        ans = (ans + 1LL * len * qpow(it-&gt;v, x, mod)) % mod;
-    }
-    return ans;
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/ODT/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/Trie/">
         <h2 class="post-title">字典树</h2>
     </a>
@@ -730,6 +730,86 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
+        <h2 class="post-title">树状数组</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">// 需要类型 T 支持加法与减法（可用于前缀和）
+template&lt;typename T&gt;
+class Fenwick {
+public:
+    explicit Fenwick(int n) : n(n), bit(n + 1) {}
+    // 单点增加
+    void add(int i, T delta) {
+        for (; i &lt;= n; i += i &amp; -i)
+            bit[i] += delta;
+    }
+    // 前缀和 [1..i]
+    T sum(int i) const {
+        T res = 0;
+        for (; i &gt; 0; i -= i &amp; -i)
+            res += bit[i];
+        return res;
+    }
+    // 区间和 [l..r]
+    T query(int l, int r) const {
+        return sum(r) - sum(l - 1);
+    }
+private:
+    int n;
+    std::vector&lt;T&gt; bit;
+};
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">
         <h2 class="post-title">欧拉函数</h2>
     </a>
@@ -819,86 +899,6 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
-        <h2 class="post-title">树状数组</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">// 需要类型 T 支持加法与减法（可用于前缀和）
-template&lt;typename T&gt;
-class Fenwick {
-public:
-    explicit Fenwick(int n) : n(n), bit(n + 1) {}
-    // 单点增加
-    void add(int i, T delta) {
-        for (; i &lt;= n; i += i &amp; -i)
-            bit[i] += delta;
-    }
-    // 前缀和 [1..i]
-    T sum(int i) const {
-        T res = 0;
-        for (; i &gt; 0; i -= i &amp; -i)
-            res += bit[i];
-        return res;
-    }
-    // 区间和 [l..r]
-    T query(int l, int r) const {
-        return sum(r) - sum(l - 1);
-    }
-private:
-    int n;
-    std::vector&lt;T&gt; bit;
-};
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
         <h2 class="post-title">矩阵快速幂</h2>
     </a>
@@ -974,123 +974,6 @@ Matrix mat_pow(Matrix A, long long power, long long mod) {
         
     </div>
     <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E7%BA%BF%E6%AE%B5%E6%A0%91/">
-        <h2 class="post-title">线段树</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">template&lt;typename T&gt;
-class SegTree {
-public:
-    explicit SegTree(int n) : n(n), tree(4 * n), lazy(4 * n) {}
-    // 建树（可选，初始全0时可省略）
-    void build(const std::vector&lt;T&gt;&amp; arr) {
-        std::function&lt;void(int, int, int)&gt; dfs = [&amp;](int u, int l, int r) {
-            if (l == r) { tree[u] = arr[l - 1]; return; }
-            int m = (l + r) / 2;
-            dfs(u * 2, l, m);
-            dfs(u * 2 + 1, m + 1, r);
-            pull(u);
-        };
-        dfs(1, 1, n);
-    }
-    // 区间 [ql, qr] 增加 val
-    void add(int ql, int qr, T val) {
-        add(1, 1, n, ql, qr, val);
-    }
-    // 区间求和 [ql, qr]
-    T sum(int ql, int qr) {
-        return query(1, 1, n, ql, qr);
-    }
-    
-private:
-    int n;
-    std::vector&lt;T&gt; tree, lazy;
-    void pull(int u) { tree[u] = tree[u * 2] + tree[u * 2 + 1]; }
-    void push(int u, int l, int r) {
-        if (lazy[u] != 0 &amp;&amp; l != r) {
-            int m = (l + r) / 2;
-            // 下传标记到左右儿子
-            apply(u * 2, l, m, lazy[u]);
-            apply(u * 2 + 1, m + 1, r, lazy[u]);
-            lazy[u] = 0;
-        }
-    }
-    void apply(int u, int l, int r, T val) {
-        lazy[u] += val;
-        tree[u] += val * (r - l + 1);
-    }
-    void add(int u, int l, int r, int ql, int qr, T val) {
-        if (ql &lt;= l &amp;&amp; r &lt;= qr) {
-            apply(u, l, r, val);
-            return;
-        }
-        push(u, l, r);
-        int m = (l + r) / 2;
-        if (ql &lt;= m) add(u * 2, l, m, ql, qr, val);
-        if (qr &gt; m)  add(u * 2 + 1, m + 1, r, ql, qr, val);
-        pull(u);
-    }
-    T query(int u, int l, int r, int ql, int qr) {
-        if (ql &lt;= l &amp;&amp; r &lt;= qr) return tree[u];
-        push(u, l, r);
-        int m = (l + r) / 2;
-        T res = 0;
-        if (ql &lt;= m) res += query(u * 2, l, m, ql, qr);
-        if (qr &gt; m)  res += query(u * 2 + 1, m + 1, r, ql, qr);
-        return res;
-    }
-};
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/%E7%BA%BF%E6%AE%B5%E6%A0%91/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
 </div>
 
 
@@ -1381,6 +1264,123 @@ struct Fact {
 </div>
 
 
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/%E7%BA%BF%E6%AE%B5%E6%A0%91/">
+        <h2 class="post-title">线段树</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">template&lt;typename T&gt;
+class SegTree {
+public:
+    explicit SegTree(int n) : n(n), tree(4 * n), lazy(4 * n) {}
+    // 建树（可选，初始全0时可省略）
+    void build(const std::vector&lt;T&gt;&amp; arr) {
+        std::function&lt;void(int, int, int)&gt; dfs = [&amp;](int u, int l, int r) {
+            if (l == r) { tree[u] = arr[l - 1]; return; }
+            int m = (l + r) / 2;
+            dfs(u * 2, l, m);
+            dfs(u * 2 + 1, m + 1, r);
+            pull(u);
+        };
+        dfs(1, 1, n);
+    }
+    // 区间 [ql, qr] 增加 val
+    void add(int ql, int qr, T val) {
+        add(1, 1, n, ql, qr, val);
+    }
+    // 区间求和 [ql, qr]
+    T sum(int ql, int qr) {
+        return query(1, 1, n, ql, qr);
+    }
+    
+private:
+    int n;
+    std::vector&lt;T&gt; tree, lazy;
+    void pull(int u) { tree[u] = tree[u * 2] + tree[u * 2 + 1]; }
+    void push(int u, int l, int r) {
+        if (lazy[u] != 0 &amp;&amp; l != r) {
+            int m = (l + r) / 2;
+            // 下传标记到左右儿子
+            apply(u * 2, l, m, lazy[u]);
+            apply(u * 2 + 1, m + 1, r, lazy[u]);
+            lazy[u] = 0;
+        }
+    }
+    void apply(int u, int l, int r, T val) {
+        lazy[u] += val;
+        tree[u] += val * (r - l + 1);
+    }
+    void add(int u, int l, int r, int ql, int qr, T val) {
+        if (ql &lt;= l &amp;&amp; r &lt;= qr) {
+            apply(u, l, r, val);
+            return;
+        }
+        push(u, l, r);
+        int m = (l + r) / 2;
+        if (ql &lt;= m) add(u * 2, l, m, ql, qr, val);
+        if (qr &gt; m)  add(u * 2 + 1, m + 1, r, ql, qr, val);
+        pull(u);
+    }
+    T query(int u, int l, int r, int ql, int qr) {
+        if (ql &lt;= l &amp;&amp; r &lt;= qr) return tree[u];
+        push(u, l, r);
+        int m = (l + r) / 2;
+        T res = 0;
+        if (ql &lt;= m) res += query(u * 2, l, m, ql, qr);
+        if (qr &gt; m)  res += query(u * 2 + 1, m + 1, r, ql, qr);
+        return res;
+    }
+};
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/%E7%BA%BF%E6%AE%B5%E6%A0%91/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
         <div class="page-current">
     
     <span class="current">1</span>
@@ -1413,726 +1413,6 @@ struct Fact {
         </div>
         
         <div class="icon-links">
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
-            
-            <span class="icon-link">
-                <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
-                    <i
-                        class="fa- fa- fa-fw"
-                    ></i>
-                </a>
-            </span>
             
             <span class="icon-link">
                 <a href="/function%20link()%20%7B%20%5Bnative%20code%5D%20%7D">
