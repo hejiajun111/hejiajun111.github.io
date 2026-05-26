@@ -195,274 +195,6 @@
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/ODT/">
-        <h2 class="post-title">珂朵莉树</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">struct Node {
-    int l, r;
-    mutable int v;          // mutable 允许在 set 中修改 v
-    Node(int l, int r = -1, int v = 0) : l(l), r(r), v(v) {}
-    bool operator&lt;(const Node &amp;o) const { return l &lt; o.l; }
-};
-
-set&lt;Node&gt; odt;
-
-// 将包含位置 pos 的区间 [l, r] 分裂为 [l, pos-1] 和 [pos, r]
-auto split(int pos) {
-    auto it = odt.lower_bound(Node(pos));
-    if (it != odt.end() &amp;&amp; it-&gt;l == pos) return it;
-    --it;
-    int l = it-&gt;l, r = it-&gt;r, v = it-&gt;v;
-    odt.erase(it);
-    odt.insert(Node(l, pos - 1, v));
-    return odt.insert(Node(pos, r, v)).first;
-}
-
-// 区间赋值（推平）
-void assign(int l, int r, int v) {
-    auto itr = split(r + 1), itl = split(l);
-    odt.erase(itl, itr);
-    odt.insert(Node(l, r, v));
-}
-
-// 区间加
-void add(int l, int r, int v) {
-    auto itr = split(r + 1), itl = split(l);
-    for (auto it = itl; it != itr; ++it) it-&gt;v += v;
-}
-
-// 区间第 k 小
-int kth(int l, int r, int k) {
-    auto itr = split(r + 1), itl = split(l);
-    vector&lt;pair&lt;int, int&gt;&gt; tmp;  // (值, 长度)
-    for (auto it = itl; it != itr; ++it)
-        tmp.emplace_back(it-&gt;v, it-&gt;r - it-&gt;l + 1);
-    sort(tmp.begin(), tmp.end());
-    for (auto [val, len] : tmp) {
-        if (k &lt;= len) return val;
-        k -= len;
-    }
-    return -1;
-}
-
-// 快速幂（取模）
-int qpow(int a, int b, int mod) {
-    int res = 1;
-    a %= mod;
-    while (b) {
-        if (b &amp; 1) res = 1LL * res * a % mod;
-        a = 1LL * a * a % mod;
-        b &gt;&gt;= 1;
-    }
-    return res;
-}
-
-// 区间幂次和 ∑ (v^x) * len  对 mod 取模
-int range_pow_sum(int l, int r, int x, int mod) {
-    auto itr = split(r + 1), itl = split(l);
-    int ans = 0;
-    for (auto it = itl; it != itr; ++it) {
-        int len = it-&gt;r - it-&gt;l + 1;
-        ans = (ans + 1LL * len * qpow(it-&gt;v, x, mod)) % mod;
-    }
-    return ans;
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/ODT/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/Trie/">
-        <h2 class="post-title">字典树</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">//字符串Trie
-class Trie {
-public:
-    Trie() : nodes(1) {}  // 初始化根节点（下标0）
-
-    // 插入字符串
-    void insert(const std::string&amp; word) {
-        int u = 0;
-        for (char ch : word) {
-            int c = ch - &#39;a&#39;;
-            if (nodes[u].next[c] == 0) {
-                nodes[u].next[c] = nodes.size();
-                nodes.emplace_back();   // 新建节点
-            }
-            u = nodes[u].next[c];
-        }
-        nodes[u].cnt++;   // 单词末尾计数（可表示重复次数）
-    }
-
-    // 查询单词是否存在（至少一次）
-    bool search(const std::string&amp; word) const {
-        int u = find(word);
-        return u != -1 &amp;&amp; nodes[u].cnt &gt; 0;
-    }
-
-    // 查询是否存在以给定前缀开头的单词
-    bool startsWith(const std::string&amp; prefix) const {
-        return find(prefix) != -1;
-    }
-
-private:
-    struct Node {
-        int next[26] = {};   // 孩子指针，0表示空
-        int cnt = 0;         // 以该节点结尾的单词个数
-    };
-    std::vector&lt;Node&gt; nodes;
-
-    // 返回字符串对应路径的节点下标，若路径不存在则返回-1
-    int find(const std::string&amp; s) const {
-        int u = 0;
-        for (char ch : s) {
-            int c = ch - &#39;a&#39;;
-            if (nodes[u].next[c] == 0) return -1;
-            u = nodes[u].next[c];
-        }
-        return u;
-    }
-};
-</code></pre>
-<pre><code class="language-cpp">//01Trie
-class Trie01 {
-public:
-    Trie01() : nodes(1) {}  // 根节点下标0
-    // 插入整数 x（二进制位从高位到低位）
-    void insert(int x) {
-        int u = 0;
-        for (int i = MAX_BIT; i &gt;= 0; --i) {
-            int b = (x &gt;&gt; i) &amp; 1;
-            if (nodes[u].next[b] == 0) {
-                nodes[u].next[b] = nodes.size();
-                nodes.emplace_back();
-            }
-            u = nodes[u].next[b];
-        }
-        nodes[u].cnt++;  // 记录末尾次数（可选）
-    }
-    // 查询与 x 异或能得到的最大值
-    int max_xor(int x) const {
-        int u = 0, res = 0;
-        for (int i = MAX_BIT; i &gt;= 0; --i) {
-            int b = (x &gt;&gt; i) &amp; 1;
-            int want = 1 - b;  // 期望相反的位
-            if (nodes[u].next[want] != 0) {
-                res |= (1 &lt;&lt; i);
-                u = nodes[u].next[want];
-            } else {
-                u = nodes[u].next[b];
-            }
-        }
-        return res;
-    }
-private:
-    static constexpr int MAX_BIT = 30;  // 处理 0~30 位，共31位（int范围）
-    struct Node {
-        int next[2] = {0, 0};
-        int cnt = 0;
-    };
-    std::vector&lt;Node&gt; nodes;
-};
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/Trie/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/DSU/">
         <h2 class="post-title">并查集</h2>
     </a>
@@ -730,6 +462,355 @@ bool is_prime(T n) {
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/ODT/">
+        <h2 class="post-title">珂朵莉树</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <span id="more"></span>
+<pre><code class="language-cpp">struct Node {
+    int l, r;
+    mutable int v;          // mutable 允许在 set 中修改 v
+    Node(int l, int r = -1, int v = 0) : l(l), r(r), v(v) {}
+    bool operator&lt;(const Node &amp;o) const { return l &lt; o.l; }
+};
+
+set&lt;Node&gt; odt;
+
+// 将包含位置 pos 的区间 [l, r] 分裂为 [l, pos-1] 和 [pos, r]
+auto split(int pos) {
+    auto it = odt.lower_bound(Node(pos));
+    if (it != odt.end() &amp;&amp; it-&gt;l == pos) return it;
+    --it;
+    int l = it-&gt;l, r = it-&gt;r, v = it-&gt;v;
+    odt.erase(it);
+    odt.insert(Node(l, pos - 1, v));
+    return odt.insert(Node(pos, r, v)).first;
+}
+
+// 区间赋值（推平）
+void assign(int l, int r, int v) {
+    auto itr = split(r + 1), itl = split(l);
+    odt.erase(itl, itr);
+    odt.insert(Node(l, r, v));
+}
+
+// 区间加
+void add(int l, int r, int v) {
+    auto itr = split(r + 1), itl = split(l);
+    for (auto it = itl; it != itr; ++it) it-&gt;v += v;
+}
+
+// 区间第 k 小
+int kth(int l, int r, int k) {
+    auto itr = split(r + 1), itl = split(l);
+    vector&lt;pair&lt;int, int&gt;&gt; tmp;  // (值, 长度)
+    for (auto it = itl; it != itr; ++it)
+        tmp.emplace_back(it-&gt;v, it-&gt;r - it-&gt;l + 1);
+    sort(tmp.begin(), tmp.end());
+    for (auto [val, len] : tmp) {
+        if (k &lt;= len) return val;
+        k -= len;
+    }
+    return -1;
+}
+
+// 快速幂（取模）
+int qpow(int a, int b, int mod) {
+    int res = 1;
+    a %= mod;
+    while (b) {
+        if (b &amp; 1) res = 1LL * res * a % mod;
+        a = 1LL * a * a % mod;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+
+// 区间幂次和 ∑ (v^x) * len  对 mod 取模
+int range_pow_sum(int l, int r, int x, int mod) {
+    auto itr = split(r + 1), itl = split(l);
+    int ans = 0;
+    for (auto it = itl; it != itr; ++it) {
+        int len = it-&gt;r - it-&gt;l + 1;
+        ans = (ans + 1LL * len * qpow(it-&gt;v, x, mod)) % mod;
+    }
+    return ans;
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/ODT/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/Trie/">
+        <h2 class="post-title">字典树</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">//字符串Trie
+class Trie {
+public:
+    Trie() : nodes(1) {}  // 初始化根节点（下标0）
+
+    // 插入字符串
+    void insert(const std::string&amp; word) {
+        int u = 0;
+        for (char ch : word) {
+            int c = ch - &#39;a&#39;;
+            if (nodes[u].next[c] == 0) {
+                nodes[u].next[c] = nodes.size();
+                nodes.emplace_back();   // 新建节点
+            }
+            u = nodes[u].next[c];
+        }
+        nodes[u].cnt++;   // 单词末尾计数（可表示重复次数）
+    }
+
+    // 查询单词是否存在（至少一次）
+    bool search(const std::string&amp; word) const {
+        int u = find(word);
+        return u != -1 &amp;&amp; nodes[u].cnt &gt; 0;
+    }
+
+    // 查询是否存在以给定前缀开头的单词
+    bool startsWith(const std::string&amp; prefix) const {
+        return find(prefix) != -1;
+    }
+
+private:
+    struct Node {
+        int next[26] = {};   // 孩子指针，0表示空
+        int cnt = 0;         // 以该节点结尾的单词个数
+    };
+    std::vector&lt;Node&gt; nodes;
+
+    // 返回字符串对应路径的节点下标，若路径不存在则返回-1
+    int find(const std::string&amp; s) const {
+        int u = 0;
+        for (char ch : s) {
+            int c = ch - &#39;a&#39;;
+            if (nodes[u].next[c] == 0) return -1;
+            u = nodes[u].next[c];
+        }
+        return u;
+    }
+};
+</code></pre>
+<pre><code class="language-cpp">//01Trie
+class Trie01 {
+public:
+    Trie01() : nodes(1) {}  // 根节点下标0
+    // 插入整数 x（二进制位从高位到低位）
+    void insert(int x) {
+        int u = 0;
+        for (int i = MAX_BIT; i &gt;= 0; --i) {
+            int b = (x &gt;&gt; i) &amp; 1;
+            if (nodes[u].next[b] == 0) {
+                nodes[u].next[b] = nodes.size();
+                nodes.emplace_back();
+            }
+            u = nodes[u].next[b];
+        }
+        nodes[u].cnt++;  // 记录末尾次数（可选）
+    }
+    // 查询与 x 异或能得到的最大值
+    int max_xor(int x) const {
+        int u = 0, res = 0;
+        for (int i = MAX_BIT; i &gt;= 0; --i) {
+            int b = (x &gt;&gt; i) &amp; 1;
+            int want = 1 - b;  // 期望相反的位
+            if (nodes[u].next[want] != 0) {
+                res |= (1 &lt;&lt; i);
+                u = nodes[u].next[want];
+            } else {
+                u = nodes[u].next[b];
+            }
+        }
+        return res;
+    }
+private:
+    static constexpr int MAX_BIT = 30;  // 处理 0~30 位，共31位（int范围）
+    struct Node {
+        int next[2] = {0, 0};
+        int cnt = 0;
+    };
+    std::vector&lt;Node&gt; nodes;
+};
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/Trie/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
+        <h2 class="post-title">树状数组</h2>
+    </a>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">// 需要类型 T 支持加法与减法（可用于前缀和）
+template&lt;typename T&gt;
+class Fenwick {
+public:
+    explicit Fenwick(int n) : n(n), bit(n + 1) {}
+    // 单点增加
+    void add(int i, T delta) {
+        for (; i &lt;= n; i += i &amp; -i)
+            bit[i] += delta;
+    }
+    // 前缀和 [1..i]
+    T sum(int i) const {
+        T res = 0;
+        for (; i &gt; 0; i -= i &amp; -i)
+            res += bit[i];
+        return res;
+    }
+    // 区间和 [l..r]
+    T query(int l, int r) const {
+        return sum(r) - sum(l - 1);
+    }
+private:
+    int n;
+    std::vector&lt;T&gt; bit;
+};
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <a href="/2026/05/25/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/">
         <h2 class="post-title">欧拉函数</h2>
     </a>
@@ -819,8 +900,8 @@ bool is_prime(T n) {
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
-        <h2 class="post-title">树状数组</h2>
+    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
+        <h2 class="post-title">矩阵快速幂</h2>
     </a>
     <div class="category-and-date">
         
@@ -846,31 +927,30 @@ bool is_prime(T n) {
     <div class="description">
         <div class="content" v-pre>
             
-            <pre><code class="language-cpp">// 需要类型 T 支持加法与减法（可用于前缀和）
-template&lt;typename T&gt;
-class Fenwick {
-public:
-    explicit Fenwick(int n) : n(n), bit(n + 1) {}
-    // 单点增加
-    void add(int i, T delta) {
-        for (; i &lt;= n; i += i &amp; -i)
-            bit[i] += delta;
+            <pre><code class="language-cpp">#include &lt;vector&gt;
+using Matrix = std::vector&lt;std::vector&lt;long long&gt;&gt;;
+Matrix mat_mul(const Matrix&amp; A, const Matrix&amp; B, long long mod) {
+    int n = A.size();
+    Matrix C(n, std::vector&lt;long long&gt;(n, 0));
+    for (int i = 0; i &lt; n; ++i)
+        for (int k = 0; k &lt; n; ++k)
+            if (A[i][k] != 0)
+                for (int j = 0; j &lt; n; ++j)
+                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod;
+    return C;
+}
+Matrix mat_pow(Matrix A, long long power, long long mod) {
+    int n = A.size();
+    Matrix res(n, std::vector&lt;long long&gt;(n, 0));
+    for (int i = 0; i &lt; n; ++i) res[i][i] = 1;  // 单位矩阵
+    
+    while (power) {
+        if (power &amp; 1) res = mat_mul(res, A, mod);
+        A = mat_mul(A, A, mod);
+        power &gt;&gt;= 1;
     }
-    // 前缀和 [1..i]
-    T sum(int i) const {
-        T res = 0;
-        for (; i &gt; 0; i -= i &amp; -i)
-            res += bit[i];
-        return res;
-    }
-    // 区间和 [l..r]
-    T query(int l, int r) const {
-        return sum(r) - sum(l - 1);
-    }
-private:
-    int n;
-    std::vector&lt;T&gt; bit;
-};
+    return res;
+}
 </code></pre>
 
             
@@ -894,7 +974,7 @@ private:
         </span>
         
     </div>
-    <a href="/2026/05/25/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
 </div>
 
 
@@ -1016,8 +1096,8 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
-        <h2 class="post-title">矩阵快速幂</h2>
+    <a href="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/">
+        <h2 class="post-title">自动取模类</h2>
     </a>
     <div class="category-and-date">
         
@@ -1043,30 +1123,78 @@ private:
     <div class="description">
         <div class="content" v-pre>
             
-            <pre><code class="language-cpp">#include &lt;vector&gt;
-using Matrix = std::vector&lt;std::vector&lt;long long&gt;&gt;;
-Matrix mat_mul(const Matrix&amp; A, const Matrix&amp; B, long long mod) {
-    int n = A.size();
-    Matrix C(n, std::vector&lt;long long&gt;(n, 0));
-    for (int i = 0; i &lt; n; ++i)
-        for (int k = 0; k &lt; n; ++k)
-            if (A[i][k] != 0)
-                for (int j = 0; j &lt; n; ++j)
-                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod;
-    return C;
-}
-Matrix mat_pow(Matrix A, long long power, long long mod) {
-    int n = A.size();
-    Matrix res(n, std::vector&lt;long long&gt;(n, 0));
-    for (int i = 0; i &lt; n; ++i) res[i][i] = 1;  // 单位矩阵
-    
-    while (power) {
-        if (power &amp; 1) res = mat_mul(res, A, mod);
-        A = mat_mul(A, A, mod);
-        power &gt;&gt;= 1;
+            <pre><code class="language-cpp">template &lt;typename T&gt;
+concept Can_bit = requires(T x) { x &gt;&gt;= 1; };
+template &lt;int MOD&gt;
+struct modint {
+    int val;
+    static int norm(const int&amp; x) { return x &lt; 0 ? x + MOD : x; }
+    static constexpr int get_mod() { return MOD; }
+    modint inv() const {
+        assert(val);
+        int a = val, b = MOD, u = 1, v = 0, t;
+        while (b &gt; 0) t = a / b, swap(a -= t * b, b), swap(u -= t * v, v);
+        assert(b == 1);
+        return modint(u);
     }
-    return res;
-}
+    modint() : val(0) {}
+    modint(const int&amp; m) : val(norm(m)) {}
+    modint(const long long&amp; m) : val(norm(m % MOD)) {}
+    modint operator-() const { return modint(norm(-val)); }
+    bool operator==(const modint&amp; o) { return val == o.val; }
+    bool operator&lt;(const modint&amp; o) { return val &lt; o.val; }
+    modint&amp; operator+=(const modint&amp; o) { return val = (1ll * val + o.val) % MOD, *this; }
+    modint&amp; operator-=(const modint&amp; o) { return val = norm(1ll * val - o.val), *this; }
+    modint&amp; operator*=(const modint&amp; o) { return val = static_cast&lt;int&gt;(1ll * val * o.val % MOD), *this; }
+    modint&amp; operator/=(const modint&amp; o) { return *this *= o.inv(); }
+    modint&amp; operator^=(const modint&amp; o) { return val ^= o.val, *this; }
+    modint&amp; operator&gt;&gt;=(const modint&amp; o) { return val &gt;&gt;= o.val, *this; }
+    modint&amp; operator&lt;&lt;=(const modint&amp; o) { return val &lt;&lt;= o.val, *this; }
+    modint operator-(const modint&amp; o) const { return modint(*this) -= o; }
+    modint operator+(const modint&amp; o) const { return modint(*this) += o; }
+    modint operator*(const modint&amp; o) const { return modint(*this) *= o; }
+    modint operator/(const modint&amp; o) const { return modint(*this) /= o; }
+    modint operator^(const modint&amp; o) const { return modint(*this) ^= o; }
+    modint operator&gt;&gt;(const modint&amp; o) const { return modint(*this) &gt;&gt;= o; }
+    modint operator&lt;&lt;(const modint&amp; o) const { return modint(*this) &lt;&lt;= o; }
+    friend std::istream&amp; operator&gt;&gt;(std::istream&amp; is, modint&amp; a) {
+        long long v;
+        return is &gt;&gt; v, a.val = norm(v % MOD), is;
+    }
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const modint&amp; a) { return os &lt;&lt; a.val; }
+    friend std::string tostring(const modint&amp; a) { return std::to_string(a.val); }
+    template &lt;Can_bit T&gt;
+    friend modint qpow(const modint&amp; a, const T&amp; b) {
+        assert(b &gt;= 0);
+        modint x = a, res = 1;
+        for (T p = b; p; x *= x, p &gt;&gt;= 1)
+            if (p &amp; 1) res *= x;
+        return res;
+    }
+};
+using M107 = modint&lt;1000000007&gt;;
+using M998 = modint&lt;998244353&gt;;
+
+using Mint = M107;
+// constexpr mod = ...;
+// using Mint = modint&lt;mod&gt;;
+struct Fact {
+    std::vector&lt;Mint&gt; fact, factinv;
+    const int n;
+    Fact(const int&amp; _n) : n(_n), fact(_n + 1, Mint(1)), factinv(_n + 1) {
+        for (int i = 1; i &lt;= n; ++i) fact[i] = fact[i - 1] * i;
+        factinv[n] = fact[n].inv();
+        for (int i = n; i; --i) factinv[i - 1] = factinv[i] * i;
+    }
+    Mint C(const int&amp; n, const int&amp; k) {
+        if (n &lt; 0 || k &lt; 0 || n &lt; k) return 0;
+        return fact[n] * factinv[k] * factinv[n - k];
+    }
+    Mint A(const int&amp; n, const int&amp; k) {
+        if (n &lt; 0 || k &lt; 0 || n &lt; k) return 0;
+        return fact[n] * factinv[n - k];
+    }
+};
 </code></pre>
 
             
@@ -1090,7 +1218,7 @@ Matrix mat_pow(Matrix A, long long power, long long mod) {
         </span>
         
     </div>
-    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    <a href="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
 </div>
 
 
@@ -1251,133 +1379,6 @@ for (int i = 1; i &lt;= n; ++i)
         
     </div>
     <a href="/2026/05/25/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <a href="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/">
-        <h2 class="post-title">自动取模类</h2>
-    </a>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">template &lt;typename T&gt;
-concept Can_bit = requires(T x) { x &gt;&gt;= 1; };
-template &lt;int MOD&gt;
-struct modint {
-    int val;
-    static int norm(const int&amp; x) { return x &lt; 0 ? x + MOD : x; }
-    static constexpr int get_mod() { return MOD; }
-    modint inv() const {
-        assert(val);
-        int a = val, b = MOD, u = 1, v = 0, t;
-        while (b &gt; 0) t = a / b, swap(a -= t * b, b), swap(u -= t * v, v);
-        assert(b == 1);
-        return modint(u);
-    }
-    modint() : val(0) {}
-    modint(const int&amp; m) : val(norm(m)) {}
-    modint(const long long&amp; m) : val(norm(m % MOD)) {}
-    modint operator-() const { return modint(norm(-val)); }
-    bool operator==(const modint&amp; o) { return val == o.val; }
-    bool operator&lt;(const modint&amp; o) { return val &lt; o.val; }
-    modint&amp; operator+=(const modint&amp; o) { return val = (1ll * val + o.val) % MOD, *this; }
-    modint&amp; operator-=(const modint&amp; o) { return val = norm(1ll * val - o.val), *this; }
-    modint&amp; operator*=(const modint&amp; o) { return val = static_cast&lt;int&gt;(1ll * val * o.val % MOD), *this; }
-    modint&amp; operator/=(const modint&amp; o) { return *this *= o.inv(); }
-    modint&amp; operator^=(const modint&amp; o) { return val ^= o.val, *this; }
-    modint&amp; operator&gt;&gt;=(const modint&amp; o) { return val &gt;&gt;= o.val, *this; }
-    modint&amp; operator&lt;&lt;=(const modint&amp; o) { return val &lt;&lt;= o.val, *this; }
-    modint operator-(const modint&amp; o) const { return modint(*this) -= o; }
-    modint operator+(const modint&amp; o) const { return modint(*this) += o; }
-    modint operator*(const modint&amp; o) const { return modint(*this) *= o; }
-    modint operator/(const modint&amp; o) const { return modint(*this) /= o; }
-    modint operator^(const modint&amp; o) const { return modint(*this) ^= o; }
-    modint operator&gt;&gt;(const modint&amp; o) const { return modint(*this) &gt;&gt;= o; }
-    modint operator&lt;&lt;(const modint&amp; o) const { return modint(*this) &lt;&lt;= o; }
-    friend std::istream&amp; operator&gt;&gt;(std::istream&amp; is, modint&amp; a) {
-        long long v;
-        return is &gt;&gt; v, a.val = norm(v % MOD), is;
-    }
-    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const modint&amp; a) { return os &lt;&lt; a.val; }
-    friend std::string tostring(const modint&amp; a) { return std::to_string(a.val); }
-    template &lt;Can_bit T&gt;
-    friend modint qpow(const modint&amp; a, const T&amp; b) {
-        assert(b &gt;= 0);
-        modint x = a, res = 1;
-        for (T p = b; p; x *= x, p &gt;&gt;= 1)
-            if (p &amp; 1) res *= x;
-        return res;
-    }
-};
-using M107 = modint&lt;1000000007&gt;;
-using M998 = modint&lt;998244353&gt;;
-
-using Mint = M107;
-// constexpr mod = ...;
-// using Mint = modint&lt;mod&gt;;
-struct Fact {
-    std::vector&lt;Mint&gt; fact, factinv;
-    const int n;
-    Fact(const int&amp; _n) : n(_n), fact(_n + 1, Mint(1)), factinv(_n + 1) {
-        for (int i = 1; i &lt;= n; ++i) fact[i] = fact[i - 1] * i;
-        factinv[n] = fact[n].inv();
-        for (int i = n; i; --i) factinv[i - 1] = factinv[i] * i;
-    }
-    Mint C(const int&amp; n, const int&amp; k) {
-        if (n &lt; 0 || k &lt; 0 || n &lt; k) return 0;
-        return fact[n] * factinv[k] * factinv[n - k];
-    }
-    Mint A(const int&amp; n, const int&amp; k) {
-        if (n &lt; 0 || k &lt; 0 || n &lt; k) return 0;
-        return fact[n] * factinv[n - k];
-    }
-};
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
 </div>
 
 
