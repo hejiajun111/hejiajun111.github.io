@@ -195,6 +195,125 @@
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/Miller-Rabin/">
+        米勒拉宾素性测试
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="post-collapsible">
+        <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
+    return (uint64_t)((__int128)a * b % mod);
+}
+uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
+    uint64_t res = 1;
+    a %= n;
+    while (d) {
+        if (d &amp; 1) res = mul_mod(res, a, n);
+        a = mul_mod(a, a, n);
+        d &gt;&gt;= 1;
+    }
+    return res;
+}
+bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
+    if (n &lt; 2) return false;
+    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+    for (uint64_t p : small_primes) {
+        if (n == p) return true;
+        if (n % p == 0) return false;
+    }
+    uint64_t d = n - 1;
+    int r = 0;
+    while ((d &amp; 1) == 0) {
+        d &gt;&gt;= 1;
+        ++r;
+    }
+    for (uint64_t a : bases) {
+        if (a % n == 0) continue;
+        uint64_t x = pow_mod(a, d, n);
+        if (x == 1 || x == n - 1) continue;
+        bool composite = true;
+        for (int i = 0; i &lt; r - 1; ++i) {
+            x = mul_mod(x, x, n);
+            if (x == n - 1) {
+                composite = false;
+                break;
+            }
+        }
+        if (composite) return false;
+    }
+    return true;
+}
+bool is_prime32(uint32_t n) {
+    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
+    return miller_rabin(n, bases32);
+}
+bool is_prime64(uint64_t n) {
+    static const std::vector&lt;uint64_t&gt; bases64 = {
+        2, 325, 9375, 28178, 450775, 9780504, 1795265022
+    };
+    return miller_rabin(n, bases64);
+}
+
+template&lt;typename T&gt;
+bool is_prime(T n) {
+    if (n &lt;= 0xFFFFFFFF) {
+        return is_prime32((uint32_t)n);
+    } else {
+        return is_prime64((uint64_t)n);
+    }
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/DSU/">
         并查集
         <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
@@ -349,63 +468,6 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/ODT/">
-        珂朵莉树
-        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
-    </h2>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="post-collapsible">
-        <div class="description">
-        <div class="content" v-pre>
-            
-            <h2 id="珂朵莉树"><a href="#珂朵莉树" class="headerlink" title="珂朵莉树"></a>珂朵莉树</h2>
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/ODT/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-    </div>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/Trie/">
         字典树
         <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
@@ -553,8 +615,8 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/Miller-Rabin/">
-        米勒拉宾素性测试
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/ODT/">
+        珂朵莉树
         <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
     </h2>
     <div class="category-and-date">
@@ -582,69 +644,7 @@ private:
         <div class="description">
         <div class="content" v-pre>
             
-            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
-    return (uint64_t)((__int128)a * b % mod);
-}
-uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
-    uint64_t res = 1;
-    a %= n;
-    while (d) {
-        if (d &amp; 1) res = mul_mod(res, a, n);
-        a = mul_mod(a, a, n);
-        d &gt;&gt;= 1;
-    }
-    return res;
-}
-bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
-    if (n &lt; 2) return false;
-    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
-    for (uint64_t p : small_primes) {
-        if (n == p) return true;
-        if (n % p == 0) return false;
-    }
-    uint64_t d = n - 1;
-    int r = 0;
-    while ((d &amp; 1) == 0) {
-        d &gt;&gt;= 1;
-        ++r;
-    }
-    for (uint64_t a : bases) {
-        if (a % n == 0) continue;
-        uint64_t x = pow_mod(a, d, n);
-        if (x == 1 || x == n - 1) continue;
-        bool composite = true;
-        for (int i = 0; i &lt; r - 1; ++i) {
-            x = mul_mod(x, x, n);
-            if (x == n - 1) {
-                composite = false;
-                break;
-            }
-        }
-        if (composite) return false;
-    }
-    return true;
-}
-bool is_prime32(uint32_t n) {
-    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
-    return miller_rabin(n, bases32);
-}
-bool is_prime64(uint64_t n) {
-    static const std::vector&lt;uint64_t&gt; bases64 = {
-        2, 325, 9375, 28178, 450775, 9780504, 1795265022
-    };
-    return miller_rabin(n, bases64);
-}
-
-template&lt;typename T&gt;
-bool is_prime(T n) {
-    if (n &lt;= 0xFFFFFFFF) {
-        return is_prime32((uint32_t)n);
-    } else {
-        return is_prime64((uint64_t)n);
-    }
-}
-</code></pre>
-
+            <h2 id="珂朵莉树"><a href="#珂朵莉树" class="headerlink" title="珂朵莉树"></a>珂朵莉树</h2>
             
         </div>
     </div>
@@ -666,7 +666,7 @@ bool is_prime(T n) {
         </span>
         
     </div>
-    <a href="/2026/05/25/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    <a href="/2026/05/25/ODT/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
     </div>
 </div>
 
@@ -847,6 +847,88 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
+        矩阵快速幂
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                算法模板
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="post-collapsible">
+        <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">#include &lt;vector&gt;
+using Matrix = std::vector&lt;std::vector&lt;long long&gt;&gt;;
+Matrix mat_mul(const Matrix&amp; A, const Matrix&amp; B, long long mod) {
+    int n = A.size();
+    Matrix C(n, std::vector&lt;long long&gt;(n, 0));
+    for (int i = 0; i &lt; n; ++i)
+        for (int k = 0; k &lt; n; ++k)
+            if (A[i][k] != 0)
+                for (int j = 0; j &lt; n; ++j)
+                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod;
+    return C;
+}
+Matrix mat_pow(Matrix A, long long power, long long mod) {
+    int n = A.size();
+    Matrix res(n, std::vector&lt;long long&gt;(n, 0));
+    for (int i = 0; i &lt; n; ++i) res[i][i] = 1;  // 单位矩阵
+    
+    while (power) {
+        if (power &amp; 1) res = mat_mul(res, A, mod);
+        A = mat_mul(A, A, mod);
+        power &gt;&gt;= 1;
+    }
+    return res;
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/c/" style="color:#4f6370">c++</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
+        </span>
+        
+    </div>
+    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
+</div>
+
+
+<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E7%BA%BF%E6%AE%B5%E6%A0%91/">
         线段树
         <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
@@ -967,88 +1049,6 @@ private:
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/">
-        矩阵快速幂
-        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
-    </h2>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                算法模板
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="post-collapsible">
-        <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">#include &lt;vector&gt;
-using Matrix = std::vector&lt;std::vector&lt;long long&gt;&gt;;
-Matrix mat_mul(const Matrix&amp; A, const Matrix&amp; B, long long mod) {
-    int n = A.size();
-    Matrix C(n, std::vector&lt;long long&gt;(n, 0));
-    for (int i = 0; i &lt; n; ++i)
-        for (int k = 0; k &lt; n; ++k)
-            if (A[i][k] != 0)
-                for (int j = 0; j &lt; n; ++j)
-                    C[i][j] = (C[i][j] + A[i][k] * B[k][j]) % mod;
-    return C;
-}
-Matrix mat_pow(Matrix A, long long power, long long mod) {
-    int n = A.size();
-    Matrix res(n, std::vector&lt;long long&gt;(n, 0));
-    for (int i = 0; i &lt; n; ++i) res[i][i] = 1;  // 单位矩阵
-    
-    while (power) {
-        if (power &amp; 1) res = mat_mul(res, A, mod);
-        A = mat_mul(A, A, mod);
-        power &gt;&gt;= 1;
-    }
-    return res;
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/c/" style="color:#4f6370">c++</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/" style="color:#4f6370">算法模板</a>
-        </span>
-        
-    </div>
-    <a href="/2026/05/25/%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-    </div>
-</div>
-
-
-<div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
         背包问题
         <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
@@ -1107,8 +1107,8 @@ Matrix mat_pow(Matrix A, long long power, long long mod) {
 
 
 <div class="post" data-category="算法模板" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/">
-        自动取模类
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/2026/05/25/%E9%AB%98%E7%B2%BE%E5%BA%A6%E6%95%B4%E6%95%B0/">
+        高精度模板
         <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
     </h2>
     <div class="category-and-date">
@@ -1136,76 +1136,222 @@ Matrix mat_pow(Matrix A, long long power, long long mod) {
         <div class="description">
         <div class="content" v-pre>
             
-            <pre><code class="language-cpp">template &lt;typename T&gt;
-concept Can_bit = requires(T x) { x &gt;&gt;= 1; };
-template &lt;int MOD&gt;
-struct modint {
-    int val;
-    static int norm(const int&amp; x) { return x &lt; 0 ? x + MOD : x; }
-    static constexpr int get_mod() { return MOD; }
-    modint inv() const {
-        assert(val);
-        int a = val, b = MOD, u = 1, v = 0, t;
-        while (b &gt; 0) t = a / b, swap(a -= t * b, b), swap(u -= t * v, v);
-        assert(b == 1);
-        return modint(u);
+            <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;cassert&gt;
+
+class BigInt {
+public:
+    // 构造
+    BigInt() : BigInt(0) {}
+    BigInt(int x) {
+        if (x &lt; 0) negative = true, x = -x;
+        else negative = false;
+        if (x == 0) digits.push_back(0);
+        else while (x) { digits.push_back(x % 10); x /= 10; }
     }
-    modint() : val(0) {}
-    modint(const int&amp; m) : val(norm(m)) {}
-    modint(const long long&amp; m) : val(norm(m % MOD)) {}
-    modint operator-() const { return modint(norm(-val)); }
-    bool operator==(const modint&amp; o) { return val == o.val; }
-    bool operator&lt;(const modint&amp; o) { return val &lt; o.val; }
-    modint&amp; operator+=(const modint&amp; o) { return val = (1ll * val + o.val) % MOD, *this; }
-    modint&amp; operator-=(const modint&amp; o) { return val = norm(1ll * val - o.val), *this; }
-    modint&amp; operator*=(const modint&amp; o) { return val = static_cast&lt;int&gt;(1ll * val * o.val % MOD), *this; }
-    modint&amp; operator/=(const modint&amp; o) { return *this *= o.inv(); }
-    modint&amp; operator^=(const modint&amp; o) { return val ^= o.val, *this; }
-    modint&amp; operator&gt;&gt;=(const modint&amp; o) { return val &gt;&gt;= o.val, *this; }
-    modint&amp; operator&lt;&lt;=(const modint&amp; o) { return val &lt;&lt;= o.val, *this; }
-    modint operator-(const modint&amp; o) const { return modint(*this) -= o; }
-    modint operator+(const modint&amp; o) const { return modint(*this) += o; }
-    modint operator*(const modint&amp; o) const { return modint(*this) *= o; }
-    modint operator/(const modint&amp; o) const { return modint(*this) /= o; }
-    modint operator^(const modint&amp; o) const { return modint(*this) ^= o; }
-    modint operator&gt;&gt;(const modint&amp; o) const { return modint(*this) &gt;&gt;= o; }
-    modint operator&lt;&lt;(const modint&amp; o) const { return modint(*this) &lt;&lt;= o; }
-    friend std::istream&amp; operator&gt;&gt;(std::istream&amp; is, modint&amp; a) {
-        long long v;
-        return is &gt;&gt; v, a.val = norm(v % MOD), is;
+    BigInt(const std::string &amp;s) {
+        int start = 0;
+        if (s[0] == &#39;-&#39;) { negative = true; start = 1; }
+        else negative = false;
+        for (int i = s.size() - 1; i &gt;= start; --i) {
+            if (!isdigit(s[i])) throw std::invalid_argument(&quot;not a number&quot;);
+            digits.push_back(s[i] - &#39;0&#39;);
+        }
+        remove_leading_zeros();
+        if (digits.empty()) digits.push_back(0), negative = false;
     }
-    friend std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const modint&amp; a) { return os &lt;&lt; a.val; }
-    friend std::string tostring(const modint&amp; a) { return std::to_string(a.val); }
-    template &lt;Can_bit T&gt;
-    friend modint qpow(const modint&amp; a, const T&amp; b) {
-        assert(b &gt;= 0);
-        modint x = a, res = 1;
-        for (T p = b; p; x *= x, p &gt;&gt;= 1)
-            if (p &amp; 1) res *= x;
+    BigInt(const char *s) : BigInt(std::string(s)) {}
+
+    // 比较运算符（绝对值先比较长度再逐位）
+    bool operator==(const BigInt &amp;rhs) const {
+        return negative == rhs.negative &amp;&amp; digits == rhs.digits;
+    }
+    bool operator!=(const BigInt &amp;rhs) const { return !(*this == rhs); }
+    bool operator&lt;(const BigInt &amp;rhs) const {
+        if (negative != rhs.negative) return negative;
+        if (digits.size() != rhs.digits.size())
+            return (digits.size() &lt; rhs.digits.size()) ^ negative;
+        for (int i = digits.size() - 1; i &gt;= 0; --i)
+            if (digits[i] != rhs.digits[i])
+                return (digits[i] &lt; rhs.digits[i]) ^ negative;
+        return false;
+    }
+    bool operator&gt;(const BigInt &amp;rhs) const { return rhs &lt; *this; }
+    bool operator&lt;=(const BigInt &amp;rhs) const { return !(rhs &lt; *this); }
+    bool operator&gt;=(const BigInt &amp;rhs) const { return !(*this &lt; rhs); }
+
+    // 算术运算符
+    BigInt operator-() const {
+        BigInt res = *this;
+        if (!is_zero()) res.negative = !negative;
         return res;
     }
-};
-using M107 = modint&lt;1000000007&gt;;
-using M998 = modint&lt;998244353&gt;;
+    BigInt operator+(const BigInt &amp;rhs) const {
+        if (negative == rhs.negative) {
+            BigInt res = add_abs(*this, rhs);
+            res.negative = negative;
+            return res;
+        } else {
+            if (abs_compare(*this, rhs) &gt;= 0) {
+                BigInt res = sub_abs(*this, rhs);
+                res.negative = negative;
+                return res;
+            } else {
+                BigInt res = sub_abs(rhs, *this);
+                res.negative = rhs.negative;
+                return res;
+            }
+        }
+    }
+    BigInt operator-(const BigInt &amp;rhs) const {
+        return *this + (-rhs);
+    }
+    BigInt operator*(const BigInt &amp;rhs) const {
+        BigInt res;
+        res.digits.assign(digits.size() + rhs.digits.size(), 0);
+        for (size_t i = 0; i &lt; digits.size(); ++i) {
+            int carry = 0;
+            for (size_t j = 0; j &lt; rhs.digits.size(); ++j) {
+                carry += res.digits[i + j] + digits[i] * rhs.digits[j];
+                res.digits[i + j] = carry % 10;
+                carry /= 10;
+            }
+            if (carry) res.digits[i + rhs.digits.size()] += carry;
+        }
+        res.remove_leading_zeros();
+        res.negative = negative != rhs.negative;
+        if (res.is_zero()) res.negative = false;
+        return res;
+    }
+    BigInt operator/(const BigInt &amp;rhs) const {
+        if (rhs.is_zero()) throw std::domain_error(&quot;division by zero&quot;);
+        if (abs_compare(*this, rhs) &lt; 0) return BigInt(0);
+        BigInt res, remainder;
+        divide_abs(*this, rhs, res, remainder);
+        res.negative = negative != rhs.negative;
+        if (res.is_zero()) res.negative = false;
+        return res;
+    }
+    BigInt operator%(const BigInt &amp;rhs) const {
+        if (rhs.is_zero()) throw std::domain_error(&quot;modulo by zero&quot;);
+        BigInt res, remainder;
+        divide_abs(*this, rhs, res, remainder);
+        remainder.negative = negative;
+        if (remainder.is_zero()) remainder.negative = false;
+        return remainder;
+    }
 
-using Mint = M107;
-// constexpr mod = ...;
-// using Mint = modint&lt;mod&gt;;
-struct Fact {
-    std::vector&lt;Mint&gt; fact, factinv;
-    const int n;
-    Fact(const int&amp; _n) : n(_n), fact(_n + 1, Mint(1)), factinv(_n + 1) {
-        for (int i = 1; i &lt;= n; ++i) fact[i] = fact[i - 1] * i;
-        factinv[n] = fact[n].inv();
-        for (int i = n; i; --i) factinv[i - 1] = factinv[i] * i;
+    // 复合赋值
+    BigInt&amp; operator+=(const BigInt &amp;rhs) { *this = *this + rhs; return *this; }
+    BigInt&amp; operator-=(const BigInt &amp;rhs) { *this = *this - rhs; return *this; }
+    BigInt&amp; operator*=(const BigInt &amp;rhs) { *this = *this * rhs; return *this; }
+    BigInt&amp; operator/=(const BigInt &amp;rhs) { *this = *this / rhs; return *this; }
+    BigInt&amp; operator%=(const BigInt &amp;rhs) { *this = *this % rhs; return *this; }
+
+    // 输出流
+    friend std::ostream&amp; operator&lt;&lt;(std::ostream &amp;os, const BigInt &amp;a) {
+        if (a.negative &amp;&amp; !a.is_zero()) os &lt;&lt; &#39;-&#39;;
+        for (int i = (int)a.digits.size() - 1; i &gt;= 0; --i)
+            os &lt;&lt; a.digits[i];
+        return os;
     }
-    Mint C(const int&amp; n, const int&amp; k) {
-        if (n &lt; 0 || k &lt; 0 || n &lt; k) return 0;
-        return fact[n] * factinv[k] * factinv[n - k];
+
+    // 转换为字符串
+    std::string to_string() const {
+        std::string res;
+        if (negative &amp;&amp; !is_zero()) res += &#39;-&#39;;
+        for (int i = (int)digits.size() - 1; i &gt;= 0; --i)
+            res += char(&#39;0&#39; + digits[i]);
+        return res;
     }
-    Mint A(const int&amp; n, const int&amp; k) {
-        if (n &lt; 0 || k &lt; 0 || n &lt; k) return 0;
-        return fact[n] * factinv[n - k];
+
+private:
+    std::vector&lt;int&gt; digits;  // 低位在前，每个元素0-9
+    bool negative = false;
+
+    // 去掉前导零
+    void remove_leading_zeros() {
+        while (digits.size() &gt; 1 &amp;&amp; digits.back() == 0)
+            digits.pop_back();
+        if (digits.empty()) digits.push_back(0);
+    }
+
+    bool is_zero() const {
+        return digits.size() == 1 &amp;&amp; digits[0] == 0;
+    }
+
+    // 绝对值加法
+    static BigInt add_abs(const BigInt &amp;a, const BigInt &amp;b) {
+        BigInt res;
+        res.digits.clear();
+        int carry = 0;
+        size_t i = 0;
+        while (i &lt; a.digits.size() || i &lt; b.digits.size() || carry) {
+            int sum = carry;
+            if (i &lt; a.digits.size()) sum += a.digits[i];
+            if (i &lt; b.digits.size()) sum += b.digits[i];
+            res.digits.push_back(sum % 10);
+            carry = sum / 10;
+            ++i;
+        }
+        return res;
+    }
+
+    // 绝对值减法（要求 a &gt;= b 且 a,b 非负）
+    static BigInt sub_abs(const BigInt &amp;a, const BigInt &amp;b) {
+        BigInt res;
+        res.digits.clear();
+        int borrow = 0;
+        for (size_t i = 0; i &lt; a.digits.size(); ++i) {
+            int diff = a.digits[i] - borrow;
+            if (i &lt; b.digits.size()) diff -= b.digits[i];
+            if (diff &lt; 0) { diff += 10; borrow = 1; }
+            else borrow = 0;
+            res.digits.push_back(diff);
+        }
+        res.remove_leading_zeros();
+        return res;
+    }
+
+    // 绝对值比较：返回 1 若 |a| &gt; |b|, -1 若 &lt;, 0 若相等
+    static int abs_compare(const BigInt &amp;a, const BigInt &amp;b) {
+        if (a.digits.size() != b.digits.size())
+            return a.digits.size() &lt; b.digits.size() ? -1 : 1;
+        for (int i = (int)a.digits.size() - 1; i &gt;= 0; --i)
+            if (a.digits[i] != b.digits[i])
+                return a.digits[i] &lt; b.digits[i] ? -1 : 1;
+        return 0;
+    }
+
+    // 除法（绝对值），商和余数
+    static void divide_abs(const BigInt &amp;a, const BigInt &amp;b, BigInt &amp;quot, BigInt &amp;rem) {
+        quot.digits.clear();
+        rem = BigInt(0);
+        for (int i = (int)a.digits.size() - 1; i &gt;= 0; --i) {
+            rem.digits.insert(rem.digits.begin(), a.digits[i]);
+            rem.remove_leading_zeros();
+            // 试商
+            int q = 0;
+            int l = 0, r = 9;
+            while (l &lt;= r) {
+                int mid = (l + r) / 2;
+                BigInt t = b * BigInt(mid);
+                if (abs_compare(rem, t) &gt;= 0) {
+                    q = mid;
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+            quot.digits.insert(quot.digits.begin(), q);
+            BigInt sub = b * BigInt(q);
+            rem = sub_abs(rem, sub);
+        }
+        quot.remove_leading_zeros();
+        rem.remove_leading_zeros();
     }
 };
 </code></pre>
@@ -1231,7 +1377,7 @@ struct Fact {
         </span>
         
     </div>
-    <a href="/2026/05/25/%E8%87%AA%E5%8A%A8%E5%8F%96%E6%A8%A1/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    <a href="/2026/05/25/%E9%AB%98%E7%B2%BE%E5%BA%A6%E6%95%B4%E6%95%B0/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
     </div>
 </div>
 
@@ -1270,7 +1416,7 @@ struct Fact {
         <div class="icon-links">
             
             <span class="icon-link">
-                <a target="_blank" rel="noopener" href="https://t.me/mou_jilang">
+                <a target="_blank" rel="noopener" href="https://t.me/mou_zilang">
                     <i
                         class="fa-brands fa-telegram fa-fw"
                     ></i>
