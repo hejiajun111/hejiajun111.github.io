@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>字典树 (Trie) | HeJiajunの隠れ家</title>
+    <meta name="author" content="HeJiajun" />
+
+    <meta name="keywords" content="树形结构,字符串" />
+    <link rel="canonical" href="https://hejiajun111.github.io/String/Trie/" />
+    <meta name="description" content="字典树 (Trie)字典树（Trie） 是一种利用字符串公共前缀共享存储空间的树形数据结构。每条边代表一个字符，从根节点到某个节点的路径表示一个前缀，通过终止标记区分完整字符串与普通前缀。算法流程  初始化：创建根节点，每个节点维护字符对应的子节点及终止标记。 插入：从根节点开始，依次遍历字符串的每个字符；若对应子节点不存在，则创建新节点，否则沿已有节点继续向下。遍历结束后标记字符串结尾。 查询：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字典树 (Trie)">
+<meta property="og:url" content="https://hejiajun111.github.io/String/Trie/">
+<meta property="og:site_name" content="HeJiajunの隠れ家">
+<meta property="og:description" content="字典树 (Trie)字典树（Trie） 是一种利用字符串公共前缀共享存储空间的树形数据结构。每条边代表一个字符，从根节点到某个节点的路径表示一个前缀，通过终止标记区分完整字符串与普通前缀。算法流程  初始化：创建根节点，每个节点维护字符对应的子节点及终止标记。 插入：从根节点开始，依次遍历字符串的每个字符；若对应子节点不存在，则创建新节点，否则沿已有节点继续向下。遍历结束后标记字符串结尾。 查询：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://hejiajun111.github.io/images/avatar.gif">
+<meta property="article:published_time" content="2026-10-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-12T06:20:17.086Z">
+<meta property="article:author" content="HeJiajun">
+<meta property="article:tag" content="字符串">
+<meta property="article:tag" content="树形结构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hejiajun111.github.io/images/avatar.gif">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+    <link rel="icon" href="/images/071ed84ad1e1489e920c9127c23551cd.gif" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.38/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/lib/stars.js"></script>
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>海内存知己,天涯若比邻</h2>
+                    <p>让我们重回正轨...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>HEJIAJUNの隠れ家</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;HEJIAJUNの隠れ家</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            
+<div class="article" data-category="字符串" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <div>
+        <h1>字典树 (Trie)</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/10/10
+        </span>
+        
+        
+        <span class="category">
+            <a href="/categories/String/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                字符串
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                <a href="/tags/%E6%A0%91%E5%BD%A2%E7%BB%93%E6%9E%84/" style="color:#4f6370">
+                    树形结构
+                </a>
+            </span>
+            
+            
+            <span class="tag">
+                <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" style="color:#4f6370">
+                    字符串
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="字典树-Trie"><a href="#字典树-Trie" class="headerlink" title="字典树 (Trie)"></a>字典树 (Trie)</h1><p>字典树（Trie） 是一种利用字符串公共前缀共享存储空间的树形数据结构。每条边代表一个字符，从根节点到某个节点的路径表示一个前缀，通过终止标记区分完整字符串与普通前缀。<br>算法流程</p>
+<ul>
+<li>初始化：创建根节点，每个节点维护字符对应的子节点及终止标记。</li>
+<li>插入：从根节点开始，依次遍历字符串的每个字符；若对应子节点不存在，则创建新节点，否则沿已有节点继续向下。遍历结束后标记字符串结尾。</li>
+<li>查询：从根节点开始，依次沿对应字符的边向下查找。若中途不存在对应子节点，则查询失败；若遍历结束，则根据终止标记判断字符串是否存在。</li>
+<li>核心思想：公共前缀共享节点，逐字符沿树转移。</li>
+</ul>
+<h2 id="wiki"><a href="#wiki" class="headerlink" title="wiki"></a><a target="_blank" rel="noopener" href="https://oi-wiki.org/string/trie/">wiki</a></h2><span id="more"></span>
+<h2 id="普通字典树"><a href="#普通字典树" class="headerlink" title="普通字典树"></a>普通字典树</h2><p>用于存储字符串集合，公共前缀共享节点，支持 (O(|s|)) 插入和查询。</p>
+<pre><code class="language-cpp">vector&lt;array&lt;int, 26&gt;&gt; Trie(1);
+vector&lt;int&gt; cnt(1);
+
+void insert(string s)
+{
+    int u = 0;
+    for (char c : s)
+    {
+        int k = c - &#39;a&#39;;
+        if (!Trie[u][k])
+        {
+            Trie[u][k] = Trie.size();
+            Trie.emplace_back();
+            cnt.push_back(0);
+        }
+        u = Trie[u][k];
+    }
+    cnt[u]++;
+}
+int query(string s)
+{
+    int u = 0;
+    for (char c : s)
+    {
+        u = Trie[u][c - &#39;a&#39;];
+        if (!u)
+            return 0;
+    }
+    return cnt[u];
+}
+</code></pre>
+<hr>
+<h2 id="01字典树"><a href="#01字典树" class="headerlink" title="01字典树"></a>01字典树</h2><p>将整数按照二进制位存储，支持插入和查询最大异或值，时间复杂度均为 (O(B))，其中 (B) 为二进制位数。</p>
+<pre><code class="language-cpp">vector&lt;array&lt;int, 2&gt;&gt; Trie01(1);
+
+void insert01(int x)
+{
+    int u = 0;
+    for (int i = 30; i &gt;= 0; i--)
+    {
+        int b = (x &gt;&gt; i) &amp; 1;
+        if (!Trie01[u][b])
+        {
+            Trie01[u][b] = Trie01.size();
+            Trie01.emplace_back();
+        }
+        u = Trie01[u][b];
+    }
+}
+// 查询最大异或值
+int query01(int x)
+{
+    int u = 0, ans = 0;
+    for (int i = 30; i &gt;= 0; i--)
+    {
+        int b = (x &gt;&gt; i) &amp; 1;
+        if (Trie01[u][b ^ 1])
+        {
+            ans |= 1 &lt;&lt; i;
+            u = Trie01[u][b ^ 1];
+        }
+        else
+            u = Trie01[u][b];
+    }
+    return ans;
+}
+</code></pre>
+<hr>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy; 2026 Made by
+            <a target="_blank" rel="noopener" href="https://github.com/dinhkarate">dinhkarate</a>
+            from <a target="_blank" rel="noopener" href="https://thatnghiep.dev">thatnghiep.dev</a>
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> |
+            <a target="_blank" rel="noopener" href="https://github.com/thatnghiep-dev/hexo-theme-loststar">LostStar Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>

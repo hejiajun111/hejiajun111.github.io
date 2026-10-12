@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>cpp竞赛头文件 | HeJiajunの隠れ家</title>
+    <meta name="author" content="HeJiajun" />
+
+    <meta name="keywords" content="文件头,cpp" />
+    <link rel="canonical" href="https://hejiajun111.github.io/%E5%A4%B4%E6%96%87%E4%BB%B6/CPP-Main/" />
+    <meta name="description" content="🐭🐭常用的竞赛cpp文件头,包含 万能头文件 std命名空间 关流 一堆宏……  ⚠️ ~.cpp:10:1: 警告: 全局宏定义 int 为 long long 可能导致严重类型混淆 [-Wmacro-int-redefine]&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;| #define int long long&nbsp;&nbsp;&nbsp;&nbsp;&amp;nbsp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cpp竞赛头文件">
+<meta property="og:url" content="https://hejiajun111.github.io/%E5%A4%B4%E6%96%87%E4%BB%B6/CPP-Main/">
+<meta property="og:site_name" content="HeJiajunの隠れ家">
+<meta property="og:description" content="🐭🐭常用的竞赛cpp文件头,包含 万能头文件 std命名空间 关流 一堆宏……  ⚠️ ~.cpp:10:1: 警告: 全局宏定义 int 为 long long 可能导致严重类型混淆 [-Wmacro-int-redefine]&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;| #define int long long&nbsp;&nbsp;&nbsp;&nbsp;&amp;nbsp">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://hejiajun111.github.io/images/avatar.gif">
+<meta property="article:published_time" content="2026-05-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-12T06:11:59.391Z">
+<meta property="article:author" content="HeJiajun">
+<meta property="article:tag" content="cpp">
+<meta property="article:tag" content="文件头">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hejiajun111.github.io/images/avatar.gif">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+    <link rel="icon" href="/images/071ed84ad1e1489e920c9127c23551cd.gif" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.38/vue.global.prod.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;800;900&display=swap"
+/>
+<script> const mixins = {}; </script>
+
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=default"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+/>
+<script src="/js/lib/highlight.js"></script>
+
+
+
+<script src="/js/lib/preview.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/lib/stars.js"></script>
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+<body>
+    <div id="layout">
+        <transition name="fade">
+            <div id="loading" v-show="loading">
+                <div id="loading-circle">
+                    <h2>海内存知己,天涯若比邻</h2>
+                    <p>让我们重回正轨...</p>
+                    <img src="/images/loading.gif" />
+                </div>
+            </div>
+        </transition>
+        <div id="menu" :class="{ hidden: hiddenMenu, 'menu-color': menuColor}">
+    <nav id="desktop-menu">
+        <a class="title" href="/">
+            <span>HEJIAJUNの隠れ家</span>
+        </a>
+        
+        <a href="/">
+            <i class="fa-solid fa-house fa-fw"></i>
+            <span>&ensp;Home</span>
+        </a>
+        
+        <a href="/about">
+            <i class="fa-solid fa-id-card fa-fw"></i>
+            <span>&ensp;About</span>
+        </a>
+        
+        <a href="/archives">
+            <i class="fa-solid fa-box-archive fa-fw"></i>
+            <span>&ensp;Archives</span>
+        </a>
+        
+        <a href="/categories">
+            <i class="fa-solid fa-bookmark fa-fw"></i>
+            <span>&ensp;Categories</span>
+        </a>
+        
+        <a href="/tags">
+            <i class="fa-solid fa-tags fa-fw"></i>
+            <span>&ensp;Tags</span>
+        </a>
+        
+    </nav>
+    <nav id="mobile-menu">
+        <div class="title" @click="showMenuItems = !showMenuItems">
+            <i class="fa-solid fa-bars fa-fw"></i>
+            <span>&emsp;HEJIAJUNの隠れ家</span>
+        </div>
+        <transition name="slide">
+            <div class="items" v-show="showMenuItems">
+                
+                <a href="/">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-house fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Home</div>
+                    </div>
+                </a>
+                
+                <a href="/about">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-id-card fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">About</div>
+                    </div>
+                </a>
+                
+                <a href="/archives">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-box-archive fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Archives</div>
+                    </div>
+                </a>
+                
+                <a href="/categories">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-bookmark fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Categories</div>
+                    </div>
+                </a>
+                
+                <a href="/tags">
+                    <div class="item">
+                        <div style="min-width: 20px; max-width: 50px; width: 10%">
+                            <i class="fa-solid fa-tags fa-fw"></i>
+                        </div>
+                        <div style="min-width: 100px; max-width: 150%; width: 20%">Tags</div>
+                    </div>
+                </a>
+                
+            </div>
+        </transition>
+    </nav>
+</div>
+<transition name="fade">
+    <div id="menu-curtain" @click="showMenuItems = !showMenuItems" v-show="showMenuItems"></div>
+</transition>
+
+        <div id="main" :class="loading ? 'into-enter-from': 'into-enter-active'">
+            
+<div class="article" data-category="头文件" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <div>
+        <h1>cpp竞赛头文件</h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/19
+        </span>
+        
+        
+        <span class="category">
+            <a href="/categories/%E5%A4%B4%E6%96%87%E4%BB%B6/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                头文件
+            </a>
+        </span>
+        
+        
+        <span class="tags">
+            <span class="icon">
+                <i class="fa-solid fa-tags fa-fw"></i>
+            </span>
+            
+            
+            <span class="tag">
+                <a href="/tags/%E6%96%87%E4%BB%B6%E5%A4%B4/" style="color:#4f6370">
+                    文件头
+                </a>
+            </span>
+            
+            
+            <span class="tag">
+                <a href="/tags/cpp/" style="color:#4f6370">
+                    cpp
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    
+    <div class="content" v-pre>
+        <h1 id="🐭🐭常用的竞赛cpp文件头-包含"><a href="#🐭🐭常用的竞赛cpp文件头-包含" class="headerlink" title="🐭🐭常用的竞赛cpp文件头,包含"></a>🐭🐭常用的竞赛cpp文件头,包含</h1><ul>
+<li>万能头文件</li>
+<li>std命名空间</li>
+<li>关流</li>
+<li>一堆宏…… </li>
+<li>⚠️ ~.cpp:10:1: 警告: 全局宏定义 int 为 long long 可能导致严重类型混淆 [-Wmacro-int-redefine]<br>&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;| #define int long long<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ^~~~~~~~~~~~~~~~~~~~</li>
+<li>用 $ostream&amp; operator&lt;&lt;$ 重载 cout&lt;&lt; 输出多种STL容器</li>
+</ul>
+<h2 id="Ctrl-cv版"><a href="#Ctrl-cv版" class="headerlink" title="Ctrl+cv版"></a>Ctrl+cv版</h2><pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+#include &lt;unordered_map&gt;
+#include &lt;unordered_set&gt;
+using namespace std;
+#define IOS \
+    ios::sync_with_stdio(false); \
+    cin.tie(0); \
+    cout.tie(0)
+#define ll long long
+#define int long long
+#define ull unsigned long long
+#define i128 __int128
+#define u128 unsigned __int128
+#define dle double
+#define rep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i++)
+#define drep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i--)
+#define reps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i += (s))
+#define dreps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i -= (s))
+#define rng(i, a) rep(i, 0, a)
+#define drng(i, a) drep(i, 0, a)
+#define all(x) (x).begin(), (x).end()
+#define fo(i, a) for (auto i : a)
+#define lowbit(x) __builtin_ctz(x)
+#define MAX(x) *(max_element(all(x)))
+#define MIN(x) *(min_element(all(x)))
+#define be begin()
+#define en end()
+#define pb push_back
+#define endl &#39;\n&#39;
+#define mp make_pair
+#define Hashmap unordered_map
+#define Hashset unordered_set
+#define PI 3.14159265358979323846
+#define EPS 1e-9
+const ll MOD = 1e9 + 7;
+const ll INF = 0x3f3f3f3f3f3f3f3f;
+
+template &lt;class t&gt; using vc = vector&lt;t&gt;;
+template &lt;class t&gt; using vvc = vc&lt;vc&lt;t&gt;&gt;;
+
+using pi = pair&lt;int, int&gt;;
+using vi = vc&lt;int&gt;;
+using vvi = vc&lt;vc&lt;int&gt;&gt;;
+template &lt;class T, class U&gt;
+ostream&amp; operator&lt;&lt;(ostream&amp; os, const pair&lt;T, U&gt;&amp; p) {
+    return os &lt;&lt; p.first &lt;&lt; &quot; &quot; &lt;&lt; p.second;
+}
+template &lt;class Container&gt;
+ostream&amp; print_all(ostream&amp; os, const Container&amp; c) {
+    auto it = c.begin();
+    if (it != c.end()) {
+        os &lt;&lt; *it;
+        ++it;
+    }
+    for (; it != c.end(); ++it) {
+        os &lt;&lt; &quot; &quot; &lt;&lt; *it;
+    }
+    return os;
+}
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const vector&lt;T&gt;&amp; v)   { return print_all(os, v); }
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const deque&lt;T&gt;&amp; d)    { return print_all(os, d); }
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const list&lt;T&gt;&amp; l)     { return print_all(os, l); }
+template &lt;class T, size_t N&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const array&lt;T, N&gt;&amp; arr) { return print_all(os, arr); }
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const set&lt;T&gt;&amp; s)       { return print_all(os, s); }
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_set&lt;T&gt;&amp; us) { return print_all(os, us); }
+template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const map&lt;K, V&gt;&amp; mp) { return print_all(os, mp); }
+template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_map&lt;K, V&gt;&amp; ump) { return print_all(os, ump); }
+template &lt;class Tuple, size_t... Idx&gt;
+void print_tuple(ostream&amp; os, const Tuple&amp; t, index_sequence&lt;Idx...&gt;) {
+    ((os &lt;&lt; (Idx == 0 ? &quot;&quot; : &quot; &quot;) &lt;&lt; get&lt;Idx&gt;(t)), ...);
+}
+template &lt;class... Args&gt;
+ostream&amp; operator&lt;&lt;(ostream&amp; os, const tuple&lt;Args...&gt;&amp; t) {
+    print_tuple(os, t, index_sequence_for&lt;Args...&gt;{});
+    return os;
+}
+template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const forward_list&lt;T&gt;&amp; fl) {
+    return print_all(os, fl);
+}
+
+void solve(){
+
+}
+
+signed main(){
+    IOS;
+    int T = 1;
+
+    while (T--)
+    {
+        solve();
+    }
+    return 0;
+}
+/*
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⡀⣀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡀⢀⣴⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⠉⠉⠉⠉⠉⠉⠛⠻⠿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⡿⠿⠛⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣠⣾⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣶⣄⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣻⣿⣿⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢹⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠁⠈⢢⡀⠀⠀⠀⢸⡇⢀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⡟⠒⢦⡀⠀⠀⠀
+⠀⠀⣠⣤⣤⣼⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡇⠀⠀⠀⠉⢢⣄⠀⠀⢿⠊⠳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠙⣷⡄⠀⢷⠀⠀⠀
+⠀⢰⠇⠀⣰⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⡌⣹⠗⠦⣬⣇⠀⠉⢢⡀⠀⠀⠀⠀⠀⠀⠀⠘⣿⡀⢸⡄⠀⠀
+⠀⡟⠀⣼⣯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣆⢹⡀⠀⠀⠀⠉⠁⠀⠀⢀⣀⡁⠀⠀⠉⠳⢴⡆⠀⠀⠀⠀⠀⠀⢹⣧⠈⡇⠀⠀
+⠀⡇⠀⠀⢻⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣾⠻⠉⠛⠂⠀⠀⠀⠀⠀⠀⠻⠿⣿⣿⣿⣶⣦⡀⠛⣇⠀⠀⠀⠀⠀⣈⣿⠀⡇⠀⠀
+⢸⡇⠀⠀⢠⣿⣷⣦⣀⡸⣷⣦⣶⡂⠉⠉⠉⢁⣤⣶⡶⠀⠀⠀⣀⣀⡴⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⡟⢀⣴⣟⣰⣾⣿⣏⣠⠇⠀⠀
+⠈⡇⠀⠀⢸⣿⠁⠉⣿⠛⠛⠃⡇⠀⠀⢠⣶⣿⡿⠛⠁⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠼⢿⠟⠿⢿⡏⠀⠘⣿⡀⠀⠀⠀
+⠀⢷⣀⣀⣿⠇⠀⠀⢿⡇⠀⢀⢱⡀⠀⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀⠀⢸⠇⠀⠀⢹⣿⣄⠀⠀
+⠀⠀⣉⣿⡏⠀⠀⠀⠀⠀⠀⢸⣇⣳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⣿⠃⠀⠀⠀⠀⠀⠀⠀⣿⠈⢧⠀
+⠀⠘⣿⣿⠁⠀⠀⠀⠀⠀⠀⠘⣿⡛⣶⠀⠀⣠⠔⠒⠛⠒⠦⡀⠀⠀⠀⠀⣠⡤⠶⠤⢤⣀⠀⠀⠀⢀⣏⡄⠀⠀⠀⠀⠀⡀⣿⡆⠈⣧
+⣠⡾⠛⣿⣿⣧⠀⠀⠀⠀⢸⣿⠾⢿⡿⠀⣰⠃⠀⠀⠀⠀⠀⢹⡄⠀⠀⡼⠁⠀⠀⠀⠀⠈⠙⣦⠀⢸⣿⡇⣾⣣⡀⠀⢰⣿⣿⣿⣤⠾
+⡟⠀⠀⠻⣿⡟⢷⡄⣤⡀⠈⣿⡀⣸⠇⠀⠏⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⡇⢀⡀⠀⠀⠀⠀⢀⡟⠀⠀⠋⣿⣿⣿⡇⣠⣿⠿⠛⢷⡀⠀
+⠀⠀⠀⠀⣿⣇⣨⣿⣿⣿⣦⣽⣷⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠃⠀⠙⠢⠤⠤⠴⢾⠀⠀⠀⠀⢸⣷⣿⣿⠟⠁⠀⠀⠈⣧⠀
+⠀⠀⠀⠀⠈⠉⠉⠁⠈⠉⠈⢉⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⠀
+*/
+</code></pre>
+<h2 id="用户代码片段版-支持光标自动跳转"><a href="#用户代码片段版-支持光标自动跳转" class="headerlink" title="用户代码片段版,支持光标自动跳转"></a>用户代码片段版,支持光标自动跳转</h2><h3 id="保存至-config-Code-User-snippets-cppmain-json"><a href="#保存至-config-Code-User-snippets-cppmain-json" class="headerlink" title="保存至.config&#x2F;Code&#x2F;User&#x2F;snippets&#x2F;cppmain.json"></a>保存至.config&#x2F;Code&#x2F;User&#x2F;snippets&#x2F;cppmain.json</h3><pre><code class="language-json">{
+    &quot;CPP main template with everything&quot;: {
+        &quot;prefix&quot;: &quot;cppmain&quot;,
+        &quot;body&quot;: [
+            &quot;#include &lt;bits/stdc++.h&gt;&quot;,
+            &quot;#include &lt;unordered_map&gt;&quot;,
+            &quot;#include &lt;unordered_set&gt;&quot;,
+            &quot;using namespace std;&quot;,
+            &quot;#define IOS \\&quot;,
+            &quot;    ios::sync_with_stdio(false); \\&quot;,
+            &quot;    cin.tie(0); \\&quot;,
+            &quot;    cout.tie(0)&quot;,
+            &quot;#define ll long long&quot;,
+            &quot;#define int long long&quot;,
+            &quot;#define ull unsigned long long&quot;,
+            &quot;#define i128 __int128&quot;,
+            &quot;#define u128 unsigned __int128&quot;,
+            &quot;#define dle double&quot;,
+            &quot;#define rep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i++)&quot;,
+            &quot;#define drep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i--)&quot;,
+            &quot;#define reps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i += (s))&quot;,
+            &quot;#define dreps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i -= (s))&quot;,
+            &quot;#define rng(i, a) rep(i, 0, a)&quot;,
+            &quot;#define drng(i, a) drep(i, 0, a)&quot;,
+            &quot;#define all(x) (x).begin(), (x).end()&quot;,
+            &quot;#define fo(i, a) for (auto i : a)&quot;,
+            &quot;#define lowbit(x) __builtin_ctz(x)&quot;,
+            &quot;#define MAX(x) *(max_element(all(x)))&quot;,
+            &quot;#define MIN(x) *(min_element(all(x)))&quot;,
+            &quot;#define be begin()&quot;,
+            &quot;#define en end()&quot;,
+            &quot;#define pb push_back&quot;,
+            &quot;#define endl &#39;\\n&#39;&quot;,
+            &quot;#define mp make_pair&quot;,
+            &quot;#define Hashmap unordered_map&quot;,
+            &quot;#define Hashset unordered_set&quot;,
+            &quot;#define PI 3.14159265358979323846&quot;,
+            &quot;#define EPS 1e-9&quot;,
+            &quot;const ll MOD = 1e9 + 7;&quot;,
+            &quot;const ll INF = 0x3f3f3f3f3f3f3f3f;&quot;,
+            &quot;&quot;,
+            &quot;template &lt;class t&gt; using vc = vector&lt;t&gt;;&quot;,
+            &quot;template &lt;class t&gt; using vvc = vc&lt;vc&lt;t&gt;&gt;;&quot;,
+            &quot;&quot;,
+            &quot;using pi = pair&lt;int, int&gt;;&quot;,
+            &quot;using vi = vc&lt;int&gt;;&quot;,
+            &quot;using vvi = vc&lt;vc&lt;int&gt;&gt;;&quot;,
+            &quot;template &lt;class T, class U&gt;&quot;,
+            &quot;ostream&amp; operator&lt;&lt;(ostream&amp; os, const pair&lt;T, U&gt;&amp; p) {&quot;,
+            &quot;    return os &lt;&lt; p.first &lt;&lt; \&quot; \&quot; &lt;&lt; p.second;&quot;,
+            &quot;}&quot;,
+            &quot;template &lt;class Container&gt;&quot;,
+            &quot;ostream&amp; print_all(ostream&amp; os, const Container&amp; c) {&quot;,
+            &quot;    auto it = c.begin();&quot;,
+            &quot;    if (it != c.end()) {&quot;,
+            &quot;        os &lt;&lt; *it;&quot;,
+            &quot;        ++it;&quot;,
+            &quot;    }&quot;,
+            &quot;    for (; it != c.end(); ++it) {&quot;,
+            &quot;        os &lt;&lt; \&quot; \&quot; &lt;&lt; *it;&quot;,
+            &quot;    }&quot;,
+            &quot;    return os;&quot;,
+            &quot;}&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const vector&lt;T&gt;&amp; v)   { return print_all(os, v); }&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const deque&lt;T&gt;&amp; d)    { return print_all(os, d); }&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const list&lt;T&gt;&amp; l)     { return print_all(os, l); }&quot;,
+            &quot;template &lt;class T, size_t N&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const array&lt;T, N&gt;&amp; arr) { return print_all(os, arr); }&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const set&lt;T&gt;&amp; s)       { return print_all(os, s); }&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_set&lt;T&gt;&amp; us) { return print_all(os, us); }&quot;,
+            &quot;template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const map&lt;K, V&gt;&amp; mp) { return print_all(os, mp); }&quot;,
+            &quot;template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_map&lt;K, V&gt;&amp; ump) { return print_all(os, ump); }&quot;,
+            &quot;template &lt;class Tuple, size_t... Idx&gt;&quot;,
+            &quot;void print_tuple(ostream&amp; os, const Tuple&amp; t, index_sequence&lt;Idx...&gt;) {&quot;,
+            &quot;    ((os &lt;&lt; (Idx == 0 ? \&quot;\&quot; : \&quot; \&quot;) &lt;&lt; get&lt;Idx&gt;(t)), ...);&quot;,
+            &quot;}&quot;,
+            &quot;template &lt;class... Args&gt;&quot;,
+            &quot;ostream&amp; operator&lt;&lt;(ostream&amp; os, const tuple&lt;Args...&gt;&amp; t) {&quot;,
+            &quot;    print_tuple(os, t, index_sequence_for&lt;Args...&gt;{});&quot;,
+            &quot;    return os;&quot;,
+            &quot;}&quot;,
+            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const forward_list&lt;T&gt;&amp; fl) {&quot;,
+            &quot;    return print_all(os, fl);&quot;,
+            &quot;}&quot;,
+            &quot;&quot;,
+            &quot;void solve(){&quot;,
+            &quot;    $0&quot;,
+            &quot;}&quot;,
+            &quot;&quot;,
+            &quot;signed main(){&quot;,
+            &quot;    IOS;&quot;,
+            &quot;    int T = 1;&quot;,
+            &quot;    $1&quot;,
+            &quot;    while (T--)&quot;,
+            &quot;    {&quot;,
+            &quot;        solve();&quot;,
+            &quot;    }&quot;,
+            &quot;    return 0;&quot;,
+            &quot;}&quot;,
+            &quot;/*&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⡀⣀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡀⢀⣴⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⠉⠉⠉⠉⠉⠉⠛⠻⠿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⡿⠿⠛⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⣠⣾⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣶⣄⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣻⣿⣿⠀⠀⠀⠀⠀⠀&quot;,
+            &quot;⠀⠀⠀⠀⠀⢹⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠁⠈⢢⡀⠀⠀⠀⢸⡇⢀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⡟⠒⢦⡀⠀⠀⠀&quot;,
+            &quot;⠀⠀⣠⣤⣤⣼⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡇⠀⠀⠀⠉⢢⣄⠀⠀⢿⠊⠳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠙⣷⡄⠀⢷⠀⠀⠀&quot;,
+            &quot;⠀⢰⠇⠀⣰⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⡌⣹⠗⠦⣬⣇⠀⠉⢢⡀⠀⠀⠀⠀⠀⠀⠀⠘⣿⡀⢸⡄⠀⠀&quot;,
+            &quot;⠀⡟⠀⣼⣯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣆⢹⡀⠀⠀⠀⠉⠁⠀⠀⢀⣀⡁⠀⠀⠉⠳⢴⡆⠀⠀⠀⠀⠀⠀⢹⣧⠈⡇⠀⠀&quot;,
+            &quot;⠀⡇⠀⠀⢻⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣾⠻⠉⠛⠂⠀⠀⠀⠀⠀⠀⠻⠿⣿⣿⣿⣶⣦⡀⠛⣇⠀⠀⠀⠀⠀⣈⣿⠀⡇⠀⠀&quot;,
+            &quot;⢸⡇⠀⠀⢠⣿⣷⣦⣀⡸⣷⣦⣶⡂⠉⠉⠉⢁⣤⣶⡶⠀⠀⠀⣀⣀⡴⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⡟⢀⣴⣟⣰⣾⣿⣏⣠⠇⠀⠀&quot;,
+            &quot;⠈⡇⠀⠀⢸⣿⠁⠉⣿⠛⠛⠃⡇⠀⠀⢠⣶⣿⡿⠛⠁⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠼⢿⠟⠿⢿⡏⠀⠘⣿⡀⠀⠀⠀&quot;,
+            &quot;⠀⢷⣀⣀⣿⠇⠀⠀⢿⡇⠀⢀⢱⡀⠀⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀⠀⢸⠇⠀⠀⢹⣿⣄⠀⠀&quot;,
+            &quot;⠀⠀⣉⣿⡏⠀⠀⠀⠀⠀⠀⢸⣇⣳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⣿⠃⠀⠀⠀⠀⠀⠀⠀⣿⠈⢧⠀&quot;,
+            &quot;⠀⠘⣿⣿⠁⠀⠀⠀⠀⠀⠀⠘⣿⡛⣶⠀⠀⣠⠔⠒⠛⠒⠦⡀⠀⠀⠀⠀⣠⡤⠶⠤⢤⣀⠀⠀⠀⢀⣏⡄⠀⠀⠀⠀⠀⡀⣿⡆⠈⣧&quot;,
+            &quot;⣠⡾⠛⣿⣿⣧⠀⠀⠀⠀⢸⣿⠾⢿⡿⠀⣰⠃⠀⠀⠀⠀⠀⢹⡄⠀⠀⡼⠁⠀⠀⠀⠀⠈⠙⣦⠀⢸⣿⡇⣾⣣⡀⠀⢰⣿⣿⣿⣤⠾&quot;,
+            &quot;⡟⠀⠀⠻⣿⡟⢷⡄⣤⡀⠈⣿⡀⣸⠇⠀⠏⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⡇⢀⡀⠀⠀⠀⠀⢀⡟⠀⠀⠋⣿⣿⣿⡇⣠⣿⠿⠛⢷⡀⠀&quot;,
+            &quot;⠀⠀⠀⠀⣿⣇⣨⣿⣿⣿⣦⣽⣷⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠃⠀⠙⠢⠤⠤⠴⢾⠀⠀⠀⠀⢸⣷⣿⣿⠟⠁⠀⠀⠈⣧⠀&quot;,
+            &quot;⠀⠀⠀⠀⠈⠉⠉⠁⠈⠉⠈⢉⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⠀&quot;,
+            &quot;*/&quot;
+        ],
+        &quot;description&quot;: &quot;Full competitive programming template with all macros, operators, and ASCII art&quot;
+    }
+}
+</code></pre>
+
+    </div>
+    
+    
+    
+    
+    
+    
+    
+</div>
+
+            <footer id="footer">
+    <div id="footer-wrap">
+        <div>
+            &copy; 2026 Made by
+            <a target="_blank" rel="noopener" href="https://github.com/dinhkarate">dinhkarate</a>
+            from <a target="_blank" rel="noopener" href="https://thatnghiep.dev">thatnghiep.dev</a>
+        </div>
+        <div>
+            Based on the <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> |
+            <a target="_blank" rel="noopener" href="https://github.com/thatnghiep-dev/hexo-theme-loststar">LostStar Theme</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+        
+        <transition name="fade">
+            <div id="preview" ref="preview" v-show="previewShow">
+                <img id="preview-content" ref="previewContent" />
+            </div>
+        </transition>
+        
+    </div>
+    <script src="/js/main.js"></script>
+    
+    
+
+
+
+
+    
+</body>
+</html>
