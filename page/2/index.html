@@ -307,6 +307,125 @@ mjx-container[display="true"] + br {
 
 
 <div class="post" data-category="数学" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/Math/Number-Theory/Miller-Rabin/">
+        米勒拉宾素性测试
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/Math/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                数学
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="post-collapsible">
+        <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
+    return (uint64_t)((__int128)a * b % mod);
+}
+uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
+    uint64_t res = 1;
+    a %= n;
+    while (d) {
+        if (d &amp; 1) res = mul_mod(res, a, n);
+        a = mul_mod(a, a, n);
+        d &gt;&gt;= 1;
+    }
+    return res;
+}
+bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
+    if (n &lt; 2) return false;
+    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+    for (uint64_t p : small_primes) {
+        if (n == p) return true;
+        if (n % p == 0) return false;
+    }
+    uint64_t d = n - 1;
+    int r = 0;
+    while ((d &amp; 1) == 0) {
+        d &gt;&gt;= 1;
+        ++r;
+    }
+    for (uint64_t a : bases) {
+        if (a % n == 0) continue;
+        uint64_t x = pow_mod(a, d, n);
+        if (x == 1 || x == n - 1) continue;
+        bool composite = true;
+        for (int i = 0; i &lt; r - 1; ++i) {
+            x = mul_mod(x, x, n);
+            if (x == n - 1) {
+                composite = false;
+                break;
+            }
+        }
+        if (composite) return false;
+    }
+    return true;
+}
+bool is_prime32(uint32_t n) {
+    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
+    return miller_rabin(n, bases32);
+}
+bool is_prime64(uint64_t n) {
+    static const std::vector&lt;uint64_t&gt; bases64 = {
+        2, 325, 9375, 28178, 450775, 9780504, 1795265022
+    };
+    return miller_rabin(n, bases64);
+}
+
+template&lt;typename T&gt;
+bool is_prime(T n) {
+    if (n &lt;= 0xFFFFFFFF) {
+        return is_prime32((uint32_t)n);
+    } else {
+        return is_prime64((uint64_t)n);
+    }
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/%E8%B4%A8%E6%95%B0/" style="color:#4f6370">质数</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%B4%A0%E6%80%A7%E6%B5%8B%E8%AF%95/" style="color:#4f6370">素性测试</a>
+        </span>
+        
+    </div>
+    <a href="/Math/Number-Theory/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
+</div>
+
+
+<div class="post" data-category="数学" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <h2 class="post-title" @click="togglePost($event)" data-post-path="/Math/Modular-Integer/">
         自动取模类
         <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
@@ -432,125 +551,6 @@ struct Fact {
         
     </div>
     <a href="/Math/Modular-Integer/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-    </div>
-</div>
-
-
-<div class="post" data-category="数学" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <h2 class="post-title" @click="togglePost($event)" data-post-path="/Math/Number-Theory/Miller-Rabin/">
-        米勒拉宾素性测试
-        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
-    </h2>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/Math/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                数学
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="post-collapsible">
-        <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
-    return (uint64_t)((__int128)a * b % mod);
-}
-uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
-    uint64_t res = 1;
-    a %= n;
-    while (d) {
-        if (d &amp; 1) res = mul_mod(res, a, n);
-        a = mul_mod(a, a, n);
-        d &gt;&gt;= 1;
-    }
-    return res;
-}
-bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
-    if (n &lt; 2) return false;
-    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
-    for (uint64_t p : small_primes) {
-        if (n == p) return true;
-        if (n % p == 0) return false;
-    }
-    uint64_t d = n - 1;
-    int r = 0;
-    while ((d &amp; 1) == 0) {
-        d &gt;&gt;= 1;
-        ++r;
-    }
-    for (uint64_t a : bases) {
-        if (a % n == 0) continue;
-        uint64_t x = pow_mod(a, d, n);
-        if (x == 1 || x == n - 1) continue;
-        bool composite = true;
-        for (int i = 0; i &lt; r - 1; ++i) {
-            x = mul_mod(x, x, n);
-            if (x == n - 1) {
-                composite = false;
-                break;
-            }
-        }
-        if (composite) return false;
-    }
-    return true;
-}
-bool is_prime32(uint32_t n) {
-    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
-    return miller_rabin(n, bases32);
-}
-bool is_prime64(uint64_t n) {
-    static const std::vector&lt;uint64_t&gt; bases64 = {
-        2, 325, 9375, 28178, 450775, 9780504, 1795265022
-    };
-    return miller_rabin(n, bases64);
-}
-
-template&lt;typename T&gt;
-bool is_prime(T n) {
-    if (n &lt;= 0xFFFFFFFF) {
-        return is_prime32((uint32_t)n);
-    } else {
-        return is_prime64((uint64_t)n);
-    }
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/%E8%B4%A8%E6%95%B0/" style="color:#4f6370">质数</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%B4%A0%E6%80%A7%E6%B5%8B%E8%AF%95/" style="color:#4f6370">素性测试</a>
-        </span>
-        
-    </div>
-    <a href="/Math/Number-Theory/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
     </div>
 </div>
 
