@@ -59,7 +59,119 @@
 
 <link rel="stylesheet" href="/css/main.css" />
 
-<meta name="generator" content="Hexo 8.1.2"></head>
+<meta name="generator" content="Hexo 8.1.2"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 <body>
     <div id="layout">
         <transition name="fade">
@@ -345,7 +457,7 @@
         <div class="description">
         <div class="content" v-pre>
             
-            <h1 id="前缀函数"><a href="#前缀函数" class="headerlink" title="前缀函数"></a>前缀函数</h1><p>这是一个在线算法，输入一个字符串，找到每个前缀子串的最长公共前后缀。<br>重点在失配时的状态转移：<br>失配回退： 当前最长公共前后缀无法继续匹配时，尝试其次长公共前后缀，不断缩短 j，直到匹配成功或退回 0。<br>j &#x3D; pi[j - 1]：利用已计算的前缀函数，直接跳到当前匹配前缀的最长真 Border（相等的前后缀）长度，跳过不可能的候选长度。</p>
+            <h1 id="前缀函数"><a href="#前缀函数" class="headerlink" title="前缀函数"></a>前缀函数</h1><p>这是一个在线算法，输入一个字符串，找到每个前缀子串的最长公共前后缀。<br>重点在失配时的状态转移：<br>失配回退： 当前最长公共前后缀无法继续匹配时，尝试其次长公共前后缀，不断缩短 j，直到匹配成功或退回 0。<br>j = pi[j - 1]：利用已计算的前缀函数，直接跳到当前匹配前缀的最长真 Border（相等的前后缀）长度，跳过不可能的候选长度。</p>
 <h2 id="wiki"><a href="#wiki" class="headerlink" title="wiki"></a><a target="_blank" rel="noopener" href="https://oi-wiki.org/string/kmp/">wiki</a></h2>
             
         </div>
@@ -490,11 +602,11 @@ public:
     }
     BigInt(const std::string &amp;s) {
         int start = 0;
-        if (s[0] == &#39;-&#39;) { negative = true; start = 1; }
+        if (s[0] == '-') { negative = true; start = 1; }
         else negative = false;
         for (int i = s.size() - 1; i &gt;= start; --i) {
-            if (!isdigit(s[i])) throw std::invalid_argument(&quot;not a number&quot;);
-            digits.push_back(s[i] - &#39;0&#39;);
+            if (!isdigit(s[i])) throw std::invalid_argument("not a number");
+            digits.push_back(s[i] - '0');
         }
         remove_leading_zeros();
         if (digits.empty()) digits.push_back(0), negative = false;
@@ -563,7 +675,7 @@ public:
         return res;
     }
     BigInt operator/(const BigInt &amp;rhs) const {
-        if (rhs.is_zero()) throw std::domain_error(&quot;division by zero&quot;);
+        if (rhs.is_zero()) throw std::domain_error("division by zero");
         if (abs_compare(*this, rhs) &lt; 0) return BigInt(0);
         BigInt res, remainder;
         divide_abs(*this, rhs, res, remainder);
@@ -572,7 +684,7 @@ public:
         return res;
     }
     BigInt operator%(const BigInt &amp;rhs) const {
-        if (rhs.is_zero()) throw std::domain_error(&quot;modulo by zero&quot;);
+        if (rhs.is_zero()) throw std::domain_error("modulo by zero");
         BigInt res, remainder;
         divide_abs(*this, rhs, res, remainder);
         remainder.negative = negative;
@@ -589,7 +701,7 @@ public:
 
     // 输出流
     friend std::ostream&amp; operator&lt;&lt;(std::ostream &amp;os, const BigInt &amp;a) {
-        if (a.negative &amp;&amp; !a.is_zero()) os &lt;&lt; &#39;-&#39;;
+        if (a.negative &amp;&amp; !a.is_zero()) os &lt;&lt; '-';
         for (int i = (int)a.digits.size() - 1; i &gt;= 0; --i)
             os &lt;&lt; a.digits[i];
         return os;
@@ -598,9 +710,9 @@ public:
     // 转换为字符串
     std::string to_string() const {
         std::string res;
-        if (negative &amp;&amp; !is_zero()) res += &#39;-&#39;;
+        if (negative &amp;&amp; !is_zero()) res += '-';
         for (int i = (int)digits.size() - 1; i &gt;= 0; --i)
-            res += char(&#39;0&#39; + digits[i]);
+            res += char('0' + digits[i]);
         return res;
     }
 

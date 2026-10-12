@@ -59,7 +59,119 @@
 
 <link rel="stylesheet" href="/css/main.css" />
 
-<meta name="generator" content="Hexo 8.1.2"></head>
+<meta name="generator" content="Hexo 8.1.2"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 <body>
     <div id="layout">
         <transition name="fade">
@@ -195,125 +307,6 @@
 
 
 <div class="post" data-category="数学" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
-    <h2 class="post-title" @click="togglePost($event)" data-post-path="/Math/Number-Theory/Miller-Rabin/">
-        米勒拉宾素性测试
-        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
-    </h2>
-    <div class="category-and-date">
-        
-        
-        <span class="category">
-            <a href="/categories/Math/" style="color:#4f6370">
-                <span class="icon">
-                    <i class="fa-solid fa-bookmark fa-fw"></i>
-                </span>
-                数学
-            </a>
-        </span>
-        
-        <span class="date">
-            <span class="icon">
-                <i class="fa-solid fa-calendar fa-fw"></i>
-            </span>
-            2026/5/25
-        </span>
-        
-        
-    </div>
-    <div class="post-collapsible">
-        <div class="description">
-        <div class="content" v-pre>
-            
-            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
-    return (uint64_t)((__int128)a * b % mod);
-}
-uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
-    uint64_t res = 1;
-    a %= n;
-    while (d) {
-        if (d &amp; 1) res = mul_mod(res, a, n);
-        a = mul_mod(a, a, n);
-        d &gt;&gt;= 1;
-    }
-    return res;
-}
-bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
-    if (n &lt; 2) return false;
-    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
-    for (uint64_t p : small_primes) {
-        if (n == p) return true;
-        if (n % p == 0) return false;
-    }
-    uint64_t d = n - 1;
-    int r = 0;
-    while ((d &amp; 1) == 0) {
-        d &gt;&gt;= 1;
-        ++r;
-    }
-    for (uint64_t a : bases) {
-        if (a % n == 0) continue;
-        uint64_t x = pow_mod(a, d, n);
-        if (x == 1 || x == n - 1) continue;
-        bool composite = true;
-        for (int i = 0; i &lt; r - 1; ++i) {
-            x = mul_mod(x, x, n);
-            if (x == n - 1) {
-                composite = false;
-                break;
-            }
-        }
-        if (composite) return false;
-    }
-    return true;
-}
-bool is_prime32(uint32_t n) {
-    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
-    return miller_rabin(n, bases32);
-}
-bool is_prime64(uint64_t n) {
-    static const std::vector&lt;uint64_t&gt; bases64 = {
-        2, 325, 9375, 28178, 450775, 9780504, 1795265022
-    };
-    return miller_rabin(n, bases64);
-}
-
-template&lt;typename T&gt;
-bool is_prime(T n) {
-    if (n &lt;= 0xFFFFFFFF) {
-        return is_prime32((uint32_t)n);
-    } else {
-        return is_prime64((uint64_t)n);
-    }
-}
-</code></pre>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <i class="fa-solid fa-tags fa-fw"></i>
-        </span>
-        
-        
-        
-        <span class="tag">
-             <a href="/tags/%E8%B4%A8%E6%95%B0/" style="color:#4f6370">质数</a>
-        </span>
-        
-        
-        <span class="tag">
-             <a href="/tags/%E7%B4%A0%E6%80%A7%E6%B5%8B%E8%AF%95/" style="color:#4f6370">素性测试</a>
-        </span>
-        
-    </div>
-    <a href="/Math/Number-Theory/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
-    </div>
-</div>
-
-
-<div class="post" data-category="数学" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
     <h2 class="post-title" @click="togglePost($event)" data-post-path="/Math/Modular-Integer/">
         自动取模类
         <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
@@ -439,6 +432,125 @@ struct Fact {
         
     </div>
     <a href="/Math/Modular-Integer/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
+    </div>
+</div>
+
+
+<div class="post" data-category="数学" style="--tx-post-bg:#fffdfa;--tx-post-text:#1e3e3f;--tx-cat-bg:#eef2f7;--tx-cat-text:#4f6370">
+    <h2 class="post-title" @click="togglePost($event)" data-post-path="/Math/Number-Theory/Miller-Rabin/">
+        米勒拉宾素性测试
+        <span class="expand-icon"><i class="fa-solid fa-chevron-down fa-fw"></i></span>
+    </h2>
+    <div class="category-and-date">
+        
+        
+        <span class="category">
+            <a href="/categories/Math/" style="color:#4f6370">
+                <span class="icon">
+                    <i class="fa-solid fa-bookmark fa-fw"></i>
+                </span>
+                数学
+            </a>
+        </span>
+        
+        <span class="date">
+            <span class="icon">
+                <i class="fa-solid fa-calendar fa-fw"></i>
+            </span>
+            2026/5/25
+        </span>
+        
+        
+    </div>
+    <div class="post-collapsible">
+        <div class="description">
+        <div class="content" v-pre>
+            
+            <pre><code class="language-cpp">uint64_t mul_mod(uint64_t a, uint64_t b, uint64_t mod) {
+    return (uint64_t)((__int128)a * b % mod);
+}
+uint64_t pow_mod(uint64_t a, uint64_t d, uint64_t n) {
+    uint64_t res = 1;
+    a %= n;
+    while (d) {
+        if (d &amp; 1) res = mul_mod(res, a, n);
+        a = mul_mod(a, a, n);
+        d &gt;&gt;= 1;
+    }
+    return res;
+}
+bool miller_rabin(uint64_t n, const std::vector&lt;uint64_t&gt;&amp; bases) {
+    if (n &lt; 2) return false;
+    static const std::vector&lt;uint64_t&gt; small_primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+    for (uint64_t p : small_primes) {
+        if (n == p) return true;
+        if (n % p == 0) return false;
+    }
+    uint64_t d = n - 1;
+    int r = 0;
+    while ((d &amp; 1) == 0) {
+        d &gt;&gt;= 1;
+        ++r;
+    }
+    for (uint64_t a : bases) {
+        if (a % n == 0) continue;
+        uint64_t x = pow_mod(a, d, n);
+        if (x == 1 || x == n - 1) continue;
+        bool composite = true;
+        for (int i = 0; i &lt; r - 1; ++i) {
+            x = mul_mod(x, x, n);
+            if (x == n - 1) {
+                composite = false;
+                break;
+            }
+        }
+        if (composite) return false;
+    }
+    return true;
+}
+bool is_prime32(uint32_t n) {
+    static const std::vector&lt;uint64_t&gt; bases32 = {2, 7, 61};
+    return miller_rabin(n, bases32);
+}
+bool is_prime64(uint64_t n) {
+    static const std::vector&lt;uint64_t&gt; bases64 = {
+        2, 325, 9375, 28178, 450775, 9780504, 1795265022
+    };
+    return miller_rabin(n, bases64);
+}
+
+template&lt;typename T&gt;
+bool is_prime(T n) {
+    if (n &lt;= 0xFFFFFFFF) {
+        return is_prime32((uint32_t)n);
+    } else {
+        return is_prime64((uint64_t)n);
+    }
+}
+</code></pre>
+
+            
+        </div>
+    </div>
+    <div class="post-tags">
+        
+        <span class="icon">
+            <i class="fa-solid fa-tags fa-fw"></i>
+        </span>
+        
+        
+        
+        <span class="tag">
+             <a href="/tags/%E8%B4%A8%E6%95%B0/" style="color:#4f6370">质数</a>
+        </span>
+        
+        
+        <span class="tag">
+             <a href="/tags/%E7%B4%A0%E6%80%A7%E6%B5%8B%E8%AF%95/" style="color:#4f6370">素性测试</a>
+        </span>
+        
+    </div>
+    <a href="/Math/Number-Theory/Miller-Rabin/" class="go-post" style="background:#eef2f7;color:#4f6370">查看更多</a>
     </div>
 </div>
 
@@ -656,8 +768,8 @@ private:
 <li>std命名空间</li>
 <li>关流</li>
 <li>一堆宏…… </li>
-<li>⚠️ ~.cpp:10:1: 警告: 全局宏定义 int 为 long long 可能导致严重类型混淆 [-Wmacro-int-redefine]<br>&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;| #define int long long<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| ^~~~~~~~~~~~~~~~~~~~</li>
-<li>用 $ostream&amp; operator&lt;&lt;$ 重载 cout&lt;&lt; 输出多种STL容器</li>
+<li>⚠️ ~.cpp:10:1: 警告: 全局宏定义 int 为 long long 可能导致严重类型混淆 [-Wmacro-int-redefine]<br>    3 | #define int long long<br>       | ^~~~~~~~~~~~~~~~~~~~</li>
+<li>用 <mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.452ex;" xmlns="http://www.w3.org/2000/svg" width="14.932ex" height="2.149ex" role="img" focusable="false" viewBox="0 -750 6600 950"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="ostream&amp; operator<<"><g data-mml-node="merror" data-mjx-error="Misplaced &amp;"><rect data-background="true" width="6600" height="950" y="-200"></rect><g data-mml-node="mtext" style="font-family: serif;"><text data-variant="-explicitFont" transform="scale(1,-1)" font-size="884px">Misplaced &amp;</text></g></g></g></g></svg></mjx-container> 重载 cout&lt;&lt; 输出多种STL容器</li>
 </ul>
 <h2 id="Ctrl-cv版"><a href="#Ctrl-cv版" class="headerlink" title="Ctrl+cv版"></a>Ctrl+cv版</h2><pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
 #include &lt;unordered_map&gt;
@@ -687,7 +799,7 @@ using namespace std;
 #define be begin()
 #define en end()
 #define pb push_back
-#define endl &#39;\n&#39;
+#define endl '\n'
 #define mp make_pair
 #define Hashmap unordered_map
 #define Hashset unordered_set
@@ -704,7 +816,7 @@ using vi = vc&lt;int&gt;;
 using vvi = vc&lt;vc&lt;int&gt;&gt;;
 template &lt;class T, class U&gt;
 ostream&amp; operator&lt;&lt;(ostream&amp; os, const pair&lt;T, U&gt;&amp; p) {
-    return os &lt;&lt; p.first &lt;&lt; &quot; &quot; &lt;&lt; p.second;
+    return os &lt;&lt; p.first &lt;&lt; " " &lt;&lt; p.second;
 }
 template &lt;class Container&gt;
 ostream&amp; print_all(ostream&amp; os, const Container&amp; c) {
@@ -714,7 +826,7 @@ ostream&amp; print_all(ostream&amp; os, const Container&amp; c) {
         ++it;
     }
     for (; it != c.end(); ++it) {
-        os &lt;&lt; &quot; &quot; &lt;&lt; *it;
+        os &lt;&lt; " " &lt;&lt; *it;
     }
     return os;
 }
@@ -728,7 +840,7 @@ template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os,
 template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_map&lt;K, V&gt;&amp; ump) { return print_all(os, ump); }
 template &lt;class Tuple, size_t... Idx&gt;
 void print_tuple(ostream&amp; os, const Tuple&amp; t, index_sequence&lt;Idx...&gt;) {
-    ((os &lt;&lt; (Idx == 0 ? &quot;&quot; : &quot; &quot;) &lt;&lt; get&lt;Idx&gt;(t)), ...);
+    ((os &lt;&lt; (Idx == 0 ? "" : " ") &lt;&lt; get&lt;Idx&gt;(t)), ...);
 }
 template &lt;class... Args&gt;
 ostream&amp; operator&lt;&lt;(ostream&amp; os, const tuple&lt;Args...&gt;&amp; t) {
@@ -776,128 +888,128 @@ signed main(){
 ⠀⠀⠀⠀⠈⠉⠉⠁⠈⠉⠈⢉⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⠀
 */
 </code></pre>
-<h2 id="用户代码片段版-支持光标自动跳转"><a href="#用户代码片段版-支持光标自动跳转" class="headerlink" title="用户代码片段版,支持光标自动跳转"></a>用户代码片段版,支持光标自动跳转</h2><h3 id="保存至-config-Code-User-snippets-cppmain-json"><a href="#保存至-config-Code-User-snippets-cppmain-json" class="headerlink" title="保存至.config&#x2F;Code&#x2F;User&#x2F;snippets&#x2F;cppmain.json"></a>保存至.config&#x2F;Code&#x2F;User&#x2F;snippets&#x2F;cppmain.json</h3><pre><code class="language-json">{
-    &quot;CPP main template with everything&quot;: {
-        &quot;prefix&quot;: &quot;cppmain&quot;,
-        &quot;body&quot;: [
-            &quot;#include &lt;bits/stdc++.h&gt;&quot;,
-            &quot;#include &lt;unordered_map&gt;&quot;,
-            &quot;#include &lt;unordered_set&gt;&quot;,
-            &quot;using namespace std;&quot;,
-            &quot;#define IOS \\&quot;,
-            &quot;    ios::sync_with_stdio(false); \\&quot;,
-            &quot;    cin.tie(0); \\&quot;,
-            &quot;    cout.tie(0)&quot;,
-            &quot;#define ll long long&quot;,
-            &quot;#define int long long&quot;,
-            &quot;#define ull unsigned long long&quot;,
-            &quot;#define i128 __int128&quot;,
-            &quot;#define u128 unsigned __int128&quot;,
-            &quot;#define dle double&quot;,
-            &quot;#define rep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i++)&quot;,
-            &quot;#define drep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i--)&quot;,
-            &quot;#define reps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i += (s))&quot;,
-            &quot;#define dreps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i -= (s))&quot;,
-            &quot;#define rng(i, a) rep(i, 0, a)&quot;,
-            &quot;#define drng(i, a) drep(i, 0, a)&quot;,
-            &quot;#define all(x) (x).begin(), (x).end()&quot;,
-            &quot;#define fo(i, a) for (auto i : a)&quot;,
-            &quot;#define lowbit(x) __builtin_ctz(x)&quot;,
-            &quot;#define MAX(x) *(max_element(all(x)))&quot;,
-            &quot;#define MIN(x) *(min_element(all(x)))&quot;,
-            &quot;#define be begin()&quot;,
-            &quot;#define en end()&quot;,
-            &quot;#define pb push_back&quot;,
-            &quot;#define endl &#39;\\n&#39;&quot;,
-            &quot;#define mp make_pair&quot;,
-            &quot;#define Hashmap unordered_map&quot;,
-            &quot;#define Hashset unordered_set&quot;,
-            &quot;#define PI 3.14159265358979323846&quot;,
-            &quot;#define EPS 1e-9&quot;,
-            &quot;const ll MOD = 1e9 + 7;&quot;,
-            &quot;const ll INF = 0x3f3f3f3f3f3f3f3f;&quot;,
-            &quot;&quot;,
-            &quot;template &lt;class t&gt; using vc = vector&lt;t&gt;;&quot;,
-            &quot;template &lt;class t&gt; using vvc = vc&lt;vc&lt;t&gt;&gt;;&quot;,
-            &quot;&quot;,
-            &quot;using pi = pair&lt;int, int&gt;;&quot;,
-            &quot;using vi = vc&lt;int&gt;;&quot;,
-            &quot;using vvi = vc&lt;vc&lt;int&gt;&gt;;&quot;,
-            &quot;template &lt;class T, class U&gt;&quot;,
-            &quot;ostream&amp; operator&lt;&lt;(ostream&amp; os, const pair&lt;T, U&gt;&amp; p) {&quot;,
-            &quot;    return os &lt;&lt; p.first &lt;&lt; \&quot; \&quot; &lt;&lt; p.second;&quot;,
-            &quot;}&quot;,
-            &quot;template &lt;class Container&gt;&quot;,
-            &quot;ostream&amp; print_all(ostream&amp; os, const Container&amp; c) {&quot;,
-            &quot;    auto it = c.begin();&quot;,
-            &quot;    if (it != c.end()) {&quot;,
-            &quot;        os &lt;&lt; *it;&quot;,
-            &quot;        ++it;&quot;,
-            &quot;    }&quot;,
-            &quot;    for (; it != c.end(); ++it) {&quot;,
-            &quot;        os &lt;&lt; \&quot; \&quot; &lt;&lt; *it;&quot;,
-            &quot;    }&quot;,
-            &quot;    return os;&quot;,
-            &quot;}&quot;,
-            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const vector&lt;T&gt;&amp; v)   { return print_all(os, v); }&quot;,
-            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const deque&lt;T&gt;&amp; d)    { return print_all(os, d); }&quot;,
-            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const list&lt;T&gt;&amp; l)     { return print_all(os, l); }&quot;,
-            &quot;template &lt;class T, size_t N&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const array&lt;T, N&gt;&amp; arr) { return print_all(os, arr); }&quot;,
-            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const set&lt;T&gt;&amp; s)       { return print_all(os, s); }&quot;,
-            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_set&lt;T&gt;&amp; us) { return print_all(os, us); }&quot;,
-            &quot;template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const map&lt;K, V&gt;&amp; mp) { return print_all(os, mp); }&quot;,
-            &quot;template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_map&lt;K, V&gt;&amp; ump) { return print_all(os, ump); }&quot;,
-            &quot;template &lt;class Tuple, size_t... Idx&gt;&quot;,
-            &quot;void print_tuple(ostream&amp; os, const Tuple&amp; t, index_sequence&lt;Idx...&gt;) {&quot;,
-            &quot;    ((os &lt;&lt; (Idx == 0 ? \&quot;\&quot; : \&quot; \&quot;) &lt;&lt; get&lt;Idx&gt;(t)), ...);&quot;,
-            &quot;}&quot;,
-            &quot;template &lt;class... Args&gt;&quot;,
-            &quot;ostream&amp; operator&lt;&lt;(ostream&amp; os, const tuple&lt;Args...&gt;&amp; t) {&quot;,
-            &quot;    print_tuple(os, t, index_sequence_for&lt;Args...&gt;{});&quot;,
-            &quot;    return os;&quot;,
-            &quot;}&quot;,
-            &quot;template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const forward_list&lt;T&gt;&amp; fl) {&quot;,
-            &quot;    return print_all(os, fl);&quot;,
-            &quot;}&quot;,
-            &quot;&quot;,
-            &quot;void solve(){&quot;,
-            &quot;    $0&quot;,
-            &quot;}&quot;,
-            &quot;&quot;,
-            &quot;signed main(){&quot;,
-            &quot;    IOS;&quot;,
-            &quot;    int T = 1;&quot;,
-            &quot;    $1&quot;,
-            &quot;    while (T--)&quot;,
-            &quot;    {&quot;,
-            &quot;        solve();&quot;,
-            &quot;    }&quot;,
-            &quot;    return 0;&quot;,
-            &quot;}&quot;,
-            &quot;/*&quot;,
-            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⡀⣀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
-            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡀⢀⣴⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
-            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⠉⠉⠉⠉⠉⠉⠛⠻⠿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀&quot;,
-            &quot;⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⡿⠿⠛⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀&quot;,
-            &quot;⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀&quot;,
-            &quot;⠀⠀⠀⠀⠀⣠⣾⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣶⣄⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣻⣿⣿⠀⠀⠀⠀⠀⠀&quot;,
-            &quot;⠀⠀⠀⠀⠀⢹⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠁⠈⢢⡀⠀⠀⠀⢸⡇⢀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⡟⠒⢦⡀⠀⠀⠀&quot;,
-            &quot;⠀⠀⣠⣤⣤⣼⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡇⠀⠀⠀⠉⢢⣄⠀⠀⢿⠊⠳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠙⣷⡄⠀⢷⠀⠀⠀&quot;,
-            &quot;⠀⢰⠇⠀⣰⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⡌⣹⠗⠦⣬⣇⠀⠉⢢⡀⠀⠀⠀⠀⠀⠀⠀⠘⣿⡀⢸⡄⠀⠀&quot;,
-            &quot;⠀⡟⠀⣼⣯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣆⢹⡀⠀⠀⠀⠉⠁⠀⠀⢀⣀⡁⠀⠀⠉⠳⢴⡆⠀⠀⠀⠀⠀⠀⢹⣧⠈⡇⠀⠀&quot;,
-            &quot;⠀⡇⠀⠀⢻⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣾⠻⠉⠛⠂⠀⠀⠀⠀⠀⠀⠻⠿⣿⣿⣿⣶⣦⡀⠛⣇⠀⠀⠀⠀⠀⣈⣿⠀⡇⠀⠀&quot;,
-            &quot;⢸⡇⠀⠀⢠⣿⣷⣦⣀⡸⣷⣦⣶⡂⠉⠉⠉⢁⣤⣶⡶⠀⠀⠀⣀⣀⡴⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⡟⢀⣴⣟⣰⣾⣿⣏⣠⠇⠀⠀&quot;,
-            &quot;⠈⡇⠀⠀⢸⣿⠁⠉⣿⠛⠛⠃⡇⠀⠀⢠⣶⣿⡿⠛⠁⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠼⢿⠟⠿⢿⡏⠀⠘⣿⡀⠀⠀⠀&quot;,
-            &quot;⠀⢷⣀⣀⣿⠇⠀⠀⢿⡇⠀⢀⢱⡀⠀⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀⠀⢸⠇⠀⠀⢹⣿⣄⠀⠀&quot;,
-            &quot;⠀⠀⣉⣿⡏⠀⠀⠀⠀⠀⠀⢸⣇⣳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⣿⠃⠀⠀⠀⠀⠀⠀⠀⣿⠈⢧⠀&quot;,
-            &quot;⠀⠘⣿⣿⠁⠀⠀⠀⠀⠀⠀⠘⣿⡛⣶⠀⠀⣠⠔⠒⠛⠒⠦⡀⠀⠀⠀⠀⣠⡤⠶⠤⢤⣀⠀⠀⠀⢀⣏⡄⠀⠀⠀⠀⠀⡀⣿⡆⠈⣧&quot;,
-            &quot;⣠⡾⠛⣿⣿⣧⠀⠀⠀⠀⢸⣿⠾⢿⡿⠀⣰⠃⠀⠀⠀⠀⠀⢹⡄⠀⠀⡼⠁⠀⠀⠀⠀⠈⠙⣦⠀⢸⣿⡇⣾⣣⡀⠀⢰⣿⣿⣿⣤⠾&quot;,
-            &quot;⡟⠀⠀⠻⣿⡟⢷⡄⣤⡀⠈⣿⡀⣸⠇⠀⠏⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⡇⢀⡀⠀⠀⠀⠀⢀⡟⠀⠀⠋⣿⣿⣿⡇⣠⣿⠿⠛⢷⡀⠀&quot;,
-            &quot;⠀⠀⠀⠀⣿⣇⣨⣿⣿⣿⣦⣽⣷⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠃⠀⠙⠢⠤⠤⠴⢾⠀⠀⠀⠀⢸⣷⣿⣿⠟⠁⠀⠀⠈⣧⠀&quot;,
-            &quot;⠀⠀⠀⠀⠈⠉⠉⠁⠈⠉⠈⢉⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⠀&quot;,
-            &quot;*/&quot;
+<h2 id="用户代码片段版-支持光标自动跳转"><a href="#用户代码片段版-支持光标自动跳转" class="headerlink" title="用户代码片段版,支持光标自动跳转"></a>用户代码片段版,支持光标自动跳转</h2><h3 id="保存至-config-Code-User-snippets-cppmain-json"><a href="#保存至-config-Code-User-snippets-cppmain-json" class="headerlink" title="保存至.config/Code/User/snippets/cppmain.json"></a>保存至.config/Code/User/snippets/cppmain.json</h3><pre><code class="language-json">{
+    "CPP main template with everything": {
+        "prefix": "cppmain",
+        "body": [
+            "#include &lt;bits/stdc++.h&gt;",
+            "#include &lt;unordered_map&gt;",
+            "#include &lt;unordered_set&gt;",
+            "using namespace std;",
+            "#define IOS \\",
+            "    ios::sync_with_stdio(false); \\",
+            "    cin.tie(0); \\",
+            "    cout.tie(0)",
+            "#define ll long long",
+            "#define int long long",
+            "#define ull unsigned long long",
+            "#define i128 __int128",
+            "#define u128 unsigned __int128",
+            "#define dle double",
+            "#define rep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i++)",
+            "#define drep(i, a, b) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i--)",
+            "#define reps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &lt;= i##ABRACADABRA; i += (s))",
+            "#define dreps(i, a, b, s) for (int i = (a), i##ABRACADABRA = (b); i &gt;= i##ABRACADABRA; i -= (s))",
+            "#define rng(i, a) rep(i, 0, a)",
+            "#define drng(i, a) drep(i, 0, a)",
+            "#define all(x) (x).begin(), (x).end()",
+            "#define fo(i, a) for (auto i : a)",
+            "#define lowbit(x) __builtin_ctz(x)",
+            "#define MAX(x) *(max_element(all(x)))",
+            "#define MIN(x) *(min_element(all(x)))",
+            "#define be begin()",
+            "#define en end()",
+            "#define pb push_back",
+            "#define endl '\\n'",
+            "#define mp make_pair",
+            "#define Hashmap unordered_map",
+            "#define Hashset unordered_set",
+            "#define PI 3.14159265358979323846",
+            "#define EPS 1e-9",
+            "const ll MOD = 1e9 + 7;",
+            "const ll INF = 0x3f3f3f3f3f3f3f3f;",
+            "",
+            "template &lt;class t&gt; using vc = vector&lt;t&gt;;",
+            "template &lt;class t&gt; using vvc = vc&lt;vc&lt;t&gt;&gt;;",
+            "",
+            "using pi = pair&lt;int, int&gt;;",
+            "using vi = vc&lt;int&gt;;",
+            "using vvi = vc&lt;vc&lt;int&gt;&gt;;",
+            "template &lt;class T, class U&gt;",
+            "ostream&amp; operator&lt;&lt;(ostream&amp; os, const pair&lt;T, U&gt;&amp; p) {",
+            "    return os &lt;&lt; p.first &lt;&lt; \" \" &lt;&lt; p.second;",
+            "}",
+            "template &lt;class Container&gt;",
+            "ostream&amp; print_all(ostream&amp; os, const Container&amp; c) {",
+            "    auto it = c.begin();",
+            "    if (it != c.end()) {",
+            "        os &lt;&lt; *it;",
+            "        ++it;",
+            "    }",
+            "    for (; it != c.end(); ++it) {",
+            "        os &lt;&lt; \" \" &lt;&lt; *it;",
+            "    }",
+            "    return os;",
+            "}",
+            "template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const vector&lt;T&gt;&amp; v)   { return print_all(os, v); }",
+            "template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const deque&lt;T&gt;&amp; d)    { return print_all(os, d); }",
+            "template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const list&lt;T&gt;&amp; l)     { return print_all(os, l); }",
+            "template &lt;class T, size_t N&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const array&lt;T, N&gt;&amp; arr) { return print_all(os, arr); }",
+            "template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const set&lt;T&gt;&amp; s)       { return print_all(os, s); }",
+            "template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_set&lt;T&gt;&amp; us) { return print_all(os, us); }",
+            "template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const map&lt;K, V&gt;&amp; mp) { return print_all(os, mp); }",
+            "template &lt;class K, class V&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const unordered_map&lt;K, V&gt;&amp; ump) { return print_all(os, ump); }",
+            "template &lt;class Tuple, size_t... Idx&gt;",
+            "void print_tuple(ostream&amp; os, const Tuple&amp; t, index_sequence&lt;Idx...&gt;) {",
+            "    ((os &lt;&lt; (Idx == 0 ? \"\" : \" \") &lt;&lt; get&lt;Idx&gt;(t)), ...);",
+            "}",
+            "template &lt;class... Args&gt;",
+            "ostream&amp; operator&lt;&lt;(ostream&amp; os, const tuple&lt;Args...&gt;&amp; t) {",
+            "    print_tuple(os, t, index_sequence_for&lt;Args...&gt;{});",
+            "    return os;",
+            "}",
+            "template &lt;class T&gt; ostream&amp; operator&lt;&lt;(ostream&amp; os, const forward_list&lt;T&gt;&amp; fl) {",
+            "    return print_all(os, fl);",
+            "}",
+            "",
+            "void solve(){",
+            "    $0",
+            "}",
+            "",
+            "signed main(){",
+            "    IOS;",
+            "    int T = 1;",
+            "    $1",
+            "    while (T--)",
+            "    {",
+            "        solve();",
+            "    }",
+            "    return 0;",
+            "}",
+            "/*",
+            "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣤⡀⣀⣠⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡀⢀⣴⣾⣷⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⠉⠉⠉⠉⠉⠉⠛⠻⠿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⡿⠿⠛⠉⠉⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣿⣷⣄⡀⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⠀⠀⣀⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⣰⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⣠⣾⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣶⣄⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣻⣿⣿⠀⠀⠀⠀⠀⠀",
+            "⠀⠀⠀⠀⠀⢹⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⠁⠈⢢⡀⠀⠀⠀⢸⡇⢀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⡟⠒⢦⡀⠀⠀⠀",
+            "⠀⠀⣠⣤⣤⣼⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⡇⠀⠀⠀⠉⢢⣄⠀⠀⢿⠊⠳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠙⣷⡄⠀⢷⠀⠀⠀",
+            "⠀⢰⠇⠀⣰⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⡌⣹⠗⠦⣬⣇⠀⠉⢢⡀⠀⠀⠀⠀⠀⠀⠀⠘⣿⡀⢸⡄⠀⠀",
+            "⠀⡟⠀⣼⣯⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣆⢹⡀⠀⠀⠀⠉⠁⠀⠀⢀⣀⡁⠀⠀⠉⠳⢴⡆⠀⠀⠀⠀⠀⠀⢹⣧⠈⡇⠀⠀",
+            "⠀⡇⠀⠀⢻⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣾⠻⠉⠛⠂⠀⠀⠀⠀⠀⠀⠻⠿⣿⣿⣿⣶⣦⡀⠛⣇⠀⠀⠀⠀⠀⣈⣿⠀⡇⠀⠀",
+            "⢸⡇⠀⠀⢠⣿⣷⣦⣀⡸⣷⣦⣶⡂⠉⠉⠉⢁⣤⣶⡶⠀⠀⠀⣀⣀⡴⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⡟⢀⣴⣟⣰⣾⣿⣏⣠⠇⠀⠀",
+            "⠈⡇⠀⠀⢸⣿⠁⠉⣿⠛⠛⠃⡇⠀⠀⢠⣶⣿⡿⠛⠁⠀⠀⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠼⢿⠟⠿⢿⡏⠀⠘⣿⡀⠀⠀⠀",
+            "⠀⢷⣀⣀⣿⠇⠀⠀⢿⡇⠀⢀⢱⡀⠀⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀⠀⢸⠇⠀⠀⢹⣿⣄⠀⠀",
+            "⠀⠀⣉⣿⡏⠀⠀⠀⠀⠀⠀⢸⣇⣳⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡰⣿⠃⠀⠀⠀⠀⠀⠀⠀⣿⠈⢧⠀",
+            "⠀⠘⣿⣿⠁⠀⠀⠀⠀⠀⠀⠘⣿⡛⣶⠀⠀⣠⠔⠒⠛⠒⠦⡀⠀⠀⠀⠀⣠⡤⠶⠤⢤⣀⠀⠀⠀⢀⣏⡄⠀⠀⠀⠀⠀⡀⣿⡆⠈⣧",
+            "⣠⡾⠛⣿⣿⣧⠀⠀⠀⠀⢸⣿⠾⢿⡿⠀⣰⠃⠀⠀⠀⠀⠀⢹⡄⠀⠀⡼⠁⠀⠀⠀⠀⠈⠙⣦⠀⢸⣿⡇⣾⣣⡀⠀⢰⣿⣿⣿⣤⠾",
+            "⡟⠀⠀⠻⣿⡟⢷⡄⣤⡀⠈⣿⡀⣸⠇⠀⠏⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⡇⢀⡀⠀⠀⠀⠀⢀⡟⠀⠀⠋⣿⣿⣿⡇⣠⣿⠿⠛⢷⡀⠀",
+            "⠀⠀⠀⠀⣿⣇⣨⣿⣿⣿⣦⣽⣷⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠃⠀⠙⠢⠤⠤⠴⢾⠀⠀⠀⠀⢸⣷⣿⣿⠟⠁⠀⠀⠈⣧⠀",
+            "⠀⠀⠀⠀⠈⠉⠉⠁⠈⠉⠈⢉⣿⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⣿⠀",
+            "*/"
         ],
-        &quot;description&quot;: &quot;Full competitive programming template with all macros, operators, and ASCII art&quot;
+        "description": "Full competitive programming template with all macros, operators, and ASCII art"
     }
 }
 </code></pre>
