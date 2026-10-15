@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1370 450" role="img">
+<style>
+text { font-family: "Noto Sans CJK SC", "Microsoft YaHei", "PingFang SC", sans-serif; }
+.title { font-weight:750; font-size:29px; fill:#0f172a; }
+.muted { fill:#64748b; font-size:17px; }
+.stage { font-size:20px; font-weight:650; fill:#334155; }
+.node { fill:white; font-weight:700; text-anchor:middle; dominant-baseline:middle; font-size:21px; }
+.arrow-label { fill:#0f766e; font-size:15px; font-weight:650; text-anchor:middle; }
+.footer { fill:#475569; font-size:16px; }
+</style>
+<title>RL 型 · 先右旋，再左旋 AVL 旋转示意图</title><desc>先把折线拉直（右旋 30），再修复失衡节点（左旋 10）。 </desc>
+<rect x="0" y="0" width="1370" height="450" rx="18" fill="#ffffff"/>
+<rect x="0" y="0" width="7" height="450" fill="#14b8a6"/>
+<text class="title" x="32" y="45">RL 型 · 先右旋，再左旋</text>
+<text class="muted" x="32" y="80">插入顺序：10 → 30 → 20</text>
+<line x1="32" y1="102" x2="1338" y2="102" stroke="#e2e8f0"/>
+<rect x="20" y="117" width="400" height="265" rx="13" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="stage" x="42" y="151">失衡前</text>
+<line x1="225" y1="200" x2="296" y2="269" stroke="#94a3b8" stroke-width="3.6" stroke-linecap="round"/>
+<line x1="296" y1="269" x2="241" y2="337" stroke="#94a3b8" stroke-width="3.6" stroke-linecap="round"/>
+<circle cx="225" cy="200" r="26" fill="#dc6b4f" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="225" y="201">10</text>
+<circle cx="296" cy="269" r="26" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="296" y="270">30</text>
+<circle cx="241" cy="337" r="26" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="241" y="338">20</text>
+<rect x="485" y="117" width="400" height="265" rx="13" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="stage" x="507" y="151">右旋 30 后</text>
+<line x1="690" y1="200" x2="761" y2="269" stroke="#94a3b8" stroke-width="3.6" stroke-linecap="round"/>
+<line x1="761" y1="269" x2="817" y2="337" stroke="#94a3b8" stroke-width="3.6" stroke-linecap="round"/>
+<circle cx="690" cy="200" r="26" fill="#dc6b4f" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="690" y="201">10</text>
+<circle cx="761" cy="269" r="26" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="761" y="270">20</text>
+<circle cx="817" cy="337" r="26" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="817" y="338">30</text>
+<rect x="950" y="117" width="400" height="265" rx="13" fill="#f8fafc" stroke="#cbd5e1"/>
+<text class="stage" x="972" y="151">左旋 10 后</text>
+<line x1="1155" y1="220" x2="1064" y2="319" stroke="#94a3b8" stroke-width="3.6" stroke-linecap="round"/>
+<line x1="1155" y1="220" x2="1246" y2="319" stroke="#94a3b8" stroke-width="3.6" stroke-linecap="round"/>
+<circle cx="1155" cy="220" r="26" fill="#0d9488" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="1155" y="221">20</text>
+<circle cx="1064" cy="319" r="26" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="1064" y="320">10</text>
+<circle cx="1246" cy="319" r="26" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
+<text class="node" x="1246" y="320">30</text>
+<text class="arrow-label" x="452.5" y="233">右旋 30</text>
+<path d="M433.5 255 H469.5 M459.5 244 L471.5 255 L459.5 266" fill="none" stroke="#0f766e" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="arrow-label" x="917.5" y="233">左旋 10</text>
+<path d="M898.5 255 H934.5 M924.5 244 L936.5 255 L924.5 266" fill="none" stroke="#0f766e" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text class="footer" x="32" y="422">先把折线拉直（右旋 30），再修复失衡节点（左旋 10）。</text>
+</svg>

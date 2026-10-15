@@ -8,16 +8,16 @@
 
     <meta name="keywords" content="KMP" />
     <link rel="canonical" href="https://hejiajun111.github.io/String/KMP-Algorithm/" />
-    <meta name="description" content="KMP算法在前缀函数的基础上实现在字符串中查找子串。 wiki">
+    <meta name="description" content="KMP算法在前缀函数的基础上实现在字符串中查找子串。 OI Wiki - KMP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="KMP算法">
 <meta property="og:url" content="https://hejiajun111.github.io/String/KMP-Algorithm/">
 <meta property="og:site_name" content="HeJiajunの隠れ家">
-<meta property="og:description" content="KMP算法在前缀函数的基础上实现在字符串中查找子串。 wiki">
+<meta property="og:description" content="KMP算法在前缀函数的基础上实现在字符串中查找子串。 OI Wiki - KMP">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://hejiajun111.github.io/images/avatar.gif">
 <meta property="article:published_time" content="2026-10-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-10-12T06:14:21.724Z">
+<meta property="article:modified_time" content="2026-10-15T15:05:42.416Z">
 <meta property="article:author" content="HeJiajun">
 <meta property="article:tag" content="KMP">
 <meta name="twitter:card" content="summary_large_image">
@@ -326,7 +326,7 @@ mjx-container[display="true"] + br {
     
     <div class="content" v-pre>
         <h1 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h1><p>在前缀函数的基础上实现在字符串中查找子串。</p>
-<h2 id="wiki"><a href="#wiki" class="headerlink" title="wiki"></a><a target="_blank" rel="noopener" href="https://oi-wiki.org/string/kmp/">wiki</a></h2><span id="more"></span>
+<h2 id="OI-Wiki-KMP"><a href="#OI-Wiki-KMP" class="headerlink" title="OI Wiki - KMP"></a><a target="_blank" rel="noopener" href="https://oi-wiki.org/string/kmp/">OI Wiki - KMP</a></h2><span id="more"></span>
 <h2 id="KMP拼接法"><a href="#KMP拼接法" class="headerlink" title="KMP拼接法"></a>KMP拼接法</h2><p>构造 p + ‘#’ + s，计算整个字符串的前缀函数。当 pi[i] == p.size() 时，说明模式串在文本中匹配成功，匹配起点为 i - 2 * p.size()。<br>本质上是将 KMP 匹配过程复用到前缀函数的计算中。</p>
 <pre><code class="language-cpp">vector&lt;int&gt; find_occurrences(string s, string p) 
 {

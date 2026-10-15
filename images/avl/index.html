@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AVL 树四种旋转交互图（独立页面）</title>
+<style>
+:root { color-scheme:dark; } * {box-sizing:border-box;}
+body { margin:0;background:#101827;color:#edf4ff;font-family:system-ui,"Noto Sans CJK SC","Microsoft YaHei","PingFang SC",sans-serif; }
+.widget { padding:18px 20px 16px;border:1px solid #31415b;border-radius:14px; }
+h1 {font-size:1.12rem;line-height:1.35;margin:0 0 5px;font-weight:750;}
+.sub {font-size:.82rem;color:#a8b8cd;margin:0 0 16px;}
+.tabs {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:14px;}
+.tabs button {border-radius:9px;border:1px solid #455975;background:#1b283d;color:#e3ebfc;padding:11px 4px;cursor:pointer;font:700 .97rem system-ui,sans-serif;transition:background .15s,color .15s;}
+.tabs button:hover {background:#314767;}
+.tabs button[aria-selected="true"] {background:#2563eb;border-color:#86a9ff;color:white;}
+.tabs button:focus-visible {outline:2px solid #8db8ff;outline-offset:3px;}
+.panel[hidden] {display:none !important;}
+.explain {background:#1a283b;border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:.85rem;line-height:1.5;}
+.explain strong {margin-right:10px;color:#f5fbff;font-size:.99rem;} .explain span {color:#99bfff;}
+.explain p {margin:5px 0 0;color:#cbd8ea;}
+.steps {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch;}
+@media (min-width:900px){.panel[data-count="3"] .steps{grid-template-columns:repeat(3,minmax(0,1fr));}.panel[data-count="3"] .steps .step:nth-child(3):last-child{grid-column:auto;}}
+@media (max-width:560px){.steps{grid-template-columns:minmax(0,1fr);} .step svg{width:min(100%,300px);}}
+.step {background:#f8fafc;border:1px solid #d6deea;border-radius:10px;color:#253148;overflow:hidden;min-width:0;text-align:center;}
+.steps .step:nth-child(3):last-child {grid-column:1 / -1;}
+.step h3 {margin:0;padding:11px 4px 3px;font-size:.82rem;color:#3b4d68;font-weight:750;}
+.step svg {display:block;width:100%;height:132px;margin:0 auto;}
+.footer {color:#9bacbf;font-size:.78rem;line-height:1.5;margin:11px 0 0;}
+@media (max-width:380px) {
+  .widget {padding:11px;}.tabs {gap:5px;}.tabs button {padding:8px 0;}
+  .steps {gap:7px;}.step h3 {font-size:.72rem;}
+}
+</style></head><body>
+<main class="widget" aria-label="AVL 平衡二叉树四种旋转可视化">
+ <h1>AVL 树 · 四种旋转</h1>
+ <p class="sub">LL / RR / LR / RL 指的是失衡路径，而不是旋转方向</p>
+ <div class="tabs" role="tablist" aria-label="选择旋转类型">
+ <button type="button" role="tab" id="tab-ll" aria-controls="panel-ll" aria-selected="true" data-key="LL">LL</button><button type="button" role="tab" id="tab-rr" aria-controls="panel-rr" aria-selected="false" data-key="RR">RR</button><button type="button" role="tab" id="tab-lr" aria-controls="panel-lr" aria-selected="false" data-key="LR">LR</button><button type="button" role="tab" id="tab-rl" aria-controls="panel-rl" aria-selected="false" data-key="RL">RL</button>
+ </div>
+ <section id="panel-ll" class="panel" role="tabpanel" aria-labelledby="tab-ll" >
+       <div class="explain"><strong>LL · 右旋</strong><span>失衡路径：左 → 左</span><p>30 的左孩子 20 的左侧过高。让 20 上升为新的局部根，因此要将 30 向右旋。</p></div>
+       <div class="steps"><div class="step"><h3>插入后：失衡</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="75" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="75" y1="90" x2="29" y2="150" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#ef7d64" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text><circle cx="75" cy="90" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="75" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text><circle cx="29" cy="150" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="29" y="155" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text></svg></div><div class="step"><h3>右旋 30 后</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="75" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="130" y1="28" x2="185" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text><circle cx="75" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="75" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text><circle cx="185" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="185" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text></svg></div></div>
+       </section><section id="panel-rr" class="panel" role="tabpanel" aria-labelledby="tab-rr" hidden>
+       <div class="explain"><strong>RR · 左旋</strong><span>失衡路径：右 → 右</span><p>10 的右孩子 20 的右侧过高。让 20 上升为新的局部根，因此要将 10 向左旋。</p></div>
+       <div class="steps"><div class="step"><h3>插入后：失衡</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="185" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="185" y1="90" x2="231" y2="150" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#ef7d64" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text><circle cx="185" cy="90" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="185" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text><circle cx="231" cy="150" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="231" y="155" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text></svg></div><div class="step"><h3>左旋 10 后</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="75" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="130" y1="28" x2="185" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text><circle cx="75" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="75" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text><circle cx="185" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="185" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text></svg></div></div>
+       </section><section id="panel-lr" class="panel" data-count="3" role="tabpanel" aria-labelledby="tab-lr" hidden>
+       <div class="explain"><strong>LR · 先左旋，后右旋</strong><span>失衡路径：左 → 右</span><p>先对 10 左旋，让 20 成为左孩子；再对 30 右旋，让 20 上升成为新的局部根。</p></div>
+       <div class="steps"><div class="step"><h3>插入后：失衡</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="75" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="75" y1="90" x2="117" y2="150" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#ef7d64" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text><circle cx="75" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="75" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text><circle cx="117" cy="150" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="117" y="155" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text></svg></div><div class="step"><h3>第一步：左旋 10</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="75" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="75" y1="90" x2="29" y2="150" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#ef7d64" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text><circle cx="75" cy="90" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="75" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text><circle cx="29" cy="150" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="29" y="155" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text></svg></div><div class="step"><h3>第二步：右旋 30</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="75" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="130" y1="28" x2="185" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text><circle cx="75" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="75" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text><circle cx="185" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="185" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text></svg></div></div>
+       </section><section id="panel-rl" class="panel" data-count="3" role="tabpanel" aria-labelledby="tab-rl" hidden>
+       <div class="explain"><strong>RL · 先右旋，后左旋</strong><span>失衡路径：右 → 左</span><p>先对 30 右旋，让 20 成为右孩子；再对 10 左旋，让 20 上升成为新的局部根。</p></div>
+       <div class="steps"><div class="step"><h3>插入后：失衡</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="185" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="185" y1="90" x2="143" y2="150" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#ef7d64" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text><circle cx="185" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="185" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text><circle cx="143" cy="150" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="143" y="155" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text></svg></div><div class="step"><h3>第一步：右旋 30</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="185" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="185" y1="90" x2="231" y2="150" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#ef7d64" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text><circle cx="185" cy="90" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="185" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text><circle cx="231" cy="150" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="231" y="155" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text></svg></div><div class="step"><h3>第二步：左旋 10</h3><svg viewBox="0 0 260 185" role="img" aria-label="树形结构" xmlns="http://www.w3.org/2000/svg"><line x1="130" y1="28" x2="75" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><line x1="130" y1="28" x2="185" y2="90" stroke="#7e95b0" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="28" r="21" fill="#16a394" stroke="#eff6ff" stroke-width="2"/><text x="130" y="33" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">20</text><circle cx="75" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="75" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">10</text><circle cx="185" cy="90" r="21" fill="#5179e9" stroke="#eff6ff" stroke-width="2"/><text x="185" y="95" font-size="17" font-weight="700" fill="#fff" text-anchor="middle">30</text></svg></div></div>
+       </section>
+ <p class="footer">旋转只改变指针连接关系，不改变中序遍历结果；图中绿色节点是旋转后上升到局部根位置的 20。</p>
+</main>
+<script>
+(() => {
+
+ const widget = document.querySelector('.widget');
+ function fitIframeHeight() {
+   try {
+     // Parent Hexo page and iframe are served from the same origin.
+     const host=window.frameElement;
+     if (!host || host.tagName.toLowerCase() !== 'iframe') return;
+     const desired = Math.ceil(widget.getBoundingClientRect().height) + 2;
+     if (Math.abs(host.getBoundingClientRect().height - desired)>2) host.style.setProperty('height',desired+'px','important');
+     host.style.setProperty('max-height','none','important');
+   } catch (err) { /* When opened standalone, the diagrams still work. */ }
+ }
+ if ('ResizeObserver' in window) new ResizeObserver(fitIframeHeight).observe(widget);
+ window.addEventListener('load',fitIframeHeight);
+ window.addEventListener('resize',fitIframeHeight);
+ const tabs = [...document.querySelectorAll('[role="tab"]')];
+ const panels = [...document.querySelectorAll('[role="tabpanel"]')];
+ function activate(key) {
+   tabs.forEach(b => b.setAttribute('aria-selected',String(b.dataset.key===key)));
+   panels.forEach(p => p.hidden=(p.id!=='panel-'+key.toLowerCase()));
+   requestAnimationFrame(fitIframeHeight);
+ }
+ tabs.forEach((button,index) => {
+   button.addEventListener('click', () => activate(button.dataset.key));
+   button.addEventListener('keydown',(event)=>{
+     if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+     event.preventDefault();
+     let next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;
+     tabs[next].focus();activate(tabs[next].dataset.key);
+   });
+ });
+})();
+</script>
+</body></html>
